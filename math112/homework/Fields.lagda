@@ -24,7 +24,7 @@
 The following code is agda, a programming language / proof assistant.
 Although it is a proof assistant the only assistance it provides is checking
 the correctness of your proofs. It does not perform proof search or anything
-else STM proof assistant like.
+else SMT proof assistant like.
 
 \par
 
