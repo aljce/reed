@@ -41,9 +41,6 @@ open import Relation.Nullary
 open import Relation.Binary.PropositionalEquality
 open ≡-Reasoning
 
-cong-impl : ∀ {A B : Set} {x y : A} {f : A → B} → x ≡ y → f x ≡ f y
-cong-impl refl = refl
-
 \end{code}
 
 The following code defines an object that takes an identity element and a binary operation.
