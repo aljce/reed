@@ -2,10 +2,17 @@
 #[macro_use]
 extern crate quickcheck;
 extern crate itertools;
+extern crate num_iter;
+
+/// Iterative Merge Sort
+/// ©2017 Kyle McKean
+/// https://github.com/mckeankylej/reed/cs382/sorting
+
+use num_iter::{range_step};
 
 mod arbitrary;
 
-pub fn merge<A: Ord + Clone>(from: &mut [A], to: &mut [A], l: usize, m: usize, r: usize) {
+fn merge<A: Ord + Clone>(from: &mut [A], to: &mut [A], l: usize, m: usize, r: usize) {
     let mut i = l;
     let mut j = m;
     for k in l .. r {
@@ -19,29 +26,30 @@ pub fn merge<A: Ord + Clone>(from: &mut [A], to: &mut [A], l: usize, m: usize, r
     }
 }
 
-pub fn copy_back<A: Clone>(from: &mut [A], to: &mut [A], l: usize, r: usize) {
-    for k in l .. r {
-        to[k] = from[k].clone();
-    }
+fn copy_back<A: Clone>(from: &mut [A], to: &mut [A]) {
+    to.clone_from_slice(from);
 }
+
+fn lg(x: usize) -> usize {
+    // There is never enough bit twiddling in this world
+    let bit_size = 0usize.count_zeros() - 1;
+    (bit_size - x.leading_zeros()) as usize
+}
+
+use std::fmt::Debug;
 
 pub fn merge_sort<A>(a: &mut Vec<A>)
     where A: Ord + Default + Clone
 {
-    fn merge_sort_helper<A>(a: &mut [A], b: &mut [A], l: usize, r: usize)
-        where A: Ord + Clone
-    {
-        if r - l > 1 {
-            let m = (r + l) / 2;
-            merge_sort_helper(a, b, l, m);
-            merge_sort_helper(a, b, m, r);
-            merge(a, b, l, m, r);
-            copy_back(b, a, l, r);
+    let n = a.len();
+    let mut b = vec![Default::default(); n];
+    for i in 1 .. lg(n) + 1 {
+        for j in range_step(0, n - 2 * i, 2 * i) {
+            merge(a, &mut b, j, j + i, j + 2 * i);
         }
+        merge(a, &mut b, n - 2 * i, n - i, n);
+        copy_back(&mut b, a)
     }
-    let len = a.len();
-    let mut buf = vec![Default::default(); len];
-    merge_sort_helper(a, &mut buf, 0, len);
 }
 
 #[cfg(test)]
@@ -52,6 +60,22 @@ mod tests {
 
     use arbitrary::SortedVec;
     use super::*;
+
+    #[test]
+    fn lg_unit() {
+        assert_eq!(3, lg(8));
+        assert_eq!(4, lg(16));
+        assert_eq!(3, lg(9));
+    }
+    #[test]
+    fn lg_power_identity() {
+        quickcheck! {
+            fn prop(x: usize) -> bool {
+                let power = 2 ^ x;
+                0 < power && lg(power) == x
+            }
+        }
+    }
 
     fn is_ascending<A: Ord>(vec: &Vec<A>) -> bool {
         // TODO: O(n^2) check rewrite to use a hashset
@@ -89,6 +113,15 @@ mod tests {
         buf
     }
 
+    /// This test uses [quickcheck](https://github.com/BurntSushi/quickcheck) to randomly test
+    /// a property.
+    /// There are two conditions a sorting algorithm must follow.
+    /// After sorting the array must be
+    /// - in ascending order
+    /// - a permutation of the original array
+    /// These properties are randomly tested for the merge function and the merge_sort function.
+    /// This property uses a type defined in `arbitrary` to ensure the random vectors are in
+    /// sorted order called `SortedVec`.
     #[test]
     fn merge_ascending() {
         quickcheck! {
@@ -98,7 +131,6 @@ mod tests {
             }
         }
     }
-
 
     #[test]
     fn merge_permutation() {
@@ -116,11 +148,12 @@ mod tests {
 
     #[test]
     fn merge_sort_unit() {
-        let mut ys = vec![3, 7, 1];
+        let mut ys = vec![3, 2, 7, 1];
         merge_sort(&mut ys);
-        assert_eq!(ys, vec![1, 3, 7]);
+        assert_eq!(ys, vec![1, 2, 3, 7]);
     }
 
+    /// The following two tests ''prove'' that merge_sort is correct ''for all'' vectors
     #[test]
     fn merge_sort_ascending() {
         quickcheck! {

@@ -6,3 +6,4 @@ authors = ["Kyle McKean <mckean.kylej@gmail.com>"]
 [dependencies]
 quickcheck = "0.6.*"
 itertools = "0.7.*"
+num-iter = "0.1.*"
