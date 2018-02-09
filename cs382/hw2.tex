@@ -1,0 +1,232 @@
+\documentclass{article}
+
+\usepackage[total={7in, 9in}]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{amsthm}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{definition}
+\newtheorem*{answer}{Answer}
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\newcommand{\evidence}[1]{\ensuremath{\hspace{3em} (\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\asymptotic}[3]{\ensuremath{#2 = #1(#3)}}
+\newcommand{\bigO}[2]{\asymptotic{\mathcal{O}}{#1}{#2}}
+\newcommand{\bigTheta}[2]{\asymptotic{\Theta}{#1}{#2}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\lesseq}{\relation{\le}}
+\newcommand{\parens}[1]{\left(#1\right)}
+\newcommand{\lglg}[1]{\ensuremath{\lg{\parens{\lg{#1}}}}}
+\newcommand{\brackets}[1]{\ensuremath{[ \hspace{0.2em} #1 \hspace{0.2em} ]}}
+\newcommand{\quantify}[2]{\ensuremath{\forall #1 \in \mathbb{#2}. \hspace{0.2em}}}
+\newcommand{\contra}{\ensuremath{\Rightarrow\!\Leftarrow}}
+
+\begin{document}
+\noindent
+\LARGE\textbf{Math 382: Homework 2} \\
+\large Kyle McKean
+
+\section*{Problem 1}
+
+\begin{lemma}
+  \begin{equation*}
+    \phi(n) := R(n) \le 2n
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  \hfill
+  \begin{itemize}
+  \item
+    \textit{Base Case}: $\phi(1)$
+    \begin{align*}
+      R(1) &\le 2 \times 1 \\
+      1    &\le 2
+    \end{align*}
+  \item
+    \textit{Inductive Step}: assume $\phi(k)$ for all $k \le n$ to prove $\phi(n + 1)$
+    \begin{alignat*}{4}
+      & R(n + 1) & \equal  & R\parens{\floor*{\frac{n + 1}{2}}} + (n + 1) & \evidence{Definition of $R$} \\
+      & {}       & \lesseq & 2\floor*{\frac{n + 1}{2}} + n + 1            & \evidence{Inductive Hypothesis} \\
+      & {}       & \equal  & n + 1 + n + 1                                & {} \\
+      & {}       & \equal  & 2 (n + 1)                                    & \qedhere
+    \end{alignat*}
+  \end{itemize}
+\end{proof}
+\begin{answer}[A]
+  Lemma 1 tells us $\bigO{R(n)}{n}$ where $m = 1$ and $c = 2$
+\end{answer}
+
+\begin{lemma}
+  \begin{equation*}
+    \phi(n) := Q(n) \le 2\lglg{n}
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  \hfill
+  \begin{itemize}
+  \item
+    \textit{Base Case}: $\phi(4)$
+    \begin{align*}
+      Q(4) &\le 2\lglg{4} \\
+      2 &\le 2
+    \end{align*}
+  \item
+    \textit{Inductive Step}: assume $\phi(k)$ for all $k \le n$ to prove $\phi(n + 1)$
+    \begin{alignat*}{4}
+      & Q(n + 1) & \equal & Q\left(\floor*{\sqrt{n + 1}}\right) + 1 & \evidence{Definition of $Q$} \\
+      & {}       & \lesseq & 2\lglg{\floor*{\sqrt{n + 1}}} + 1       & \evidence{Inductive Hypothesis} \\
+      & {}       & \lesseq & 2\lglg{\sqrt{n + 1}} + 1                & \evidence{$\forall x. \hspace{0.2em} \floor*{x} \le x$} \\
+      & {}       & \equal  & 2\lg{\parens{\frac{1}{2}\lg{\parens{n + 1}}}} + 1     & {} \\
+      & {}       & \equal  & 2\parens{\lg{1} - \lg{2} + \lglg{\parens{n + 1}}} + 1 & {} \\
+      & {}       & \equal  & {-2} + 2\lglg{\parens{n + 1}} + 1                     & {} \\
+      & {}       & \equal  & 2\lglg{\parens{n + 1}} - 1                            & {} \\
+      & {}       & \lesseq & 2\lglg{\parens{n + 1}}                                & \qedhere
+    \end{alignat*}
+  \end{itemize}
+\end{proof}
+\begin{answer}[B]
+  Lemma 2 tells us $\bigO{Q(n)}{\lglg{n}}$ where $m = 4$ and $c = 2$
+\end{answer}
+
+\section*{Problem 2}
+
+\begin{lemma}
+  \begin{equation*}
+    \quantify{n, i}{N} 4 \le n \wedge i \le n \Rightarrow n \le (n - i + 1)
+  \end{equation*} 
+\end{lemma} 
+
+\begin{proof}
+  Verified with the Z3 STM solver \qedhere
+\end{proof}
+
+\begin{lemma}
+  \begin{equation*}
+    \quantify{n}{N} 1 \le n \Rightarrow \lg{\parens{n!}} \le n \lg{n}
+  \end{equation*} 
+\end{lemma}
+\noindent
+To solve the above proposition we observe the equation expands to pairwise less than or equals.
+\begin{equation*}
+  \lg{1} + \lg{2} + \dots + \lg{n} \le \lg{n} + \lg{n} + \dots + \lg{n}
+\end{equation*} 
+\begin{proof}
+      
+  \begin{alignat*}{4}
+    & \lg{n!} & \equal  & \lg{\prod_{i=1}^{n}{i}}  & \evidence{definition of factorial} \\
+    & {}      & \equal  & \sum_{i=1}^{n}{\lg{i}}   & \evidence{log product rule} \\
+    & {}      & \lesseq & \sum_{i=1}^{n}{\lg{n}}   & \evidence{$i \le n$} \\  
+    & {}      & \equal  & n \lg{n}                & \qedhere
+  \end{alignat*}
+\end{proof}
+
+\begin{lemma}
+  \begin{equation*}
+    \quantify{n}{N} 4 \le n \Rightarrow \frac{n}{2} \lg{n} \le \lg{\parens{n!}}
+  \end{equation*} 
+\end{lemma} 
+\noindent
+To solve the next proposition we rearrange the term right of the relation.
+Then we observe two of the terms on the right add to more than one on the left.
+The following is an example when $n = 6$.
+\begin{equation*}
+  \brackets{\lg{6}} + \brackets{\lg{6}} + \brackets{\lg{6}} \le
+  \brackets{\lg{1} + \lg{6}} + \brackets{\lg{2} + \lg{5}} + \brackets{\lg{3} + \lg{4}}
+\end{equation*}
+
+\begin{proof}
+  \hfill
+  \begin{itemize}
+    \item n is even
+      \begin{alignat*}{4}
+        & \frac{n}{2}\lg{n} & \equal  & \sum_{i=1}^{n/2}{\lg{n}}            & \evidence{definition of factorial} \\
+        & {}                & \lesseq & \sum_{i=1}^{n/2}{\lg{i(n - i + 1)}} & \evidence{lemma 3} \\
+        & {}                & \equal  & \sum_{i=1}^{n/2}{\lg{i} + \lg{(n - i + 1)}} & {} \\
+        & {}                & \equal  & \sum_{i=1}^{n/2}{\lg{i}} + \sum_{i=1}^{n/2}{\lg{(n - i + 1)}} & {} \\
+        & {}                & \equal  & \sum_{i=1}^{n/2}{\lg{i}} + \sum_{i=n/2 + 1}^{n}{\lg{i}} & \evidence{readjust bounds} \\
+        & {}                & \equal  & \sum_{i=1}^{n}{\lg{i}}   & {} \\
+        & {}                & \equal  & \lg{\prod_{i=1}^{n}{i}}  & \evidence{log product rule} \\
+        & {}                & \equal  & \lg{n!}                   & {}
+      \end{alignat*}
+    \item n is odd
+  \end{itemize}
+\end{proof}
+
+\begin{answer}
+  \hfill
+  \begin{proof}
+    \vspace{1em}
+    \begin{equation*}
+      0 \le \frac{1}{2} \times n \lg{n} \le \lg{n!} \le 1 \times n\lg{n} \evidence{By Lemma 4 $\&$ 5}
+    \end{equation*}
+    So $\bigTheta{\lg{n!}}{n\lg{n}}$ where $c_1 = \frac{1}{2}$, $c_2 = 1$, and $m = 4$ $\qedhere$ 
+  \end{proof}
+\end{answer}
+
+\section*{Problem 3}
+
+\section*{Problem 4}
+
+\begin{lemma}
+  \begin{equation*}
+    \quantify{a, b}{R} 1 \le a \wedge 1 \le b \Rightarrow a + b \le 2ab
+  \end{equation*}
+\end{lemma}
+
+\begin{proof}
+  Verified with the Z3 STM solver and its unstable support for Real Analysis \qedhere
+\end{proof}
+
+
+\begin{answer}[A]
+  \hfill
+  \begin{proof}
+    $\quantify{n}{N} m \le n$ where m is the lowest q required to satsify $\bigO{f(q)}{g(q)}$
+    \begin{alignat*}{4}
+      & 0  & \lesseq & \lg{f(n)}                   & {} \\
+      & {} & \lesseq & \lg{\parens{c \times g(n)}} & \evidence{$f(n) \le  c \times g(n)$ for some $c$ } \\
+      & {} & \equal  & \lg{c} + \lg{\parens{g(n)}} & {} \\
+      & {} & \equal  & (2\lg{c} \times \lg{g(n)}   & \evidence{By the above lemma where $a = \lg{c}$ and $b = \lg{\parens{g(n)}}$}
+  \end{alignat*}
+  So $\bigO{\lg{f(n)}}{\lg{g(n)}}$ where $c_1 = 2\lg{c}$ and $m_1 = m$ \qedhere
+  \end{proof}
+  
+\end{answer}
+
+\begin{answer}[B]
+  $\bigO{2n^2}{n^2}$ trivally true so assume $\bigO{2^{2n^2}}{2^{n^2}}$
+  \begin{alignat*}{4}
+      & 2^{2n^2}             & \lesseq & c \times 2^{n^2}                    & {} \\
+      & {\parens{2^{n^2}}}^2 & \lesseq & c \times 2^{n^2}                    & \evidence{Divide by $2^{n^2}$} \\
+      & 2^{n^2}              & \lesseq & c                                  & {}
+  \end{alignat*}
+  We now see our assumption is incorrect because:
+  $\nexists c \in \mathbb{R}. \hspace{0.2em} \quantify{n}{N} 2^{n^2} \le c \hfill \contra$
+\end{answer}
+
+\begin{answer}[C]
+  
+  \hfill
+  \begin{proof}
+    $\quantify{n}{N} m \le n$ where m is the lowest q required to satsify $\bigO{f(q)}{g(q)}$
+    \begin{alignat*}{4}
+      & 0  & \lesseq & 1 \times f(n)          & {} \\
+      & {} & \lesseq & f(n) + g(n)   & \evidence{$0 \le g(n)$} \\
+      & {} & \lesseq & 2 \times f(n) & \evidence{$g(n) \le f(n)$}
+  \end{alignat*}
+  So $\bigTheta{f(n)}{g(n)}$ where $c_1 = 1$, $c_2 = 2$ and $m_1 = m$ \qedhere
+  \end{proof}
+\end{answer}
+
+\section*{Problem 5}
+
+\end{document}
+
