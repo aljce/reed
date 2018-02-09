@@ -20,6 +20,7 @@
 \newcommand{\asymptotic}[3]{\ensuremath{#2 = #1(#3)}}
 \newcommand{\bigO}[2]{\asymptotic{\mathcal{O}}{#1}{#2}}
 \newcommand{\littleO}[2]{\asymptotic{o}{#1}{#2}}
+\newcommand{\littleOmega}[2]{\asymptotic{\omega}{#1}{#2}}
 \newcommand{\bigTheta}[2]{\asymptotic{\Theta}{#1}{#2}}
 
 \newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
@@ -99,6 +100,8 @@
   Lemma 2 tells us $\bigO{Q(n)}{\lglg{n}}$ where $m = 4$ and $c = 2$
 \end{answer}
 
+
+
 \section*{Problem 2}
 
 \begin{lemma}
@@ -166,33 +169,75 @@ The following is an example when $n = 6$.
   \end{proof}
 \end{answer}
 
+
+
 \section*{Problem 3}
+
+\begin{equation*}
+  \lim_{n \rightarrow \infty}{\frac{\lg{n}^{\lg{n}}}{n^{\lglg{n}}}} = 1
+\end{equation*}
+
+\vspace{0.5em}
+
+\begin{answer}[A]
+  It's not the case that $\littleO{\lg{n}^{\lg{n}}}{n^{\lglg{n}}}$
+  because the above limit would have to be zero.
+\end{answer}
+
+\vspace{0.5em}
+
+\begin{answer}[B]
+  It's the case that $\bigTheta{\lg{n}^{\lg{n}}}{n^{\lglg{n}}}$
+  because the above limit is a positive real.
+\end{answer}
+
+\vspace{0.5em}
+
+\begin{answer}[C]
+  It's not the case that $\littleOmega{\lg{n}^{\lg{n}}}{n^{\lglg{n}}}$
+  because the above limit would have to be $\infty$.
+\end{answer}
+
+\begin{answer}[D]
+  By looking at the corrosponding limits:
+  \begin{equation*}
+    \littleO{\lg{n}^{\lg{n}}}{\parens{\lg{n}}!}
+  \end{equation*}
+  \begin{equation*}
+    \littleOmega{n^{\lglg{n}}}{\parens{\lg{n}}!}
+  \end{equation*}
+
+\end{answer}
 
 \section*{Problem 4}
 
 \begin{lemma}
   \begin{equation*}
-    \quantify{a, b}{R} 1 \le a \wedge 1 \le b \Rightarrow a + b \le 2ab
+    \quantify{a, b}{R} 0 < a \wedge 1 \le b \Rightarrow \lg{a} + b \le 2ab
   \end{equation*}
 \end{lemma}
 
 \begin{answer}[A]
   \hfill
   \begin{proof}
-    $\quantify{n}{N} m \le n$ where m is the lowest q required to satsify $\bigO{f(q)}{g(q)}$
+    $\quantify{n}{N} m \le n$ where m is the lowest q required to satisfy $\bigO{f(q)}{g(q)}$
     \begin{alignat*}{4}
       & 0  & \lesseq & \lg{f(n)}                   & {} \\
       & {} & \lesseq & \lg{\parens{c \times g(n)}} & \evidence{$f(n) \le  c \times g(n)$ for some $c$ } \\
       & {} & \equal  & \lg{c} + \lg{\parens{g(n)}} & {} \\
-      & {} & \equal  & (2\lg{c} \times \lg{g(n)}   & \evidence{By the above lemma where $a = \lg{c}$ and $b = \lg{\parens{g(n)}}$}
+      & {} & \lesseq & 2c \times \lg{g(n)}         & \evidence{By the above lemma where $a = \lg{c}$ and $b = \lg{\parens{g(n)}}$}
   \end{alignat*}
-  So $\bigO{\lg{f(n)}}{\lg{g(n)}}$ where $c_1 = 2\lg{c}$ and $m_1 = m$ \qedhere
+  The above lemma's constraints are satisfied for the following reasons.
+  Firstly $0 < c$ by the definition of Big-Oh notation.
+  Also the constraint $1 \le \lg{\parens{g(n)}}$ is satisfied by assumption. 
+  This being said we can now conclude $\bigO{\lg{f(n)}}{\lg{g(n)}}$ where
+  $c_1 = 2c$ and $m_1 = m$ \qedhere
   \end{proof}
   
 \end{answer}
 
 \begin{answer}[B]
-  $\bigO{2n^2}{n^2}$ trivally true so assume $\bigO{2^{2n^2}}{2^{n^2}}$
+  $\bigO{2n^2}{n^2}$ trivially true so assume $\bigO{2^{2n^2}}{2^{n^2}}$
   \begin{alignat*}{4}
       & 2^{2n^2}             & \lesseq & c \times 2^{n^2}                    & {} \\
       & {\parens{2^{n^2}}}^2 & \lesseq & c \times 2^{n^2}                    & \evidence{Divide by $2^{n^2}$} \\
@@ -206,7 +251,7 @@ The following is an example when $n = 6$.
   
   \hfill
   \begin{proof}
-    $\quantify{n}{N} m \le n$ where m is the lowest q required to satsify $\bigO{f(q)}{g(q)}$
+    $\quantify{n}{N} m \le n$ where m is the lowest q required to satisfy $\bigO{f(q)}{g(q)}$
     \begin{alignat*}{4}
       & 0  & \lesseq & 1 \times f(n)          & {} \\
       & {} & \lesseq & f(n) + g(n)   & \evidence{$0 \le g(n)$} \\
@@ -215,6 +260,8 @@ The following is an example when $n = 6$.
     So $\bigTheta{f(n)}{g(n)}$ where $c_1 = 1$, $c_2 = 2$ and $m_1 = m$ \qedhere
   \end{proof}
 \end{answer}
+
+
 
 \section*{Problem 5}
 
@@ -226,14 +273,16 @@ The following is an example when $n = 6$.
       & 0  & \lesseq & a_i n^{i}                & \evidence{$0 < a_i$ and $0 \le n^{i}$} \\
       & {} & \lesseq & \sum_{i=0}^{d}{a_i n^{i}} & {}
     \end{alignat*}
-    So $P(n)$ is asymptotically non-negative forall $n$ \qedhere
+    So $P(n)$ is asymptotically non-negative for all $n$ \qedhere
   \end{proof}
 \end{answer}
 
 \begin{answer}[B]
   \hfill
   \begin{proof}
-    Let $a_{max} = \maxSet{a_1, a_2, ..., a_n}$
+    \begin{equation*}
+    a_{max} = \maxSet{a_1, a_2, ..., a_n}
+    \end{equation*}
     \begin{alignat*}{4}
       & 0  & \lesseq & \sum_{i=0}^{d}{a_i n^{i}} & \evidence{$P(n)$ is asymptotically non-negative} \\
       & {} & \lesseq & \sum_{i=0}^{d}{a_{max} n^{k}} & \evidence{$a_{i} \le a_{max}$ and $n^{i} \le n^{d} \le n^{k}$} \\
@@ -246,9 +295,13 @@ The following is an example when $n = 6$.
 \begin{answer}[C]
   \hfill
   \begin{proof}
-    \hfill \\
-    Let $a_{max} = \maxSet{a_1, a_2, ..., a_n}$ \\
-    $\quantify{n}{N} \maxSet{a_{max}, d} \le n^{\frac{1}{2}}$ 
+
+    \begin{equation*}
+      a_{max} = \maxSet{a_1, a_2, ..., a_n}
+    \end{equation*}
+    \begin{equation*}
+      \quantify{n}{N} \maxSet{a_{max}, d} \le n^{\frac{1}{2}}
+    \end{equation*}
     \begin{alignat*}{4}
       & 0  & \lesseq & \sum_{i=0}^{d}{a_i n^{i}}             & \evidence{$P(n)$ is asymptotically non-negative} \\
       & {} & \lesseq & \sum_{i=0}^{d}{n^{\frac{1}{2}} n^{k-1}} & \evidence{$a_i \le n^{\frac{1}{2}}$ and $n^{i} \le n^{d} \le n^{k-1} $} \\
