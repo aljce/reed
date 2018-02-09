@@ -19,7 +19,9 @@
 \newcommand{\evidence}[1]{\ensuremath{\hspace{3em} (\hspace{0.2em} \text{#1} \hspace{0.2em})}}
 \newcommand{\asymptotic}[3]{\ensuremath{#2 = #1(#3)}}
 \newcommand{\bigO}[2]{\asymptotic{\mathcal{O}}{#1}{#2}}
+\newcommand{\littleO}[2]{\asymptotic{o}{#1}{#2}}
 \newcommand{\bigTheta}[2]{\asymptotic{\Theta}{#1}{#2}}
+
 \newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
 \newcommand{\equal}{\relation{=}}
 \newcommand{\lesseq}{\relation{\le}}
@@ -28,6 +30,7 @@
 \newcommand{\brackets}[1]{\ensuremath{[ \hspace{0.2em} #1 \hspace{0.2em} ]}}
 \newcommand{\quantify}[2]{\ensuremath{\forall #1 \in \mathbb{#2}. \hspace{0.2em}}}
 \newcommand{\contra}{\ensuremath{\Rightarrow\!\Leftarrow}}
+\newcommand{\maxSet}[1]{\ensuremath{\mathsf{max}\{#1\}}}
 
 \begin{document}
 \noindent
@@ -104,10 +107,6 @@
   \end{equation*} 
 \end{lemma} 
 
-\begin{proof}
-  Verified with the Z3 STM solver \qedhere
-\end{proof}
-
 \begin{lemma}
   \begin{equation*}
     \quantify{n}{N} 1 \le n \Rightarrow \lg{\parens{n!}} \le n \lg{n}
@@ -144,20 +143,16 @@ The following is an example when $n = 6$.
 
 \begin{proof}
   \hfill
-  \begin{itemize}
-    \item n is even
-      \begin{alignat*}{4}
-        & \frac{n}{2}\lg{n} & \equal  & \sum_{i=1}^{n/2}{\lg{n}}            & \evidence{definition of factorial} \\
-        & {}                & \lesseq & \sum_{i=1}^{n/2}{\lg{i(n - i + 1)}} & \evidence{lemma 3} \\
-        & {}                & \equal  & \sum_{i=1}^{n/2}{\lg{i} + \lg{(n - i + 1)}} & {} \\
-        & {}                & \equal  & \sum_{i=1}^{n/2}{\lg{i}} + \sum_{i=1}^{n/2}{\lg{(n - i + 1)}} & {} \\
-        & {}                & \equal  & \sum_{i=1}^{n/2}{\lg{i}} + \sum_{i=n/2 + 1}^{n}{\lg{i}} & \evidence{readjust bounds} \\
-        & {}                & \equal  & \sum_{i=1}^{n}{\lg{i}}   & {} \\
-        & {}                & \equal  & \lg{\prod_{i=1}^{n}{i}}  & \evidence{log product rule} \\
-        & {}                & \equal  & \lg{n!}                   & {}
-      \end{alignat*}
-    \item n is odd
-  \end{itemize}
+  \begin{alignat*}{4}
+    & \frac{n}{2}\lg{n} & \equal  & \sum_{i=1}^{n/2}{\lg{n}}            & \evidence{definition of factorial} \\
+    & {}                & \lesseq & \sum_{i=1}^{n/2}{\lg{i(n - i + 1)}} & \evidence{lemma 3} \\
+    & {}                & \equal  & \sum_{i=1}^{n/2}{\lg{i} + \lg{(n - i + 1)}} & {} \\
+    & {}                & \equal  & \sum_{i=1}^{n/2}{\lg{i}} + \sum_{i=1}^{n/2}{\lg{(n - i + 1)}} & {} \\
+    & {}                & \equal  & \sum_{i=1}^{n/2}{\lg{i}} + \sum_{i=n/2 + 1}^{n}{\lg{i}} & \evidence{readjust bounds} \\
+    & {}                & \equal  & \sum_{i=1}^{n}{\lg{i}}   & {} \\
+    & {}                & \equal  & \lg{\prod_{i=1}^{n}{i}}  & \evidence{log product rule} \\
+    & {}                & \equal  & \lg{n!}                 & \qedhere
+  \end{alignat*}
 \end{proof}
 
 \begin{answer}
@@ -180,11 +175,6 @@ The following is an example when $n = 6$.
     \quantify{a, b}{R} 1 \le a \wedge 1 \le b \Rightarrow a + b \le 2ab
   \end{equation*}
 \end{lemma}
-
-\begin{proof}
-  Verified with the Z3 STM solver and its unstable support for Real Analysis \qedhere
-\end{proof}
-
 
 \begin{answer}[A]
   \hfill
@@ -221,12 +211,54 @@ The following is an example when $n = 6$.
       & 0  & \lesseq & 1 \times f(n)          & {} \\
       & {} & \lesseq & f(n) + g(n)   & \evidence{$0 \le g(n)$} \\
       & {} & \lesseq & 2 \times f(n) & \evidence{$g(n) \le f(n)$}
-  \end{alignat*}
-  So $\bigTheta{f(n)}{g(n)}$ where $c_1 = 1$, $c_2 = 2$ and $m_1 = m$ \qedhere
+    \end{alignat*}
+    So $\bigTheta{f(n)}{g(n)}$ where $c_1 = 1$, $c_2 = 2$ and $m_1 = m$ \qedhere
   \end{proof}
 \end{answer}
 
 \section*{Problem 5}
+
+\begin{answer}[A]
+  \hfill
+  \begin{proof}
+    $\quantify{n}{N}$
+    \begin{alignat*}{4}
+      & 0  & \lesseq & a_i n^{i}                & \evidence{$0 < a_i$ and $0 \le n^{i}$} \\
+      & {} & \lesseq & \sum_{i=0}^{d}{a_i n^{i}} & {}
+    \end{alignat*}
+    So $P(n)$ is asymptotically non-negative forall $n$ \qedhere
+  \end{proof}
+\end{answer}
+
+\begin{answer}[B]
+  \hfill
+  \begin{proof}
+    Let $a_{max} = \maxSet{a_1, a_2, ..., a_n}$
+    \begin{alignat*}{4}
+      & 0  & \lesseq & \sum_{i=0}^{d}{a_i n^{i}} & \evidence{$P(n)$ is asymptotically non-negative} \\
+      & {} & \lesseq & \sum_{i=0}^{d}{a_{max} n^{k}} & \evidence{$a_{i} \le a_{max}$ and $n^{i} \le n^{d} \le n^{k}$} \\
+      & {} & \equal  & (d \cdot a_{max}) \cdot n^{k} & {}
+    \end{alignat*}
+    So $\bigO{P(n)}{n^{k}}$ where $c = d \cdot a_{max}$ and $m = 0$ \qedhere
+  \end{proof}
+\end{answer}
+
+\begin{answer}[C]
+  \hfill
+  \begin{proof}
+    \hfill \\
+    Let $a_{max} = \maxSet{a_1, a_2, ..., a_n}$ \\
+    $\quantify{n}{N} \maxSet{a_{max}, d} \le n^{\frac{1}{2}}$ 
+    \begin{alignat*}{4}
+      & 0  & \lesseq & \sum_{i=0}^{d}{a_i n^{i}}             & \evidence{$P(n)$ is asymptotically non-negative} \\
+      & {} & \lesseq & \sum_{i=0}^{d}{n^{\frac{1}{2}} n^{k-1}} & \evidence{$a_i \le n^{\frac{1}{2}}$ and $n^{i} \le n^{d} \le n^{k-1} $} \\
+      & {} & \lesseq & n^{\frac{1}{2}} n^{\frac{1}{2}} n^{k-1}  & \evidence{$d \le n^{\frac{1}{2}}$} \\
+      & {} & \lesseq & c \cdot n^{k}                        & \evidence{multiply by c}
+    \end{alignat*}
+    So $\littleO{P(n)}{n^{k}}$ where $m = {\maxSet{a_{max},d}}^2$ \qedhere
+  \end{proof}
+\end{answer}
+
 
 \end{document}
 
