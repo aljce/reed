@@ -1,0 +1,173 @@
+\documentclass{article}
+
+\usepackage[total={6in, 8in}]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{apacite}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+
+\newcommand{\graph}[2]{
+  \begin{figure}[H]
+    \caption{#1}
+    \includegraphics[scale=0.3]{#2.png}
+  \end{figure}
+}
+\newcommand{\dataStudio}[0]{\textit{Data Studio} }
+\newcommand{\workshop}[0]{\textit{Science Workshop}}
+\newcommand{\pError}[0]{\ensuremath{\% \text{Error}}}
+\newcommand{\tableFrac}[2]{\ensuremath{#1/#2}}
+
+\title{Fourier Transforms}
+\author{Kyle McKean \\ \normalsize Mattie O'Kelley, Grace Martin, Elena McKnight}
+\date{\normalsize FLO1 Box 22}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+  The focus of this experiment was to investigate the Fourier transforms of
+  different wave sources. We observed the Fourier transform of tuning forks,
+  boomwackers and ukuleles and compared the resulting frequencies to the expected
+  frequencies. We found that the Fourier transform accurately predicted the
+  expected frequencies with $1.95\%$, $0.340\%$, and $3.40\%$ respective error.
+  Then we generated sine and square waves with a PASCO power amplifier and
+  recorded their Fourier Transforms. The sine wave frequency had $0.0\%$ error and
+  the square wave frequency had $1.6\%$ error.
+\end{abstract}
+\section{Introduction}
+The Fourier transform is a method of transforming any periodic function into a
+(potentially infinite) trigonometric series \cite{wolfram:1}. A discrete Fourier
+Transform computes the frequencies of a trigonometric series given a collection
+of equally spaced samples. There exists an algorithm for computing the discrete
+Fourier transform called the Fast Fourier Transform (FFT) \cite{cooley:1}. The
+output of this algorithm is frequencies and amplitudes associated with n sine
+waves that when added together approximate the original signal. We used this FFT
+algorithm to investigate various wave forms.
+
+\begin{figure}[h]
+  \centering
+  \caption{Fourier Series Examples}
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Wave-form & Frequency          & Relative Amplitude \\
+    \hline
+    Sine     & $f$                & 1 \\
+    Square   & $(2n - 1) \cdot f$ & $\tableFrac{1}{(2n - 1)}$ \\
+    \hline
+  \end{tabular}
+  \label{fig:fourier-series}
+\end{figure}
+
+After applying a Fourier transform to the above wave-forms their respective
+frequencies and amplitudes are as shown. In these cases $f$ is the original frequency
+of the wave. It should be noted that the Fourier transform of a sine wave is
+just the sine wave unchanged.
+
+\section{Experimental Design and Procedure}
+\begin{figure}[h!]
+  \centering
+  \caption{Sketch of Experimental Design}
+  \vspace{0.3em}
+  \includegraphics[scale=0.5]{sketch.png} 
+\end{figure}
+First we investigated the Fourier transforms of tuning forks, boomwackers, and
+ukuleles. We attached a microphone to a ring stand with a clamp. Then we
+connected that microphone to the \workshop. After this we
+opened \dataStudio and ensured that the voltage probe was sampling at
+$\num{10}\si{kHz}$. Next we opened a FFT window in \dataStudio and set the
+sample rate to $\num{20000}\si{Hz}$. Then we decreased the bin size in the FFT
+window to its lowest possible value. With the configuration over we began
+recording data. First we struck a tuning fork with a rubber mallet. Then we
+struck a D boomwacker against the table. Finally we played a D
+chord on a ukulele. After each of these steps we saved the FFT graph.
+
+Next we investigated the Fourier transforms of generated waves. First we exited
+\dataStudio. Then we plugged the voltage sensor into the \workshop and attached
+its probes to the output of a PASCO power amplifier. Next we reopened
+\dataStudio and modified the appropriate ports to initialize the voltage sensor and
+power amplifier. We then set the voltage sensor sensitivity to $1x$ and set the
+power amplifier gain to $1x$. Then we opened a FFT window and initialized it as
+we did before. Now that the configuration is completed we generated the waves.
+First we generated a sine wave with a $\num{640}\si{Hz}$ frequency. Then we
+generated a square wave with a $\num{640}\si{Hz}$ frequency. In both cases we
+saved the resulting FFT graph.
+\section{Results and Analysis}
+\begin{equation*}
+  \pError = \left| \frac{O - E}{E} \right| \cdot 100
+\end{equation*}
+In the following tables percent error is calculated with the above equation. 
+\begin{center}
+  \begin{tabular}{ |c|c|c|c| }
+    \multicolumn{4}{c}{Audio Source Frequency} \\
+    \hline
+    {} & Tuning Fork & Boomwacker & Ukulele \\
+    \hline
+    Expected Frequency $(\si{Hz})$ & $256$  & $293.7$ (D) & $293.7$ (D) \\
+    Observed Frequency $(\si{Hz})$ & $261$  & $295$       & $304$ \\
+    $\pError$                      & $1.95$ & $0.340$     & $3.40$ \\
+    \hline
+  \end{tabular}
+\end{center}
+The above observed frequencies were all quite close to the expected. Our tuning
+fork was rated to generate a sine wave with a frequency $\num{256}{\si{Hz}}$ so
+it makes sense to observe a value close to that. With the boomwacker and ukulele
+we ensured we were playing as close to a D as possible. We ensured this by using
+a guitar tuning tool. A D chord has a frequency of $\num{293.7}\si{Hz}$. With
+this in mind it makes sense that in both instruments the strongest frequency
+observed was around $\num{293.7}\si{Hz}$.
+\begin{center}
+  \begin{tabular}{|c|c|c|c|c|}
+    \multicolumn{5}{c}{Square Wave Frequency} \\
+    \hline
+    {} & wave 1 & wave 2 & wave 3 & wave 4 \\
+    \hline
+    Expected Frequency $(\si{Hz})$
+       & $640$ & $1920$ & $3200$ & $4480$ \\
+    Observed Frequency $(\si{Hz})$
+       & $630$ & $2000$ & $3200$ & $4500$ \\
+    $\pError$
+       & $1.6$ & $4.2$  & $0.0$  & $0.4$  \\
+    \hline
+  \end{tabular}
+\end{center}
+The expected frequency was calculated using figure \ref{fig:fourier-series}
+where $f = \num{640}\si{Hz}$. The observed frequency followed a clear pattern in
+frequency spacing and that pattern followed the expected pattern with $1.6\%$
+average error.
+\begin{center}
+  \begin{tabular}{|c|c|c|c|c|}
+    \multicolumn{5}{c}{Square Wave Relative Amplitude} \\
+    \hline
+    {} & wave 1 & wave 2 & wave 3 & wave 4 \\
+    \hline
+    Expected Relative Amplitude
+       & $1$   & $\tableFrac{1}{3}$ & $\tableFrac{1}{5}$ & $\tableFrac{1}{7}$ \\
+    Observed Relative Amplitude
+       & $1$   & $0.31$ & $0.16$ & $0.09$ \\
+    $\pError$
+       & $0$   & $7$    & $20$   & $37$  \\
+    \hline
+  \end{tabular}
+\end{center}
+The relative amplitudes of the generated square wave deviated significantly from
+the expected with a $16\%$ average error.
+\section{Conclusions}
+The only data-set with a significant percent error was the relative amplitude
+data-set. The error increases as the relative amplitude decreases.
+This error could be attributed to human error, noise in the signal,
+and/or errors in the FFT algorithm. All of these could be causes because all these
+problem get worse as the relative amplitude decreases. As the relative
+amplitudes decrease it becomes harder for a human to determine which spike in
+amplitude is not noise. There are many ways to generate electric noise. One
+example is coupled noise in which a radio source induces a current a piece of
+wire \cite{motchenbacher:1}. These being said the most likely explanation in
+the for the high error is Round off error in the FFT. This is because as the
+amplitude gets smaller the round off error compounds \cite{ramos:1}.
+\bibliographystyle{apacite}
+\bibliography{citation.bib}
+\end{document}
