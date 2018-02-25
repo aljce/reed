@@ -5,12 +5,61 @@ extern crate itertools;
 extern crate num_iter;
 
 /// Iterative Merge Sort
-/// ©2017 Kyle McKean
+/// Kyle McKean
 /// https://github.com/mckeankylej/reed/cs382/sorting
 
 use num_iter::{range_step};
 
 mod arbitrary;
+
+use std::fmt::Debug;
+
+fn partition<A: Ord + Copy>(arr: &mut [A], l: usize, r: usize) -> (usize, usize) {
+    let mut p1 = arr[l];
+    let mut p2 = arr[r];
+    if p2 < p1 {
+        let t  = p1;
+        p1 = p2;
+        p2 = t;
+    }
+    let mut bottom = l;
+    let mut middle = l;
+    for top in l .. r - 1 {
+        let x = arr[top + 1];
+        if x <= p1 {
+            bottom += 1;
+            middle += 1;
+            arr[top + 1] = arr[top];
+            arr[top] = arr[middle];
+            arr[middle] = arr[bottom];
+            arr[bottom] = x;
+        } else if x <= p2 {
+            middle += 1;
+            arr[top + 1] = arr[top];
+            arr[top] = arr[middle];
+            arr[middle] = x;
+        }
+    }
+    middle += 1;
+    arr[l] = arr[bottom];
+    arr[bottom] = p1;
+    arr[r] = arr[middle];
+    arr[middle] = p2;
+    (bottom, middle)
+}
+
+fn quick_sort<A: Ord + Copy>(arr: &mut [A]) {
+    fn quick_sort_helper<A: Ord + Copy>(arr: &mut [A], l: usize, r: usize) {
+        if r - l >= 2 {
+            let (p1, p2) = partition(arr, l, r - 1);
+            quick_sort_helper(arr, l     , p1);
+            quick_sort_helper(arr, p1 + 1, p2);
+            quick_sort_helper(arr, p2 + 1, r);
+        }
+    }
+    let r = arr.len();
+    quick_sort_helper(arr, 0, r);
+}
 
 fn merge<A: Ord + Clone>(from: &mut [A], to: &mut [A], l: usize, m: usize, r: usize) {
     let mut i = l;
@@ -36,8 +85,6 @@ fn lg(x: usize) -> usize {
     (bit_size - x.leading_zeros()) as usize
 }
 
-use std::fmt::Debug;
-
 pub fn merge_sort<A>(a: &mut Vec<A>)
     where A: Ord + Default + Clone
 {
@@ -57,9 +104,37 @@ mod tests {
     use std::hash::Hash;
     use std::collections::HashSet;
     use std::vec::Vec;
+    use itertools::{zip};
 
     use arbitrary::SortedVec;
     use super::*;
+
+    #[test]
+    fn partition_unit() {
+        let mut v = vec![3, 7, -1, 4, 0, 2, 8, 1, 5, 6];
+        let r = v.len() - 1;
+        let ps = partition(v.as_mut_slice(), 0, r);
+        assert_eq!(ps, (4,7));
+        let answer = vec![1, -1, 0, 2, 3, 4, 5, 6, 8, 7];
+        assert_eq!(v, answer);
+    }
+
+    #[test]
+    fn quick_sort_unit_small() {
+        let mut ys = vec![3,6,1];
+        quick_sort(&mut ys);
+        let answer = vec![1,3,6];
+        assert_eq!(ys, answer);
+    }
+
+
+    #[test]
+    fn quick_sort_unit_big() {
+        let mut ys = vec![401,402,403,404,301,302,303,304,201,202,203,204,101,102,103,104];
+        quick_sort(&mut ys);
+        let answer = vec![101,102,103,104,201,202,203,204,301,302,303,304,401,402,403,404];
+        assert_eq!(ys, answer);
+    }
 
     #[test]
     fn lg_unit() {
@@ -77,11 +152,9 @@ mod tests {
         }
     }
 
-    fn is_ascending<A: Ord>(vec: &Vec<A>) -> bool {
-        // TODO: O(n^2) check rewrite to use a hashset
-        vec.iter().enumerate().all(|(i, v)| {
-            (&vec[i .. vec.len()]).iter().all(|x| v <= x)
-        })
+    fn is_ascending<A: PartialOrd>(vec: &Vec<A>) -> bool {
+        if vec.len() < 2 { return true }
+        zip(vec, &vec[1..]).map(|(x,y)| x <= y).all(|x| x)
     }
 
     fn is_permutation<A: Eq + Hash>(before: Vec<A>, after: Vec<A>) -> bool {
@@ -148,9 +221,9 @@ mod tests {
 
     #[test]
     fn merge_sort_unit() {
-        let mut ys = vec![3, 2, 7, 1];
-        merge_sort(&mut ys);
-        assert_eq!(ys, vec![1, 2, 3, 7]);
+        // let mut ys = vec![401,402,403,404,301,302,303,304,201,202,203,204,101,102,103,104];
+        // merge_sort(&mut ys);
+        // assert_eq!(ys, vec![101,102,103,104,201,202,203,204,301,302,303,304,401,402,403,404]);
     }
 
     /// The following two tests ''prove'' that merge_sort is correct ''for all'' vectors
@@ -176,4 +249,3 @@ mod tests {
         }
     }
 }
-
