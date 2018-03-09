@@ -3,14 +3,14 @@ use std::hash::{Hash, Hasher, BuildHasher};
 use std::collections::LinkedList;
 use std::collections::hash_map::RandomState;
 
-use capacity::Capacity;
+use capacity::close_prime;
 
-pub struct Entry<K, V> {
+struct Entry<K, V> {
     key:   K,
     value: V
 }
 
-pub struct Bucket<K, V> {
+struct Bucket<K, V> {
     list: LinkedList<Entry<K, V>>
 }
 
@@ -61,10 +61,13 @@ pub struct HashMap<K, V> {
     /// This makes the table more resistant to DOS attacks by introducing
     /// random state into the HashMap.
     hash_state: RandomState,
-    capacity:   Capacity,
+    /// This is also named m, must be prime
+    capacity:   usize,
+    /// Number of elements in table
     length:     usize,
     vec:        Vec<Bucket<K, V>>
 }
+
 
 impl<K, V> HashMap<K, V>
     where
@@ -75,9 +78,8 @@ impl<K, V> HashMap<K, V>
     }
 
     pub fn with_capacity(lower_bound: usize) -> Self {
-        let capacity = Capacity::new(lower_bound);
-        let current = capacity.current();
-        let vec : Vec<Bucket<K, V>> = (0..current).map(|_| Bucket::new()).collect();
+        let capacity = close_prime(lower_bound);
+        let vec : Vec<Bucket<K, V>> = (0..capacity).map(|_| Bucket::new()).collect();
         HashMap {
             hash_state: RandomState::new(),
             capacity,
@@ -89,12 +91,37 @@ impl<K, V> HashMap<K, V>
     fn hash(&self, key: &K) -> usize {
         let mut hasher = self.hash_state.build_hasher();
         key.hash(&mut hasher);
-        hasher.finish() as usize % self.capacity.current()
+        hasher.finish() as usize % self.capacity
+    }
+
+
+    fn resize(&mut self) {
+        let old_capacity = self.capacity;
+        let old = replace(self, HashMap::with_capacity(2 * old_capacity));
+        for bucket in old.vec {
+            for Entry { key, value } in bucket.list {
+                self.insert(key, value);
+            }
+        }
+    }
+
+
+    /// Determines if the load factor is too high
+    fn should_resize(&self) -> bool {
+        const THRESHOLD : f64 = 1.0;
+        const EPSILON : f64 = 0.0001;
+        let limit = THRESHOLD * self.capacity as f64;
+        let len = self.length as f64;
+        limit - EPSILON <= len && len <= limit + EPSILON // lol float equality
     }
 
     /// Inserts the key-value pair into the map
     /// If the map had a value at that key the old key is returned
+    /// INSERT + UPDATE
     pub fn insert(&mut self, key: K, value: V) -> Option<V> {
+        if self.should_resize() {
+            self.resize()
+        }
         let hash = self.hash(&key);
         let ret = self.vec[hash].insert(key, value);
         if ret.is_none() {
@@ -104,6 +131,7 @@ impl<K, V> HashMap<K, V>
     }
 
     /// Looks up the key in the map
+    /// LOOKUP
     pub fn get(&self, key: &K) -> Option<&V> {
         let hash = self.hash(key);
         self.vec[hash].lookup(key)
@@ -115,6 +143,7 @@ impl<K, V> HashMap<K, V>
 
     /// Removes the key from the map
     /// If the key was in the map it returns the associated value
+    /// DELETE
     pub fn remove(&mut self, key: &K) -> Option<V> {
         let hash = self.hash(key);
         let ret = self.vec[hash].delete(key);
@@ -148,17 +177,9 @@ mod tests {
         assert_eq!(0, m.len());
     }
 
-    // #[test]
-    // fn sieve_of_eranthoses() {
-    //     let mut hm: HashMap<usize, usize> = HashMap::new();
-    //     for p in 2 .. 100 {
-    //         if hm.lookup(p) 
-    //     }
-    // }
-
     #[test]
     fn large_unit() {
-        let mut m = HashMap::with_capacity(10000);
+        let mut m = HashMap::new();
         for _ in 0..10 {
             assert!(m.is_empty());
             for i in 1..1001 {
