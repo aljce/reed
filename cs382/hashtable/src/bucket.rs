@@ -1,4 +1,4 @@
-use std::mem::replace;
+use std::mem;
 use std::hash::{Hash, Hasher, BuildHasher};
 use std::collections::LinkedList;
 use std::collections::hash_map::RandomState;
@@ -27,7 +27,7 @@ impl<K, V> Bucket<K, V>
     fn insert(&mut self, key: K, value: V) -> Option<V> {
         for e in self.list.iter_mut() {
             if e.key == key {
-                return Some(replace(&mut e.value, value))
+                return Some(mem::replace(&mut e.value, value))
             }
         }
         self.list.push_front(Entry { key, value });
@@ -44,7 +44,7 @@ impl<K, V> Bucket<K, V>
     }
 
     fn delete(&mut self, key: &K) -> Option<V> {
-        let mut old_list = replace(&mut self.list, LinkedList::new());
+        let mut old_list = mem::replace(&mut self.list, LinkedList::new());
         while let Some(e) = old_list.pop_front() {
             if e.key == *key {
                 self.list.append(&mut old_list);
@@ -97,7 +97,7 @@ impl<K, V> HashMap<K, V>
 
     fn resize(&mut self) {
         let old_capacity = self.capacity;
-        let old = replace(self, HashMap::with_capacity(2 * old_capacity));
+        let old = mem::replace(self, HashMap::with_capacity(2 * old_capacity));
         for bucket in old.vec {
             for Entry { key, value } in bucket.list {
                 self.insert(key, value);
@@ -108,11 +108,8 @@ impl<K, V> HashMap<K, V>
 
     /// Determines if the load factor is too high
     fn should_resize(&self) -> bool {
-        const THRESHOLD : f64 = 1.0;
-        const EPSILON : f64 = 0.0001;
-        let limit = THRESHOLD * self.capacity as f64;
-        let len = self.length as f64;
-        limit - EPSILON <= len && len <= limit + EPSILON // lol float equality
+        const THRESHOLD : f64 = 1.2;
+        THRESHOLD < self.length as f64 / self.capacity as f64
     }
 
     /// Inserts the key-value pair into the map

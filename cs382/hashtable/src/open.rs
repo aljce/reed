@@ -1,4 +1,4 @@
-use std::mem::replace;
+use std::mem;
 use std::hash::{Hash, Hasher, BuildHasher};
 use std::collections::hash_map::RandomState;
 
@@ -51,24 +51,24 @@ impl<K, V> HashMap<K, V>
 
 
     fn resize(&mut self) {
-        // let old_capacity = self.capacity;
-        // let old = replace(self, HashMap::with_capacity(2 * old_capacity));
-        // for bucket in old.vec {
-        //     for Entry { key, value } in bucket.list {
-        //         self.insert(key, value);
-        //     }
-        // }
+        let old_capacity = self.capacity;
+        let old = mem::replace(self, HashMap::with_capacity(2 * old_capacity));
+        for entry in old.vec {
+            match entry {
+                Entry::Empty => {}
+                Entry::Deleted => {}
+                Entry::Item { key, value } => {
+                    self.insert(key, value);
+                }
+            }
+        }
     }
 
 
     /// Determines if the load factor is too high
     fn should_resize(&self) -> bool {
-        // const THRESHOLD : f64 = 1.0;
-        // const EPSILON : f64 = 0.0001;
-        // let limit = THRESHOLD * self.capacity as f64;
-        // let len = self.length as f64;
-        // limit - EPSILON <= len && len <= limit + EPSILON // lol float equality
-        false
+        const THRESHOLD : f64 = 0.3;
+        THRESHOLD < self.length as f64 / self.capacity as f64
     }
 
     /// Inserts the key-value pair into the map
@@ -93,7 +93,7 @@ impl<K, V> HashMap<K, V>
                 }
                 Entry::Item { key: ref cur_key, value: ref mut cur_value } => {
                     if *cur_key == key {
-                        let old_value = replace(cur_value, value);
+                        let old_value = mem::replace(cur_value, value);
                         ret = Some(old_value);
                         break
                     }
@@ -138,11 +138,24 @@ impl<K, V> HashMap<K, V>
         for t in 0 .. self.capacity {
             let hash = self.hash(&key, t);
             let e = &mut self.vec[hash];
-            match *e {
-                Entry::Empty => break,
+            // If e is an `Entry::Item` we need to take ownership of the value inside
+            // in order to return it. Then we need to set e to `Entry::Deleted`. It
+            // is hard (impossible?) to match on e and do both of those things. So I
+            // replace e with `Entry::Deleted` then take ownership of the entire enum
+            // stored at e. If it isn't a `Entry::Item` then we swap the value back.
+            let owned_e = mem::replace(e, Entry::Deleted);
+            match owned_e {
+                Entry::Empty => {
+                    mem::replace(e, owned_e);
+                    break
+                },
                 Entry::Deleted => {}
-                Entry::Item { key: ref cur_key, value: ref cur_value } => {
-                    if *cur_key == *key {
+                Entry::Item { key: cur_key, value: cur_value } => {
+                    if cur_key == *key {
+                        ret = Some(cur_value);
+                        break;
+                    } else {
+                        mem::replace(e, Entry::Item { key: cur_key, value: cur_value });
                     }
                 }
             }
