@@ -1,0 +1,174 @@
+\documentclass{article}
+
+\usepackage{covington}
+\usepackage{tipa}
+\usepackage[a4paper, total={7in, 10in}]{geometry}
+\usepackage{color}
+
+\setlength\parindent{0pt}
+
+\newcommand{\ipa}[1]{\textipa{#1}}
+\newcommand{\krn}[0]{\hspace{0.1em}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\definecolor{olive}{rgb}{0,0.6,0}
+\newcommand{\green}[1]{{\color{olive} #1}}
+\renewcommand{\thesubsection}{\thesection.\alph{subsection}}
+
+\begin{document}
+
+\textbf{PROBLEM SET 1: MORPHOLOGY} \\
+Alice McKean \\
+\today
+
+\section{Samoan}
+
+The plural forms of verbs in Samoan are formed by reduplicating the second
+to last syllable of the singular verb. Syllables are -CV- or -V-.
+
+\begin{minipage}[t]{0.5\textwidth}
+  \begin{examples}
+  \item[(1)]
+    \gll mate
+        CV-CV
+    \glt `die SG.SUB'
+    \glend
+  \item[(3)]
+    \gll alofa
+        V-CV-CV
+    \glt `love SG.SUB'
+    \glend
+  \item[(5)]
+    \gll taoto
+        CV-V-CV
+    \glt `lie SG.SUB'
+    \glend
+  \end{examples}
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}
+  \begin{examples}
+  \item[(2)]
+    \gll mamate
+        CV-CV-CV
+    \glt `die PL.SUB'
+    \glend
+  \item[(4)]
+    \gll alolofa
+        V-CV-CV-CV
+    \glt `love PL.SUB'
+    \glend
+  \item[(6)]
+    \gll taooto
+        CV-V-V-CV
+    \glt `lie PL.SUB'
+    \glend
+  \end{examples}
+\end{minipage}
+
+\section{Cree}
+
+\begin{tabular}{rl|ll|ll}
+  \multicolumn{2}{c|}{-1 Person} & \multicolumn{2}{c|}{+0 Root} & \multicolumn{2}{c}{+1 Number} \\
+  \hline
+  \ipa{ni}- & `1' & \ipa{ta:s}     & `pants'        & -\ipa{\o}    & `SG' \\ 
+  \ipa{ki}- & `2' & \ipa{stikwa:n} & `head'         & -\ipa{ina:n} & `PL.EXCL' \\
+  \ipa{o}-  & `3' & \ipa{imis}     & `older sister' & -\ipa{inaw}  & `PL.INCL' \\
+            &     &                &                & -\ipa{iwa:w} & `PL' \\
+\end{tabular}
+
+\section{Cahuilla}
+
+\subsection{Morphemes}
+
+The following table is the position class chart and the glosses of almost everything noun
+related. The only thing missing is the infix non-concatenative morpheme
+-\ipa{P}--\ipa{i} `SG.OBJ'. The glottal stop inserts before the last syllable
+where syllables are defined in the same way as Samoan. Then the i is placed
+at the end of the word. \\
+
+\begin{tabular}{ll|ll}
+  \multicolumn{2}{c|}{+0 Root} & \multicolumn{2}{c}{+1 Suffixes} \\
+  \hline
+  \ipa{hunwet}    & `bear'   & -\ipa{\o} & `SG.SUB' \\
+  \ipa{pakac}     & `mouse'  & -\ipa{em} & `PL.SUB' \\
+  \ipa{wikikmalj} & `bird'   & -\ipa{mi} & `PL.OBJ' \\
+  \ipa{hunal}     & `badger' &           & \\
+  \ipa{Pisilj}    & `coyote' &           & \\
+\end{tabular}
+
+\hfill
+
+The following table is the position class chart and the glosses of everything verb
+related. `TRS' is the gloss for transitive and `INTRS' is the gloss for
+intransitive. \\
+
+\begin{tabular}{rl|rl|ll|ll|ll}
+  \multicolumn{2}{c|}{-2 Object} & \multicolumn{2}{c|}{-1 Subject} & \multicolumn{2}{c|}{+0 Root}
+                                 & \multicolumn{2}{c|}{+1 Number}  & \multicolumn{2}{c }{+2 Tense} \\
+  \hline
+  \ipa{ne}-                   & `1SG.OBJ' & \ipa{n}-   & `1SG.SUB.TRS'   & \ipa{mamajaw} & `to help'
+                              & -\ipa{qa} & `SG.SUB'   & -\ipa{P}        & `PAST' \\
+  \ipa{Pe}-                   & `2SG.OBJ' & \ipa{ne}-  & `1SG.SUB.INTRS' & \ipa{kukatac} & `to talk'
+                              & -\ipa{wa} & `PL.SUB'   & -\ipa{\o}       & `PRES' \\
+  \{\ipa{pe}\krn, \ipa{pi}\}- & `3SG.OBJ' & \ipa{P}-   & `2SG.SUB.TRS'   & \ipa{jawici}  & `to carry'
+                              &           &            &                 & \\
+  \ipa{ceme}-                 & `1PL.OBJ' & \ipa{Pe}-  & `2SG.SUB.INTRS' & \ipa{kicuNi}  & `to kiss'
+                              &           &            &                 & \\
+  \ipa{Peme}-                 & `2PL.OBJ' & \ipa{\o}-  & `3SG.SUB'       & \ipa{haPtis}  & `to sneeze'
+                              &           &            &                 & \\
+  \{\ipa{me}\krn, \ipa{mi}\}- & `3PL.OBJ' & \ipa{cem}- & `1PL.SUB'       & \ipa{naqma}   & `to hear'
+                              &           &            &                 & \\
+  \ipa{\o}-                   & `INTRS'   & \ipa{Pem}- & `2PL.SUB'       & \ipa{te:w}    & `to see'
+                              &           &            &                 & \\
+                              &           & \ipa{m}-   & `3PL.SUB.TRS'   & \ipa{nac}     & `to sit'
+                              &           &            &                 & \\
+                              &           & \ipa{hem}- & `3PL.SUB.INTRS' & \ipa{taxmu}   & `to sing'
+                              &           &            &                 & \\
+                              &           &            &                 & \ipa{hiN}     & `to fly'
+                              &           &            &                 & \\
+                              &           &            &                 & \ipa{qwaP}    & `to eat'
+                              &           &            &                 & \\
+\end{tabular}
+
+\subsection{Grammar}
+
+Cahuilla appears to have a noun class system for the number. In the following
+examples when the number agrees between the verb and noun it is colored.
+
+\begin{examples}
+  \item
+    \gll \ipa{hunwet-em}   \ipa{\o-hem-nac-we-P}
+        bear-\red{PL.SUB}  INTRS-3PL.SUB.INTRS-sit-\red{PL.SUB}-PAST
+    \glt `The bears sat down'
+    \glend
+  \item
+    \gll \ipa{pakac-\o}    \ipa{hunwet-mi}    \ipa{me-\o-te:w-qa-\o}
+        mouse-\red{SG.SUB} bear-\blue{PL.OBJ} 3\blue{PL.OBJ}-3\red{SG.SUB}-see-\red{SG.SUB}-PRES
+    \glt `The mouse sees the bears'
+    \glend
+\end{examples}
+
+\par
+
+Unlike English Cahuilla does not require a SVO typology. Instead sentences in
+Cahuilla appear to be either SOV or OSV. In the following illustrative examples
+subjects are colored \red{red}, objects are colored \blue{blue} and verbs are
+colored \green{green}. Example (3) is clearly OSV and example (4) is clearly SOV.
+This pattern holds for every sentence in the dataset.
+
+
+
+\begin{examples}
+  \item
+    \gll \blue{\ipa{paka-P-c-i}}  \red{\ipa{wikikmalj-\o}}  \green{\ipa{pe-\o-naqma-qa-\o}}
+         mouse-SG.OBJ             bird-SG.SUB               3SG.OBJ-3SG.SUB-hear-SG.SUB-PRES
+    \glt `The mouse sees the bird'
+    \glend
+  \item
+    \gll \red{\ipa{hunwet-\o}}    \blue{\ipa{Pisi-P-lj-i}}    \green{\ipa{pe-\o-kicuNi-qa-\o}}
+         bear-SG.SUB              coyote-SG.OBJ            3SG.OBJ-3SG.SUB-kiss-SG.SUB-PRES
+    \glt `The bear kisses the coyote'
+    \glend
+\end{examples}
+
+\end{document}
