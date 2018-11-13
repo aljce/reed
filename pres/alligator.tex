@@ -1,0 +1,251 @@
+\documentclass[usenames,dvipsnames]{beamer}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usetheme{metropolis}
+\usefonttheme[onlymath]{serif}
+\title{Alligator Eggs!}
+\date{13 November 2018}
+\author{Alice McKean}
+\institute{Reed Student Colloquium}
+
+\newcommand{\textbs}[1]{{\sffamily\fontseries{sbc}\selectfont #1}}
+
+\newcommand{\mathbs}[1]{\ensuremath{\text{\textbs{#1}}}}
+\renewcommand{\mathtt}[1]{\ensuremath{\texttt{#1}}}
+
+\newcommand{\mrs}[1]{\ensuremath{\mathnormal{#1}}} % Reset font to normal
+\newcommand{\mbf}[1]{\ensuremath{\mathbf{#1}}}     % Boldface
+\newcommand{\mbs}[1]{\ensuremath{\mathbs{#1}}}     % Bold + sans-serif
+\newcommand{\mbb}[1]{\ensuremath{\mathbb{#1}}}     % Blackboard bold
+\newcommand{\mtt}[1]{\ensuremath{\mathtt{#1}}}     % Teletype
+\newcommand{\mrm}[1]{\ensuremath{\mathrm{#1}}}     % Serif ("roman")
+\newcommand{\msf}[1]{\ensuremath{\mathsf{#1}}}     % Sans-serif
+\newcommand{\msc}[1]{\ensuremath{\mathsc{#1}}}     % Small-caps
+\newcommand{\mcl}[1]{\ensuremath{\mathcal{#1}}}    % Calligraphic
+\newcommand{\msr}[1]{\ensuremath{\mathscr{#1}}}    % Script
+\newcommand{\mfr}[1]{\ensuremath{\mathfrak{#1}}}   % Fraktur
+
+\newcommand{\pic}[2]{\includegraphics[width=#1\columnwidth]{#2}}
+\newcommand{\hungry}[0]{\textbf{hungry}}
+
+\graphicspath{
+  {resources/}
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Pieces}
+\begin{frame}{Hungry Alligators}
+  \begin{figure}
+    \pic{0.9}{pieces/hungry_alligators.png}
+  \end{figure}
+  Hungry alligators are \hungry. They'll eat anything that's in front of them! But
+  they are also \textbf{responsible} alligators, so they guard their families.
+\end{frame}
+
+\begin{frame}{Old Alligators}
+  \begin{figure}
+    \pic{0.8}{pieces/old_alligators.png}
+  \end{figure}
+  Old alligators are not \hungry. They've eaten enough.
+  All they do is guard their families.
+\end{frame} 
+
+\begin{frame}{Eggs}
+  \begin{figure}
+    \pic{0.8}{pieces/egg.png}
+  \end{figure}
+  Eggs \textbf{hatch} into new families of alligators and must match with their parents color!
+\end{frame} 
+
+\section{Families}
+\begin{frame}{Small Family}
+  \begin{figure}
+    \pic{0.4}{family/small.png}
+  \end{figure}
+  A green alligator is guarding her green egg.
+\end{frame}
+
+\begin{frame}{Big Family}
+  \begin{figure}
+    \pic{0.4}{family/big.png}
+  \end{figure}
+  A green alligator and red alligator are guarding a green egg and a red egg.
+  Or, you could say that the green alligator is guarding the red alligator,
+  and the red alligator is guarding the eggs.
+\end{frame}
+
+\begin{frame}{Huge Family}
+  \begin{columns}
+    \begin{column}{0.4\textwidth}
+      \begin{figure}
+        \pic{1}{family/huge.png}
+      \end{figure}
+    \end{column}
+    \begin{column}{0.6\textwidth}
+      \begin{itemize}
+      \item<1|only@1>
+        We've got yellow, green, red alligators guarding this family. They are
+        guarding three things: a green egg, an old alligator, and a red egg. The old
+        alligator is guarding a yellow egg and a green egg.
+
+      \item<2|only@2>
+        Notice that eggs only use the colors of the alligators guarding them. You
+        can't have a blue egg without there being a blue alligator around to guard it.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\section{An Example}
+\begin{frame}{Example}
+  \begin{columns}
+    \begin{column}{0.4\textwidth}
+      \begin{tikzpicture}
+        \foreach \Value in {1,2,3}
+          \node<\Value> (img\Value) {\pic{1.2}{example/\Value.png}};
+        \foreach \Value in {4,5,6,7,8,9,10}
+          \node<\Value> (img\Value) {\pic{1}{example/\Value.png}};
+
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.6\textwidth}
+      \begin{itemize}
+      \item<1|only@1>
+        That green alligator sure is hungry. And there's a yellow family, right
+        in front of her mouth, and it looks tasty!      
+
+      \item<2|only@2>
+        The top left alligator eats the first family to the right of it.
+
+      \item<3|only@3>
+        The top left alligator eats the first family to the right of it.
+
+      \item<4|only@4>
+        Unfortunately, the green alligator's eyes were bigger than her stomach.
+        She ate too much!
+
+      \item<5|only@5>
+        And so she dies, and goes off to alligator heaven. But, the story
+        doesn't end there. Because the green alligator died, the green egg
+        starts to hatch...
+
+      \item<6|only@6>
+        Amazingly, it hatches into exactly what the green alligator ate.
+        It's the miracle of life!
+
+      \item<6|only@6>
+        Now, we're down to one family. We have a red alligator guarding a yellow
+        alligator and a red egg, and the yellow alligator is guarding her yellow egg.
+
+      \item<7|only@7>
+        But that yellow alligator sure is hungry, and there's a tasty red egg in
+        front of her. Here we go again...
+
+      \item<8|only@8>
+        Poor alligator. Even a single egg is too much for her stomach!
+
+      \item<9|only@9>
+        The yellow alligator dies... but once again, the yellow egg starts to hatch...
+
+      \item<10|only@10>
+        And it hatches into exactly what the yellow alligator ate!
+
+      \item<10|only@10>
+        Now, there's nothing for anyone to eat, so we stop.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+\section{Rules}
+
+\begin{frame}{Eating Rule}
+  \begin{itemize}
+  \item 
+    That was an example of the first rule of the game the \\ \textbf{Eating Rule}.
+  \item
+    The eating rule says that if there are some families side-by-side...
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Eating Rule}
+  \begin{tikzpicture}
+    \foreach \Value in {1,2,3}
+      \node<\Value> (img\Value) {\pic{0.9}{eating/\Value.png}};
+  \end{tikzpicture}
+  \begin{itemize}
+    \item<1|only@1>
+      The eating rule says that if there are some families side-by-side...
+
+    \item<2|only@2>
+      The top left alligator eats the first family to the right of it.
+
+    \item<3|only@3>
+      Then, that alligator dies. But if she was guarding any eggs of the same color,
+      each of those eggs hatches into what she ate.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Color Rule}
+
+  \begin{tikzpicture}
+    \foreach \Value in {1,2,3,4,5,6,7}
+      \node<\Value> (img\Value) {\pic{0.9}{color/\Value.png}};
+  \end{tikzpicture}
+  \begin{itemize}
+    \item<1|only@1>
+      Continuing with the example for the eating rule, the orange alligator eats the yellow
+      family.
+
+    \item<2|only@2>
+      The color rule says that if an alligator is about to eat a family, and
+      there's a color that appears in both families, we need to change that
+      color in one family to something else.
+
+    \item<3|only@3>
+      In the previous slide, green and red appear in both the first and second
+      families. So, in the second family, we switch all of the greens to cyan,
+      and all of the reds to blue. This is the \textbf{Color Rule}.
+
+    \item<4|only@4>
+      Now that they don't share any colors, we can eat!
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Old Age Rule}
+  \begin{tikzpicture}
+    \foreach \Value in {1,2,3,4,5}
+      \node<\Value> (img\Value) {\pic{0.9}{old/\Value.png}};
+  \end{tikzpicture}
+  \begin{itemize}
+    \item<1|only@1>
+      The top-left alligator here is not \hungry. She's not going to eat
+      anything. All she cares about is her family. So, how does she die?
+    \item<1|only@1>
+      She dies when she's only guarding one thing. Right now, she's guarding
+      both a green family and a red family. 
+      
+    \item<2|only@2>
+      They need her to take care of them. But that green alligator is hungry.
+      The green alligator eats the red family...
+      
+    \item<3|only@3>
+      Now, the old alligator is only guarding a single family. That family can
+      take care of itself. She's no longer needed. So, she grows old and dies.
+      
+    \item<4|only@4>
+      That is the \textbf{Old Age Rule}.
+      When an old alligator is just guarding a single thing, it dies.
+  \end{itemize}
+\end{frame}
+
+\section{Puzzles}
+
+\section{Real Math?}
+
+\end{document}
