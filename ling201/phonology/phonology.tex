@@ -1,0 +1,102 @@
+\documentclass[20pt]{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{times}
+\usepackage{tipa}
+\usepackage{phonrule}
+
+\setlength\parindent{0pt}
+\titlespacing*{\section}{0pt}{0.7\baselineskip}{0.7\baselineskip}
+\titleformat*{\section}{\Large\bfseries}
+
+\newcommand{\broad}[1]{/\textipa{#1}/}
+\newcommand{\narrow}[1]{[ \textipa{#1} ]}
+\newcommand{\english}[1]{$<$#1$>$}
+\newcommand{\sk}[0]{{\kern 0.05em}}
+\newcommand{\mk}[0]{{\kern 0.1em}}
+\newcommand{\smallcapi}[0]{\sk\textsci\sk}
+\newcommand{\openo}[0]{\sk O}
+
+\begin{document}
+
+\Large\textbf{PROBLEM SET 5: PHONOLOGY} \\
+\normalsize
+Alice McKean \\
+\today
+
+\section{Narrow Transcription of English}
+
+\textipa{
+  f\openo\*r sk\openo\*r \~{\t{3@}}\sk nd "s3v\~{@}n j\sk i\*r\sk z @"goU
+  aU\*r "faD\sk\textrhookschwa\sk z b\*rAt f\openo\*r\mk T \~{A}n DI\sk s
+  "k\super{h}\~{A}nP\~{@}n\~{@}nt, @ nu "neIS\~{@}n, k\super{h}\~{@}\sk n"sivd
+  I\sk n "lI\sk b\textrhookschwa ti, \~{\t{3@}}\sk nd "d3R@ke\sk I\sk t@d t@ D2
+  p\super{h}\*rAp\sk @"zIS\~{@}n D\sk\ae t a\textltilde {\kern 0.03em} m\~{3}n
+  A\sk\*r k\super{h}\*r\sk I"eIR@d "ikw@\textltilde. naU wi A\sk\*r
+  \~{I}n"geI\textdyoghlig d \~{I}\sk n 2 g\sk\*reI\sk t "sIv@\textltilde
+  {\kern 0.03em} wO\*r "t3st@N "w3D\textrhookschwa {\kern 0.03em} D\ae t
+  "neIS\~{@}n, O\*r "3n\sk i "neIS\~{@}n soU k\super{h}\~{@}n"sivd
+  \~{\t{3@}}\sk nd soU "d3R@keI\sk t@d k\super{h}\~{\t{3@}}n lA\sk N I\sk n"du\*r.
+}
+
+\section{Gujarati Laterals}
+
+\narrow{l \:l} are separate phonemes because the two words
+\narrow{k\super{h}al} \narrow{k\super{h}a\:l} are minimal pairs. There is
+evidence of neutralization because the word for pill \narrow{go\:li} and the
+word for bullet \narrow{go\:li} are the same.
+
+\section{German Fricatives}
+
+\phonl
+  {\narrow{\c{c}}}
+  {\phonfeat{-front \\ -cornal}}
+  {\phonfeat{-front \\ -syllabic}} \\
+
+This rule involves assimilation because the -front feature is carry on
+assimilated from the preceding vowel.
+
+\begin{enumerate}[label=\roman*.]
+\item \narrow{ho:\sk x}
+\item \narrow{"h\o :\c{c}st5}
+\item \narrow{"kY\c{c}\mk @n}
+\item \narrow{"\c{c}e:mIS}
+\end{enumerate}
+
+\section{Japanese Voiceless Vowels}
+
+\narrow{i \r*i} and \narrow{W \r*W} are allophones of a single phoneme. The
+devoiced partner is the restricted allophone. I think this because it occurs
+less often in the dataset and the following rule restricts where it can occur. \\
+
+\phonb
+  {\phonfeat{+high}}
+  {\phonfeat{-voice}}
+  {\phonfeat{-voice}}
+  {\phonfeat{-voice}} \\
+
+This rule is clearly devocalization assimilation as the voiceless phonemes
+around the force the phoneme in the middle to devoice.
+
+\begin{enumerate}[label=\roman*.]
+\item \narrow{\^ins\r*Wtanto}
+\item \narrow{o\textphi\r*isW}
+\item \narrow{Cop:iNgW}
+\item \narrow{p\r*ikaso}
+\end{enumerate}
+
+After adding the new data to the dataset I would change the rule to ignore long
+vowels. Unfortunately there doesn't seem to be a length class in the feature
+handout. In this case I made up a natural class to handle \narrow{:} called ``long''. \\
+
+\phonb
+  {\phonfeat{+high \\ -long}}
+  {\phonfeat{-voice}}
+  {\phonfeat{-voice}}
+  {\phonfeat{-voice}} \\
+
+  
+\end{document}
