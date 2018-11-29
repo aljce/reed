@@ -1,0 +1,142 @@
+\documentclass[20pt]{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{times}
+\usepackage{tipa}
+\usepackage{phonrule}
+\usepackage{covington}
+
+\setlength\parindent{0pt}
+\titlespacing*{\section}{0pt}{0.7\baselineskip}{0.7\baselineskip}
+\titleformat*{\section}{\large\bfseries}
+
+\newcommand{\broad}[1]{/\textipa{#1}/}
+\newcommand{\narrow}[1]{[ \textipa{#1} ]}
+\newcommand{\english}[1]{$<$#1$>$}
+\newcommand{\sk}[0]{{\kern 0.05em}}
+\newcommand{\mk}[0]{{\kern 0.1em}}
+\newcommand{\smallcapi}[0]{\sk\textsci\sk}
+\newcommand{\openo}[0]{\sk O}
+\newcommand{\marked}[1]{\textsc{#1}}
+\newcommand{\trans}[3]{\lq #1\rq \mk \narrow{#2} $\rightsquigarrow$ \narrow{#3}}
+
+\begin{document}
+
+\Large\textbf{PROBLEM SET 6: PHONOLOGY II} \\
+\normalsize
+Alice McKean \\
+\today
+
+\section{Rules}
+
+\textbf{\textipa{P}-epenthesis}
+
+\phonb{$\emptyset$}{\narrow{P}}{[$_{wd}$}{[+syllabic][-syllabic]}
+
+Samoan marks (see below for exceptions) non CV syllables and this rule repairs
+single naked vowels at the beginning of words such as \trans{ice}{aisa}{Paisa}
+and \trans{apply}{apalai}{Papalai}. \\
+
+\textbf{glottalization}
+
+\phonb{\narrow{h}}{\narrow{P}}{}{}
+
+The only glottal sound available in Samoan is \narrow{P} so \narrow{h} always
+transforms into one. In the data set the words for \\
+\trans{half}{hafa}{Pafa} and \trans{hamburger}{hamepeka}{Pamepeka}
+illustrate this transformation.  \\
+
+\textbf{stop-devoicing}
+\vspace{0.1em}
+
+\phonb
+  {\phonfeat{-sonorant \\ -continuant}}
+  {[ -voice ]}
+  {}
+  {}
+\vspace{0.3em}
+  
+Samoan lacks voiced plosives and so devoices any voiced plosive such as
+\narrow{b}, \narrow{d}, or \narrow{g}. This can been seen in the word for
+\trans{gear}{gia}{kia} and in the word for \trans{deliver}{diliva}{tiliva} \\
+
+\textbf{lateralization}
+\vspace{0.2em}
+
+\phonb
+  {\phonfeat{+consonantal \\ +approximant}}
+  {[ +lateral ]}
+  {}
+  {}
+\vspace{0.3em}
+
+All liquids lateralize and transform into \narrow{l}. This rule transforms
+\trans{rummy}{\*rami}{lami} and many other words. \\
+
+\textbf{glide-repair}
+\vspace{0.2em}
+  
+\phonb
+  {\phonfeat{-syllabic \\ -consonantal}}
+  {[ +syllabic ]}
+  {}
+  {}
+\vspace{0.3em}
+
+Glides are transformed into their respective vowel. This occurs in words such as
+\trans{walkathon}{wakafoni}{uakafoni} and
+\trans{computer}{komipjuta}{komipiuta}. This rule is solid proof that Samoan
+allows for VV syllables. This means that a triphthong isn't needed to syllabized
+\narrow{sa.ie.ni.ti.si} and every word in the data set can by syllabized into CV
+or VV. This means Samoan follows two syllable markedness rules
+\marked{$*$complex onset} and \marked{nocoda}. \\
+  
+\textbf{th-fronting}
+\vspace{0.1em}
+
+\phonb
+  {\phonfeat{-labial \\ -labiodental \\ +coronal}}
+  {\phonfeat{+labial \\ +labiodental \\ -coronal}}
+  {}
+  {} \\
+
+\textbf{anteriorization}
+\vspace{0.2em}
+
+\phonb
+  {\phonfeat{+strident \\ -anterior \\ -voice}}
+  {\phonfeat{+anterior \\ +voice}}
+  {}
+  {} \\
+ 
+  
+\textbf{boundary-deletion}
+
+\phonb
+  {[ -syllabic ]}
+  {$\emptyset$}
+  {[ -syllabic ]}
+  {]$_{wd}$} \\
+
+\textbf{boundary-insertion}
+
+\phonb
+  {$\emptyset$}
+  {V}
+  {[ -syllabic ]}
+  {]$_{wd}$} \\
+ 
+\textbf{syllable-repair}
+
+\phonb
+  {$\emptyset$}
+  {V}
+  {[ -syllabic ]}
+  {[ -syllabic ]} \\
+ 
+  
+\end{document}
