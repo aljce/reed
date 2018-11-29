@@ -9,6 +9,7 @@
 \usepackage{tipa}
 \usepackage{phonrule}
 \usepackage{covington}
+% \usepackage{bussproofs}
 
 \setlength\parindent{0pt}
 \titlespacing*{\section}{0pt}{0.7\baselineskip}{0.7\baselineskip}
@@ -31,7 +32,7 @@
 Alice McKean \\
 \today
 
-\section{Rules}
+\section{Consonant Repair}
 
 \textbf{\textipa{P}-epenthesis}
 
@@ -75,7 +76,8 @@ Samoan lacks voiced plosives and so devoices any voiced plosive such as
 \vspace{0.3em}
 
 All liquids lateralize and transform into \narrow{l}. This rule transforms
-\trans{rummy}{\*rami}{lami} and many other words. \\
+\trans{rummy}{\*rami}{lami} and many other words. This rule predicts that the
+American \narrow{\*r*} will also transform into \narrow{l}. \\
 
 \textbf{glide-repair}
 \vspace{0.2em}
@@ -102,8 +104,33 @@ or VV. This means Samoan follows two syllable markedness rules
   {\phonfeat{-labial \\ -labiodental \\ +coronal}}
   {\phonfeat{+labial \\ +labiodental \\ -coronal}}
   {}
-  {} \\
+  {}
+\vspace{0.3em}
 
+Dental fricatives become labiodental fricatives in Samoan. In the data set
+\trans{walkathon}{uakaToni}{uakafoni} and
+\trans{rothmans}{laTumeni}{lafumeni} illustrate this rule. There are no english
+words in the data set with the phoneme \\
+\narrow{D} but Samoan does have its labiodental partner \narrow{v}. This rule
+predicts \narrow{D} will also transform into \narrow{v}. \\
+
+\textbf{\textipa{\textteshlig}-anteriorization}
+\vspace{0.1em}
+
+\phonb
+  {\narrow{\textteshlig}}
+  {\phonfeat{+anterior \\ -strident}}
+  {}
+  {]$_{wd}$}
+\vspace{0.3em}
+
+This rule transforms \narrow{\textteshlig} into \narrow{t} as Samoan marks all
+strident phonemes except for \narrow{s}. This rule differs from the next rule in
+that it preserves the \narrow{t}-ness of \narrow{\textteshlig}. This rule bleeds
+the next as it removes the strident natural class. It also feeds into the
+boundary-insertion rule found below. This rule fires in words such as
+\trans{march}{ma\textteshlig}{mat} $\rightsquigarrow_{bi}$ \narrow{mati}. \\ 
+  
 \textbf{anteriorization}
 \vspace{0.2em}
 
@@ -111,16 +138,27 @@ or VV. This means Samoan follows two syllable markedness rules
   {\phonfeat{+strident \\ -anterior \\ -voice}}
   {\phonfeat{+anterior \\ +voice}}
   {}
-  {} \\
- 
-  
+  {}
+\vspace{0.3em}
+
+Samoan marks non \narrow{s} stridents this covers all the other cases that the
+rule above does not. Some example transformations from the data set are
+\trans{cheese}{\textteshlig isi}{sisi} and \trans{germany}{\textdyoghlig iamani}{siamani}. \\
+
+\section{Syllable Repair}
+
 \textbf{boundary-deletion}
 
 \phonb
   {[ -syllabic ]}
   {$\emptyset$}
   {[ -syllabic ]}
-  {]$_{wd}$} \\
+  {]$_{wd}$}
+
+This rule helps enforce Samoan's syllable grammar. Specifically
+this enforces \textsc{$*$complex onset}. It has feeding order with
+boundary-insertion. This rule fires in words such as \trans{pound}{paund}{paun}
+$\rightsquigarrow_{bi}$ \narrow{pauni}. \\
 
 \textbf{boundary-insertion}
 
@@ -128,15 +166,31 @@ or VV. This means Samoan follows two syllable markedness rules
   {$\emptyset$}
   {V}
   {[ -syllabic ]}
-  {]$_{wd}$} \\
- 
+  {]$_{wd}$} 
+
+This rule helps enforce Samoan's \textsc{nocoda} syllable constraint by moving
+the consonant that would be in a coda to an onset. This rule can be seen firing
+in rule chains above. \\
+  
 \textbf{syllable-repair}
 
 \phonb
   {$\emptyset$}
   {V}
   {[ -syllabic ]}
-  {[ -syllabic ]} \\
- 
-  
+  {[ -syllabic ]}
+
+Samoan has the syllable constraint \textsc{$*$complex onset} and this rule enforces
+that constraint by splitting the complex onset into two syllables. This rule
+fires in words such as \trans{style}{staili}{sitaili} and \trans{gross}{klose}{kelose}.
+
+% \section{Example Derivations}
+
+% \begin{prooftree}
+%   \AxiomC{\textipa{k\ae b@\textdyoghlig}}
+%   \RightLabel{stop-devoicing}
+%   \UnaryInfC{\textipa{k\ae p@\textdyoghlig}}
+%   \UnaryInfC{baz}
+% \end{prooftree}
+
 \end{document}
