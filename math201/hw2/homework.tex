@@ -1,0 +1,257 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+
+\setlength\parindent{0pt}
+
+% Allow for Augmented Matricies
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\g@matrix
+ {\vbox\bgroup}
+ {\vbox\bgroup\normalbaselines}% restore the standard baselineskip
+ {}{}
+\makeatother
+
+\newcommand{\BAR}{%
+  \hspace{-\arraycolsep}%
+  \strut\vrule % the `\vrule` is as high and deep as a strut
+  \hspace{-\arraycolsep}%
+}
+
+\newcommand{\rowAdd}[3]{#3 r_#1 + r_#2 \rightarrow r_#2}
+\newcommand{\rowScale}[2]{#2 r_#1 \rightarrow r_#1}
+\newcommand{\rowSwap}[2]{r_#1 \leftrightarrow r_#2}
+\newcommand{\rowEquiv}[0]{\ensuremath{\rightsquigarrow}}
+\newcommand{\problem}[1]{\large\textbf{Problem #1}\normalsize}
+\newcommand{\qed}{\hfill\ensuremath{\blacksquare}}
+
+\begin{document}
+
+\noindent\Large\textbf{Problem Set 2} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{1a}
+
+I couldn't figure out how to solve this with a system of equations like in 2a so
+I just used the results from 1b namely: $x = 1 + 6s \:\:\: y = 1 + s \:\:\: z = 1 + 3s$
+to get:
+\begin{equation*}
+  \{ \: (6y - 5, y, 3y - 2) \: | \: y \in \mathbb{R} \: \}
+\end{equation*}
+\problem{1b}
+
+To describe a line parametrically you need a starting point $p_0$ and a direction
+vector $V$. Thus the line can be described with the following equation: $L = p_0 + sV$.
+We use the given points to generate
+the direction vector starting at an arbitrary point.
+
+\begin{align*}
+  \rowarrowsep=-2pt
+  V =
+  \begin{gmatrix}[p]
+    7 \\
+    2 \\
+    4
+  \end{gmatrix} 
+  -
+  \begin{gmatrix}[p]
+    1 \\
+    1 \\
+    1
+  \end{gmatrix} 
+\end{align*}
+So the final parametric form of the line $L$ is:
+\begin{equation*}
+  \rowarrowsep=-2pt
+  \{
+  \begin{gmatrix}[p]
+    1 \\
+    1 \\
+    1
+  \end{gmatrix} 
+  +
+  s
+  \begin{gmatrix}[p]
+    6 \\
+    1 \\
+    3
+  \end{gmatrix} 
+  \: | \: s \in \mathbb{R} \: \}
+\end{equation*}
+
+
+\problem{2a}
+
+To find the plane $H$ that passes through points $(0, 1, 0)$, $(1, 4, −2)$, and
+$(1, 6, 1)$ we solve for a, b, and c in the following equation: $ax + by + cz =
+d$. We start by substituting the points into that equation and finding the
+reduced row echelon form of its subsequent matrix.
+\begin{align*}
+  M_H &= 
+  \begin{gmatrix}[b]
+     1 &  6 &  1 & \BAR &  1 \\
+     0 &  1 &  0 & \BAR &  1 \\
+     1 &  4 & -2 & \BAR &  1
+     \rowops
+     \add[-6]{1}{0}
+     \add[-4]{1}{2}
+  \end{gmatrix}
+  \rowEquiv                         
+  \begin{gmatrix}[b]
+     1 &  0 &  1 & \BAR & -5 \\
+     0 &  1 &  0 & \BAR &  1 \\
+     1 &  0 & -2 & \BAR & -3
+     \rowops
+     \add[-1]{0}{2}
+     \mult{2}{\cdot-\frac{1}{3}}
+  \end{gmatrix}
+  \rowEquiv                         
+  \begin{gmatrix}[b]
+     1 &  0 &  1 & \BAR & -5 \\
+     0 &  1 &  0 & \BAR &  1 \\
+     0 &  0 &  1 & \BAR & -\frac{2}{3}
+     \rowops
+     \add[-1]{2}{0}
+  \end{gmatrix}
+  \\
+  &\rowEquiv                         
+  \begin{gmatrix}[b]
+     1 &  0 &  0 & \BAR & -\frac{13}{3} \\
+     0 &  1 &  0 & \BAR &  1 \\
+     0 &  0 &  1 & \BAR & -\frac{2}{3}
+  \end{gmatrix}
+  = E_H
+\end{align*}
+Thus the solution set that includes those three points is:
+$\{ \: (x, y, z) \in \mathbb{R}^3 \: | \: -13x + 3y - 2z = 3 \: \}$. \\
+
+\problem{2b}
+
+To describe a plane parametrically you can start at a point and have two vectors
+in the desired directions. Once you have the directions $W, V$ and the starting
+point $p_0$ the plane can be described with the following equation: $P = p_0 + sW + tV$.
+We use the given points to generate the two directions starting at an arbitrary
+point.
+\begin{align*}
+  \rowarrowsep=-2pt
+  W =
+  \begin{gmatrix}[p]
+    1 \\
+    4 \\
+    -2
+  \end{gmatrix} 
+  -
+  \begin{gmatrix}[p]
+    0 \\
+    1 \\
+    0
+  \end{gmatrix} 
+  \:\:\:\:
+  V =
+  \begin{gmatrix}[p]
+    1 \\
+    6 \\
+    1
+  \end{gmatrix} 
+  -
+  \begin{gmatrix}[p]
+    0 \\
+    1 \\
+    0
+  \end{gmatrix} 
+\end{align*}
+So the final parametric form of the plane $H$ is:
+\begin{equation*}
+  \rowarrowsep=-2pt
+  \{
+  \begin{gmatrix}[p]
+    0 \\
+    1 \\
+    0
+  \end{gmatrix} 
+  +
+  s
+  \begin{gmatrix}[p]
+    1 \\
+    3 \\
+    -2
+  \end{gmatrix} 
+  +
+  t
+  \begin{gmatrix}[p]
+    1 \\
+    5 \\
+    1
+    \rowarrowsep=0pt
+  \end{gmatrix} 
+  \: | \: s, t \in \mathbb{R} \: \}
+\end{equation*}
+
+\newpage
+\problem{3a}
+
+The main idea behind this proof is similar to the main idea from last weeks
+homework. You should use the fact that one of the coefficents is nonzero to write a
+parameter in terms of the rest. For the sake of argument assume $a_n$ is nonzero
+in the following equation: $a_1x_1 + a_2x_2 + \dots + a_nx_n = d$. That equation
+can be rewritten as:
+\begin{equation*}
+  x_n = \frac{d}{a_n} - \frac{a_1}{a_n}x_1 - \frac{a_2}{a_n}x_2 - \dots - \frac{a_{n-1}}{a_n}x_{n-1}
+\end{equation*}
+This allows us to express any hyperplane parametrically with $n - 1$ parameters as:
+\begin{equation*}
+\begin{equation*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    0 \\
+    0 \\
+    \vdots \\
+    0 \\
+    d / a_n
+  \end{gmatrix} 
+  +
+  x_1
+  \begin{gmatrix}[p]
+    1 \\
+    0 \\
+    \vdots \\
+    0 \\
+    a_1 / a_n
+  \end{gmatrix} 
+  +
+  x_2
+  \begin{gmatrix}[p]
+    0 \\
+    1 \\
+    \vdots \\
+    0 \\
+    a_2 / a_n
+  \end{gmatrix} 
+  + \dots + x_{n-1}
+  \begin{gmatrix}[p]
+    0 \\
+    0 \\
+    \vdots \\
+    1 \\
+    a_{n-1} / a_n
+  \end{gmatrix} 
+\end{equation*} 
+The choice of $a_n$ as the nonzero coefficent was arbitrary and this construction works as
+long as one of the coefficents is nonzero. This is gaurenteed by assumption. \qed \\
+
+\problem{3b}
+
+I would expect hyperplanes in $\mathbb{R}^n$ to be $n - 1$ dimensional. I think this because
+when $n = 1$ the definition given in the problem says a hyperplane in $R^1$ is a dot ($0$ dimensional).
+When $n = 2$ the definition says a hyperplane in $R^2$ is a line ($1$ dimensional). This pattern seems to continue for any $n$. \\
+
+\problem{3c}
+
+In general I suspect you need $n$ points to determine a hyperplane in $R^n$. I think this because I would use one point as the ``center'' and the other $n - 1$ as the directions like I did in problem 2b.
+\end{document}

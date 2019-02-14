@@ -313,5 +313,173 @@ phrase you can't inclued the ``on Thursday'' part.
     \end{center}
 \end{titlepage}
 
+\section{Phonetics}
+
+\textbf{Broad Transcription}
+\vspace{0.7em}
+
+\broad{
+  s\sk @m"tAI\sk mz wi k\ae n fAI\sk nd It "izi tu f\textrhookschwa "g3t @"baUt
+  Di "sAl@d g\*raUnd bI"n@T "aU\textrhookschwa \mk \mk fit b2t wi m2st
+  ri"m@mb\textrhookschwa D\ae t "wi\textrhookschwa \mk \mk I\sk n D@ steIt w\textrhookschwa
+  \mk \mk D@ r3d kleI g\sk Ivz laIf tU \textdyoghlig 3"n\textrhookschwa aIS@nz
+  2v "drim\textrhookschwa z d@ steIt w\textrhookschwa \mk \mk "mArtI\sk n
+  mAr\textteshlig d An "bAlIt bAksz \ae nd \textteshlig \ae l@n\textdyoghlig d A
+  "neIS@nz "kAnS@ns A "\textdyoghlig O\*r\textdyoghlig @ D\ae t geIv 2s D@
+  "gAdfAD\textrhookschwa \mk \mk 2v sOl D@ kwin 2v D@ m3t \ae nd s3nt A "pin2t
+  "fA\*rm\textrhookschwa \mk \mk \mk tu D@ "Ov@l "Of@s D\ae t Iz "aU\textrhookschwa
+  \mk \mk "\textdyoghlig O\*r\textdyoghlig @
+} \\
+
+\textbf{Narrow Transcription}
+\begin{enumerate}
+  \item \narrow{"k\super hwzaIk\ae T@R\textrhookschwa \sk \textltilde aIk}
+  \item \narrow{n\~anzO"daI@k\textltilde i}
+  \item \narrow{"S\sk \~{\t{3@}}nst\textltilde A\textdyoghlig z}
+  \item \narrow{"t\~2Nkju\textltilde aID}
+\end{enumerate} 
+
+\textbf{Phonetic Description}
+
+\begin{enumerate}
+  \item \narrow{T}
+    \begin{enumerate}
+      \item The vocal folds are not vibrating.
+      \item The velum closes the nasal the cavity.
+      \item The tongue is close but not touching the top set of teeth. It is
+        just close enough for frication to occur.
+      \item The lips are open and unrounded.
+      \item The teeth are an importand passive articulator as the frication is
+        between the tongue and the top set of teeth.
+    \end{enumerate}
+  \item \narrow{\~{\t{3@}}}
+    \begin{enumerate}
+      \item The vocal folds are vibrating.
+      \item The velum is as rest as this diphthong is nasalized.
+      \item The tongue is just lower than rest position (a schwa) and becomes a
+        schwa throughout the diphthong.
+      \item The lips are open and unrounded.
+    \end{enumerate}
+  \item \narrow{N}
+    \begin{enumerate}
+      \item The vocal folds are vibrating.
+      \item The velum is as rest as this is a nasal consonant.
+      \item This is a velar consonant so the tongue is close to the top of the
+        mouth but not close enough for frication.
+      \item The lips are closed as the air goes out goes out the nose.
+      \item The roof of the mouth is the important passive articulator.
+    \end{enumerate}
+  \item \narrow{k}
+    \begin{enumerate}
+      \item The vocal folds are not vibrating.
+      \item The velum closes the nasal the cavity.
+      \item This is a velar consonant so the tongue is close to the top of the
+        mouth but not close enough for frication.
+      \item The lips are closed as this is a plosive.
+      \item The roof of the mouth is the important passive articulator.
+    \end{enumerate}
+  \item \narrow{t}
+    \begin{enumerate}
+      \item The vocal folds are not vibrating.
+      \item The velum closes the nasal the cavity.
+      \item This is an alveolar consonant so the tongue is close to the alveolar
+        ridge but not close enough for frication.
+      \item The lips are closed as this is a plosive.
+      \item The alveolar ridge is the important passive articulator.
+    \end{enumerate}
+\end{enumerate}
+
+\newpage
+\textbf{Visualizing the Vocal Tract}
+\newpage
+
+\section{Phonology: Somali}
+
+\textbf{Underlying Representation}
+
+The roots are the singular nouns. There are two suffixes -\ipa{ta} `the' and
+-\ipa{o} `PL'. \\
+
+\textbf{\ipa{\:d}-tapping}
+
+\phonb
+  {\phonfeat{-sonorant \\ +voice \\ +anterior}}
+  {\phonfeat{+sonorant \\ +approximant \\ +continuant \\ +tap}}
+  {[ +syllabic ]}
+  {[ +syllabic ]} \\
+
+\textbf{fricatization}
+\vspace{0.1em}
+
+\phonb
+  {\phonfeat{-sonorant \\ +voice}}
+  {\phonfeat{+delayed release \\ +continuant}}
+  {[ +syllabic ]}
+  {[ +syllabic ]} \\
+
+\textbf{coronal-simplification}
+
+\phonb
+  {[ +coronal ]}
+  {$\emptyset$}
+  {\phonfeat{+coronal \\ -sonorant}}
+  {} \\
+
+\textbf{nasal-labialization}
+
+\phonb
+  {[ +nasal ]}
+  {[ +labial ]}
+  {[ +syllabic ]}
+  {[ +syllabic ]} \\
+
+\textbf{vowel-deletion}
+
+\phonb
+  {[ +syllabic ]}
+  {$\emptyset$}
+  {}
+  {[ -syllabic ][ +syllabic ]]$_{wd}$}
+
+This rule fires too often. I couldn't find the pattern. \\
+  
+\textbf{Rule Ordering}
+
+The rules are ordered in the order they are presented from top to bottom.
+\ipa{\:d}-tapping bleeds fricatization as shown by the following derivation.
+\begin{prooftree}
+  \AxiomC{\ipa{fe:\:da}}
+  \RightLabel{\ipa{\:d}-tapping}
+  \UnaryInfC{\ipa{fe:\:ra}}
+  \RightLabel{fricatization}
+  \UnaryInfC{$\times$}
+\end{prooftree}
+nasal-labialization feeds into vowel-deletion as shown by the following derivation.
+\begin{prooftree}
+  \AxiomC{\ipa{gaPano}}
+  \RightLabel{nasal-labialization}
+  \UnaryInfC{\ipa{gaPamo}}
+  \RightLabel{vowel-deletion}
+  \UnaryInfC{\ipa{gaPmo}}
+\end{prooftree}
+
+
+
+\textbf{Markedness Constraints}
+
+coronal-simplification is an example of the OPC-[ +coronal ] constraint. \\
+
+\textbf{Form Predictions}
+\vspace{0.2em}
+
+\begin{tabular}{c|c|c|c}
+  vowel-deletion & singular                & sg. definite             & plural       \\
+  no             & \ipa{Pilin}             & \ipa{Pilinta}            & \ipa{Pilimo} \\
+  yes            & \ipa{Pilin}             & \ipa{Pilinta}            & \ipa{Pilmo}  \\
+                 & \ipa{\textteshlig iRid} & \ipa{\textteshlig iRida} & \ipa{\textteshlig iRdo} \\
+\end{tabular} \\
+
+I guessed \narrow{i} for the second vowel of the second prediction because all
+the other words in the dataset had the same first two vowels.
 
 \end{document}

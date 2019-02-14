@@ -1,0 +1,273 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+
+\setlength\parindent{0pt}
+
+% Allow for Augmented Matricies
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\g@matrix
+ {\vbox\bgroup}
+ {\vbox\bgroup\normalbaselines}% restore the standard baselineskip
+ {}{}
+\makeatother
+
+\newcommand{\BAR}{%
+  \hspace{-\arraycolsep}%
+  \strut\vrule % the `\vrule` is as high and deep as a strut
+  \hspace{-\arraycolsep}%
+}
+
+\newcommand{\rowEquiv}[0]{\ensuremath{\rightsquigarrow}}
+\newcommand{\problem}[1]{\large\textbf{Problem #1}\normalsize}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+\begin{document}
+
+\noindent\Large\textbf{Problem Set Week 3 Tuesday} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{1a}
+
+If $v \in \text{span}(S)$ then $v$ can be written as the following linear combination: 
+\begin{alignat*}{3}
+  & x^3 - 8x^2 + 7x - 8 & \equal & a(x^3 + 3x - 2) + b(x^3 + 4x^2 + x + 1) + c(x^2 + 2x + 4) \\
+  & {}                  & \equal & ax^3 + 3ax - 2a + bx^3 + 4bx^2 + bx + b + cx^2 + 2cx + 4c \\
+  & {}                  & \equal & (a + b)x^3 + (4b + c)x^2 + (3a + b + 2c)x + (-2a + b + 4c)
+\end{alignat*}
+Which generates the following system of equations:
+\begin{align*}
+  M &= 
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[b]
+     1 &  1 &  0 & \BAR &  1 \\
+     0 &  4 &  1 & \BAR & -8 \\
+     3 &  1 &  2 & \BAR &  7 \\
+    -2 &  1 &  4 & \BAR & -8
+    \rowops
+    \add[-3]{0}{2}
+    \add[2]{0}{3}
+  \end{gmatrix}
+  \rowEquiv
+  \begin{gmatrix}[b]
+     1 &  1 &  0 & \BAR &  1 \\
+     0 &  4 &  1 & \BAR & -8 \\
+     0 & -2 &  2 & \BAR &  4 \\
+     0 &  3 &  4 & \BAR & -6
+    \rowops
+    \add[-1]{3}{1}
+  \end{gmatrix}
+  \rowEquiv                         
+  \begin{gmatrix}[b]
+     1 &  1 &  0 & \BAR &  1 \\
+     0 &  1 & -3 & \BAR & -2 \\
+     0 & -2 &  2 & \BAR &  4 \\
+     0 &  3 &  4 & \BAR & -6
+    \rowops
+    \add[-1]{1}{0}
+    \add[2]{1}{2}
+    \add[-3]{1}{3}
+  \end{gmatrix}
+  \\
+  &\rowEquiv
+  \begin{gmatrix}[b]
+     1 &  0 &  3 & \BAR &  3 \\
+     0 &  1 & -3 & \BAR & -2 \\
+     0 &  0 & -4 & \BAR &  0 \\
+     0 &  0 & -5 & \BAR &  0
+    \rowops
+    \add[-1]{3}{2}
+  \end{gmatrix}
+  \rowEquiv
+  \begin{gmatrix}[b]
+     1 &  0 &  3 & \BAR &  3 \\
+     0 &  1 & -3 & \BAR & -2 \\
+     0 &  0 &  1 & \BAR &  0 \\
+     0 &  0 & -5 & \BAR &  0
+    \rowops
+    \add[5]{2}{3}
+    \add[3]{2}{1}
+    \add[-3]{2}{0}
+  \end{gmatrix}
+  \rowEquiv
+  \begin{gmatrix}[b]
+     1 &  0 &  0 & \BAR &  3 \\
+     0 &  1 &  0 & \BAR & -2 \\
+     0 &  0 &  1 & \BAR &  0 \\
+     0 &  0 &  0 & \BAR &  0
+  \end{gmatrix}
+  = E
+\end{align*}
+So $v \in \text{span}(S)$ because $v = 3(x^3 + 3x - 2) - 2(x^3 + 4x^2 + x + 1) +
+0(x^2 + 2x + 4)$. \qed \\
+
+\problem{1b}
+
+If $v \in \text{span}(S)$ then $v$ can be written as the following linear combination: 
+\begin{alignat*}{3}
+  & \rowarrowsep=-2pt
+    \begin{gmatrix}[b]
+      9  &  10 \\
+      10 &  9
+    \end{gmatrix} 
+  & \equal
+  & \rowarrowsep=-2pt
+    a \cdot
+    \begin{gmatrix}[b]
+      1 &  1 \\
+      1 & -2
+    \end{gmatrix} 
+    + b \cdot
+    \begin{gmatrix}[b]
+     -1 &  2 \\
+      1 &  2
+    \end{gmatrix} 
+    + c \cdot
+    \begin{gmatrix}[b]
+      2 &  4 \\
+      3 &  5
+    \end{gmatrix} 
+  \\
+  & {}
+  & \equal
+  & \rowarrowsep=-2pt
+    \begin{gmatrix}[b]
+      a &  a \\
+      a & -2a
+    \end{gmatrix} 
+    +
+    \begin{gmatrix}[b]
+     -b &  2b \\
+      b &  2b
+    \end{gmatrix} 
+    +
+    \begin{gmatrix}[b]
+      2c &  4c \\
+      3c &  5c
+    \end{gmatrix} 
+  \\
+  & {}
+  & \equal
+  & \rowarrowsep=-2pt
+    \begin{gmatrix}[b]
+      a - b + 2c &  a + 2b + 4c \\
+      a + b + 3c & -2a + 2b + 5c
+    \end{gmatrix} 
+\end{alignat*}
+Which generates the following system of equations:
+\begin{align*}
+  M &= 
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[b]
+     1 & -1 &  0 & \BAR &  1 \\
+     0 &  4 &  1 & \BAR & -8 \\
+     3 &  1 &  2 & \BAR &  7 \\
+    -2 &  1 &  4 & \BAR & -8
+  \end{gmatrix}
+  \rowEquiv
+  \begin{gmatrix}[b]
+     1 &  0 &  0 & \BAR &  0 \\
+     0 &  1 &  0 & \BAR &  0 \\
+     0 &  0 &  1 & \BAR &  0 \\
+     0 &  0 &  0 & \BAR &  1
+  \end{gmatrix}
+  = E
+\end{align*}
+The reduced row echelon form above shows that the system of equations is inconsistent which means that $v$ can't be
+written as a linear combination of $S$ so $v \notin \text{span}(S)$. \qed \\
+
+\problem{2a}
+
+The set $S' = \{ (1, 0, 0), (0, 1, 0), (0, 0, 1) \}$ clearly generates
+$\mathbb{Q}^3$ as $(x, y, z) = x\cdot(1, 0, 0) + y\cdot(0, 1, 0) + z\cdot(0, 0,
+1)$. You can write every element of $S'$ as a linear combination of elements in
+$S$. 
+\begin{align*}
+% = {(1, 1, 0),(1, 0, 1),(0, 1, 1)} 
+  (1, 0, 0) &= \frac{1}{2}\cdot((1, 1, 0) + (1, 0, 1) - (0, 1, 1)) \\
+  (0, 1, 0) &= \frac{1}{2}\cdot((1, 1, 0) + (0, 1, 1) - (1, 0, 1)) \\
+  (0, 0, 1) &= \frac{1}{2}\cdot((1, 0, 1) + (0, 1, 1) - (1, 1, 0)) 
+\end{align*}
+These facts and the fact that linear combinations compose imply that $S$ generates $\mathbb{Q}^3$. \qed \\
+
+\problem{2b}
+
+$\mathbb{F}_2$ does not generate $\mathbb{F}_2^3$ because
+$(1, 1, 1) \in \mathbb{F}_2^3$ but $(1, 1, 1) \notin \text{span}(S)$.  
+If $(1, 1, 1) \in \text{span}(S)$ then $(1, 1, 1)$ can be rewritten as the
+following linear combination:
+\begin{alignat*}{3}
+  & (1, 1, 1) & \equal & a\cdot(1, 1, 0) + b\cdot(1, 0, 1) + c\cdot(0, 1, 1) \\
+  & {}        & \equal & (a, a, 0) + (b, 0, b) + (0, c, c) \\
+  & {}        & \equal & (a + b, a + c, b + c)
+\end{alignat*}
+Which generates the following system of equations:
+\begin{align*}
+  M &= 
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[b]
+     1 & 1 & 0 & \BAR & 1 \\
+     1 & 0 & 1 & \BAR & 1 \\
+     0 & 1 & 1 & \BAR & 1
+     \rowops
+     \add[]{0}{1}
+  \end{gmatrix}
+  \rowEquiv
+  \begin{gmatrix}[b]
+     1 & 1 & 0 & \BAR & 1 \\
+     0 & 1 & 1 & \BAR & 0 \\
+     0 & 1 & 1 & \BAR & 1
+     \rowops
+     \add[]{1}{0}
+     \add[]{1}{2}
+  \end{gmatrix}
+  \rowEquiv                       
+  \begin{gmatrix}[b]
+     1 & 0 & 1 & \BAR & 1 \\
+     0 & 1 & 1 & \BAR & 0 \\
+     0 & 0 & 0 & \BAR & 1
+     \rowops
+     \add[]{2}{0}
+  \end{gmatrix}
+  \rowEquiv                       
+  \begin{gmatrix}[b]
+     1 & 0 & 1 & \BAR & 0 \\
+     0 & 1 & 1 & \BAR & 0 \\
+     0 & 0 & 0 & \BAR & 1
+  \end{gmatrix}
+  = E
+\end{align*}
+The reduced row echelon form above shows that the system of equations is
+inconsistent which means that $(1, 1, 1)$ can't be
+written as a linear combination of $S$. This means $\text{span}(S) \neq \mathbb{F}_2^3$ so $S$
+does not generate $\mathbb{F}_2^3$. \qed \\
+
+\problem{3}
+
+This proof trivally follows from the definitions and the associative property of
+the vector space.
+
+The forward case of the biconditional
+$\text{span}(S_1 \cup S_2) \subseteq \text{span}(S_1)
++ \text{span}(S_2)$. Proof let $v \in \text{span}(S_1 \cup S_2)$:
+\begin{alignat*}{3}
+  & v  & \equal & c_1s_1 + c_2s_2 + \dots + c_ns_n \\
+  & {} & {}     & \evidence{$v \in \text{span}(S_1 \cup S_2)$ where $c_i \in F, \: s_i \in (S_1 \cup S_2)$} \\  
+  & {} & \equal & (c_1s_1 + c_2s_2 + \dots + c_ks_k) +
+                  (c_{k + 1}t_{k + 1} + c_{k + 2}t_{k+2} + \dots + c_nt_n) \\
+  & {} & {}     & \evidence{group like terms where $s_i \in S_1, \: t_i \in S_2$} 
+\end{alignat*} 
+The backward case of the biconditional
+$\text{span}(S_1) + \text{span}(S_2) \subseteq \text{span}(S_1 \cup S_2)$.
+Proof trival. \qed
+\end{document}

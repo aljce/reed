@@ -1,0 +1,49 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\setlength\parindent{0pt}
+
+\newcommand{\problem}[1]{\large\textbf{Problem #1}\normalsize}
+\newcommand{\qed}{\hfill\ensuremath{\blacksquare}}
+
+\begin{document}
+
+\noindent\Large\textbf{Problem Set 3} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{1a}
+
+Those operations do not form a vector space over $\mathbb{R}$. They do not
+satisfy axiom (5) distributivity. After simplifying both sides of the following equation: 
+$(0 + 0) \cdot (2, 0) = 0 \cdot (2, 0) + 0 \cdot (2, 0)$ you get
+$(2, 0) = (4, 0)$. This counter-example proves the claim. \qed \\
+
+\problem{1b}
+
+Those operations do not form a vector space over $\mathbb{R}$. They do not
+satisfy axiom (2) additive associativity. After simplifying both sides of
+the following equation: $((1, 0) + (2, 0)) + (3, 0) = (1, 0) + ((2, 0) + (3, 0))$
+you get $(64, 0) = (84, 0)$. This counter-example proves the claim. \qed \\
+
+\problem{2a}
+
+First note that $\vec{0} \in W$ since $3 \cdot 0 - 0 - 2 \cdot 0 = 0$. Hence, $W \neq \emptyset$. Next,
+suppose that $r \in F$ and $u, v \in W$. Note that $u = 3a - b - 2c = 0$ and
+$v = 3x - y - 2z = 0$. Multiply v by r, add the equations, and rearange terms so that:
+$3(a + rx) - (b + ry) - 2(c + rz) = 0$. Hence, $u + r \cdot v \in W$.
+Therefore W is a subspace of V. \qed \\
+
+\problem{2b}
+
+First note that $\vec{0} \in W$ since $0$ is a polynomial with degree $0$. Hence, $W \neq \emptyset$. Next,
+suppose that $r \in F$ and $u, v \in W$. Note that $\forall n. \: 1^n = 1$ so any
+element of $W$ simplifies to zero. Hence, $u + r \cdot v = 0 + r \cdot 0 = 0 \in W$.
+Therefore W is a subspace of V. \qed
+
+
+\end{document}
