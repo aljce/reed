@@ -1,0 +1,149 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+\usepackage[inline]{enumitem}
+
+\setlength\parindent{0pt}
+
+\newcommand{\problem}[1]{\large\textbf{Problem #1}\normalsize}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+
+\begin{document}
+
+\noindent\Large\textbf{Problem Set Week 5 Friday} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{1a}
+
+$f$ is a linear transformation because for any $r \in \mathbb{R}$ and
+$(x_1, y_1, z_1), (x_2, y_2, z_2) \in \mathbb{R}^3$
+the following equality holds:
+\begin{align*}
+  f((x_1, y_1, z_1) + r (x_2, y_2, z_2))
+     & \equal f((x_1 + rx_2,y_1 + ry_2, z_1 + rz_2))                && \evidence{Definitions} \\
+  {} & \equal (x_1 + rx_2 - y_1 - ry_2 + z_1 + rz_2, 3z_1 + 3rz_2)  && \evidence{Definition of $f$} \\
+  {} & \equal (x_1 - y_1 +  z_1 + rx_2 - ry_2 + rz_2, 3z_1 + 3rz_2) && \evidence{Algebra} \\
+  {} & \equal (x_1 - y_1 +  z_1, 3z_1) + r(x_2 - y_2 + z_2, 3z_2)   && \evidence{Definitions} \\
+  {} & \equal f((x_1, y_1, z_1)) + r(f((x_2, y_2, z_2)))            && \evidence{Definition of $f$}
+\end{align*}
+The following system of equations given below shows that $\vec{0} = f(x, x, 0)$ so a
+basis for $\mathcal{N}(f)$ is $\{ (1, 1, 0) \}$.
+
+$
+\begin{cases}
+  0 = x - y + z \\
+  0 = 3z
+\end{cases}
+\rightsquigarrow
+\begin{cases}
+  y = x \\
+  z = 0
+\end{cases} \vspace{0.2em}
+$
+
+A basis for $\mathcal{R}(f)$
+is $\{ (1, 0), (0, 1) \}$ because $f(x, \frac{y}{3}, \frac{y}{3}) = (x, y)$.
+These facts imply $\text{nullity}(f) = 1$ and $\text{rank}(f) = 2$. \\
+
+\problem{1b}
+
+$f$ is a linear transformation because for any $r \in \mathbb{R}$ and $p(x), q(x) \in
+\mathcal{P}_2(\mathbb{R})$ the following equality holds:
+\begin{align*}
+  f(p(x) + rq(x)) & \equal  x(p(x) + rq(x)) + (p(x) + rq(x))' && \evidence{Definition of $f$} \\
+  {} & \equal  xp(x) + p'(x) + r(xq(x) + q'(x))  && \evidence{Algebra} \\
+  {} & \equal f(p(x)) + r(f(q(x))) && \evidence{Definition of $f$}
+\end{align*}
+
+The result of evaluating $f$ on a general polynomial is shown below:
+\begin{align*}
+  f(a + bx + cx^2)
+     & \equal x(a + bx + cx^2) + (a + bx + cx^2)' && \evidence{Definition of $f$} \\
+  {} & \equal ax + bx^2 + cx^3 + b + 2cx          && \evidence{Algebra} \\
+  {} & \equal b + (a + 2c)x + bx^2 + cx^3         && \evidence{Algebra}
+\end{align*}
+
+So $f(p(x)) = \vec{0}$ whenever $a = b = c = 0$ these facts imply that the basis for $\mathcal{N}(f)$
+is $\emptyset$. The equation above also give a basis for $\mathcal{R}(f)$,
+$\{ 1 + x^2, x, 2x + x^3 \}$. These facts imply that $\text{nullity}(f) = 0$ and
+$\text{rank}(f) = 3$. \\
+
+\problem{2a}
+
+Assume $f : V \to W$ is a linear transformation.
+
+$[\Rightarrow]$: Assume $f$ is injective and $S$ is
+some linearly independent subset of $V$. Then there exists some homogeneous
+linear combination of $f(S)$:
+\begin{equation*}
+  \vec{0} = c_1f(v_1) + c_2f(v_2) + \dots + c_nf(v_n) = f(c_1v_1 + c_2v_2 + \dots + c_nv_n)
+\end{equation*}
+From assumption $f$ is injective which means that
+$\mathcal{N}(f) = \{ \vec{0} \}$ so $\vec{0} = c_1v_1 + c_2v_2 + \dots + c_nv_n$.
+Note that $v_1, v_2, \dots v_n$ are all nonzero because $S$ is linearly
+independent. So by process of elimination $c_1, c_2,\dots,c_n$ must all be zero and
+$f(S)$ is linearly independent.
+
+\vspace{0.2em}
+
+$[\Leftarrow]$: Assume that for any $S \subset V$ such that $S$ is linearly independent,
+$f(S)$ is linearly independent. Let $v, w \in V$ such that $f(v) = f(w)$ and
+$S = \{ v - w \}$. 
+\begin{enumerate}[label=\roman*:]
+\item
+  $S$ is linearly dependent which means $a(v - w) = \vec{0}$ for some nonzero
+  $a$. Therefore $av = aw$ and $v = w$.
+\item
+  $S$ is linearly independent therefore $f(S)$ is linearly independent.
+  By assumption $f(v) - f(w) = f(v - w) = 0$ which is a homogeneous linear combination of
+  $f(S)$ so $v - w = 0$ and $v = w$.
+\end{enumerate}
+
+\problem{2b}
+
+Assume $f : V \to W$ is an injective linear transformation.
+
+$[\Rightarrow]$: Assume $S$ is linearly independent and that there exists some
+homogeneous linear combination of $f(S)$:
+\begin{equation*}
+  \vec{0} = c_1f(v_1) + c_2f(v_2) + \dots + c_nf(v_n) = f(c_1v_1 + c_2v_2 + \dots + c_nv_n)
+\end{equation*}
+From assumption $f$ is injective which means that
+$\mathcal{N}(f) = \{ \vec{0} \}$ so $\vec{0} = c_1v_1 + c_2v_2 + \dots +
+c_nv_n$. Note that $v_1, v_2, \dots v_n$ are all nonzero because $S$ is linearly
+independent. So by process of elimination $c_1, c_2,\dots,c_n$ must all be zero and
+$f(S)$ is linearly independent.
+
+\vspace{0.2em}
+
+$[\Leftarrow]$: Assume $f(S)$ is linearly independent and that there exists some
+homogeneous linear combination of $S$ namely
+$\vec{0} = c_1v_1 + c_2v_2 + \dots + c_nv_n$. After you apply $f$ to both sides and simply
+via linearity the following equality holds: $\vec{0} = c_1f(v_1) + c_2f(v_2) + \dots + c_nf(v_n)$. Note this
+is linear combination of $f(S)$ so $c_1, c_2, \dots c_n$ must be zero and $S$ is
+linearly independent. $\qed$ \\
+
+\problem{3}
+
+Assume $f : V \to W$ and $g : W \to U$ are linear transformations. Then $g \circ f$ is a
+linear transformation because for any $r \in F$ and $v, w \in V$ the following
+equality holds:
+\begin{align*}
+  (g \circ f)(v + rw)
+     & \equal g(f(v + rw)) && \evidence{Definition of composition} \\
+  {} & \equal g(f(v) + r(f(w))) && \evidence{Lineratiy of $f$} \\
+  {} & \equal g(f(v)) + r(g(f(w))) && \evidence{Lineratiy of $g$} \\
+  {} & \equal (g \circ f)(v) + r((g \circ f)(w)) && \evidence{Definition of composition}
+\end{align*}
+
+\end{document}

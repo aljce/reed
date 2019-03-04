@@ -1,0 +1,238 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+\usepackage[inline]{enumitem}
+
+\setlength\parindent{0pt}
+
+\newcommand{\problem}[1]{\large\textbf{Problem #1}\normalsize}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+\begin{document}
+
+\noindent\Large\textbf{Problem Set Week 5 Tuesday} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{1a}
+
+$W$ is a subspace because $\vec{0}_{3\times3}$ is clearly symmetric and because
+symmetry is preserved under addition and scalar multiplication. This fact is
+demonstrated below.
+\begin{equation*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    a_1 & b_1 & c_1 \\
+    b_1 & d_1 & e_1 \\
+    c_1 & e_1 & f_1
+  \end{gmatrix} 
+  + r \cdot
+  \begin{gmatrix}[p]
+    a_2 & b_2 & c_2 \\
+    b_2 & d_2 & e_2 \\
+    c_2 & e_2 & f_2
+  \end{gmatrix} 
+  =
+  \begin{gmatrix}[p]
+    a_1 + r a_2 & b_1 + r b_2 & c_1 + r c_2 \\
+    b_1 + r b_2 & d_1 + r d_2 & e_1 + r e_2 \\
+    c_1 + r c_2 & e_1 + r e_2 & f_1 + r f_2
+  \end{gmatrix} 
+\end{equation*}
+
+\problem{1b}
+
+The following equation shows that $B$ spans $W$. It is also clearly
+linearly independent. These facts imply $B$ is a basis for $W$.
+\begin{equation*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    a & b & c \\
+    b & d & e \\
+    c & e & f
+  \end{gmatrix} 
+  = a
+  \begin{gmatrix}[p]
+    1 & 0 & 0 \\
+    0 & 0 & 0 \\
+    0 & 0 & 0
+  \end{gmatrix} 
+  + d
+  \begin{gmatrix}[p]
+    0 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & 0
+  \end{gmatrix} 
+  + f
+  \begin{gmatrix}[p]
+    0 & 0 & 0 \\
+    0 & 0 & 0 \\
+    0 & 0 & 1
+  \end{gmatrix} 
+  + b
+  \begin{gmatrix}[p]
+    0 & 1 & 0 \\
+    1 & 0 & 0 \\
+    0 & 0 & 0
+  \end{gmatrix} 
+  + c
+  \begin{gmatrix}[p]
+    0 & 0 & 1 \\
+    0 & 0 & 0 \\
+    1 & 0 & 0
+  \end{gmatrix} 
+  + e
+  \begin{gmatrix}[p]
+    0 & 0 & 0 \\
+    0 & 0 & 1 \\
+    0 & 1 & 0
+  \end{gmatrix} 
+\end{equation*} 
+
+\begin{equation*}
+  \rowarrowsep=-2pt
+  B = \left \{ \:
+  \begin{gmatrix}[p]
+    1 & 0 & 0 \\
+    0 & 0 & 0 \\
+    0 & 0 & 0
+  \end{gmatrix} 
+  , \:
+  \begin{gmatrix}[p]
+    0 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & 0
+  \end{gmatrix} 
+  , \:
+  \begin{gmatrix}[p]
+    0 & 0 & 0 \\
+    0 & 0 & 0 \\
+    0 & 0 & 1
+  \end{gmatrix} 
+  , \:
+  \begin{gmatrix}[p]
+    0 & 1 & 0 \\
+    1 & 0 & 0 \\
+    0 & 0 & 0
+  \end{gmatrix} 
+  , \:
+  \begin{gmatrix}[p]
+    0 & 0 & 1 \\
+    0 & 0 & 0 \\
+    1 & 0 & 0
+  \end{gmatrix} 
+  , \:
+  \begin{gmatrix}[p]
+    0 & 0 & 0 \\
+    0 & 0 & 1 \\
+    0 & 1 & 0
+  \end{gmatrix} 
+  \: \right \}
+\end{equation*} 
+
+\problem{1c}
+
+The cardinally of the basis $B$ given in 1b is 6 so $\text{dim}(W) = 6$. \\
+
+\problem{2a}
+
+The reduced echelon form of $M$ is:
+\begin{equation*}
+  \rowarrowsep=-2pt
+  M =
+  \begin{gmatrix}[p]
+      8 & -53 & -32 & -23 \\
+    -14 &  92 &  56 &  40 \\
+      6 & -39 & -24 & -17 \\
+     -1 &   7 &   4 &   3     
+  \end{gmatrix} 
+  \rightsquigarrow
+  \begin{gmatrix}[p]
+    1 & 0 & -4 & -2/3 \\
+    0 & 1 &  0 & 1/3  \\
+    0 & 0 &  0 & 0 \\
+    0 & 0 &  0 & 0
+  \end{gmatrix} 
+  = E
+\end{equation*} 
+
+\problem{2b}
+
+The basis for the row space of $A$ is $\{ \: (1, 0, -4, -2/3), \: (0, 1, 0, 1/3)
+\: \}$ \\
+
+The basis for the column space of $A$ is
+$
+\left \{
+\rowarrowsep=-2pt
+\begin{gmatrix}[p]
+  8 \\
+  -14 \\
+  6 \\
+  -1
+\end{gmatrix} 
+,
+\begin{gmatrix}[p]
+  -53 \\
+  92 \\
+  -39 \\
+  7
+\end{gmatrix} 
+\right \}
+$
+
+\problem{3a}
+
+In order to determine $f$ we first try to write $f$ as a general linear
+transformation $f(x,y) = x \cdot (a, b, c) + y \cdot (d, e, f)$. We know
+what $f$ should evaluate to at $(2, 1)$ and $(-1, 2)$ so we can work backwards to
+solve for the unknowns.
+$
+\begin{cases}
+  (0, -1, 3) = 2 \cdot (a, b, c) + 1 \cdot (d, e, f), \\
+  (1, 0, 4)  = -1 \cdot (a, b, c) + 2 \cdot (d, e, f) 
+\end{cases}
+\rightsquigarrow
+\begin{cases}
+  a = -\frac{1}{5}, \:\: b = -\frac{2}{5}, \:\: c = \frac{2}{5}, \\
+  d = \frac{2}{5}, \:\:\:\:\:  e = -\frac{1}{5}, \:\: f = \frac{11}{5} \\
+\end{cases} \\
+$ \\
+Therefore
+$f(x,y) = x \cdot (-\frac{1}{5}, -\frac{2}{5}, \frac{2}{5}) +
+y \cdot (\frac{2}{5},  -\frac{1}{5}, \frac{11}{5} )$
+extends the basis $\{ (2, 1), (-1, 2) \}$ lineraly. \\
+
+\problem{3b}
+
+In order to determine $f$ we first try to write $f$ as a general linear
+transformation $f(x,y,z) = x \cdot (a, b) + y \cdot (c, d) + z \cdot (e, f)$. We know
+what $f$ should evaluate to at $(2, 1, 1)$, $(1, 3, 2)$ and $(-1, 7, 4)$
+so we can work backwards to solve for the unknowns. \vspace{0.2em} \\
+$
+\begin{cases}
+  (2, 3) = 2 \cdot (a, b) + 1 \cdot (c, d) + 1 \cdot (e, f), \\
+  (6, 2) = 1 \cdot (a, b) + 3 \cdot (c, d) + 2 \cdot (e, f), \\
+  (14, 0) = -1 \cdot (a, b) + 7 \cdot (c, d) + 4 \cdot (e, f)
+\end{cases}
+\rightsquigarrow
+\begin{cases}
+  a = -\frac{s}{5}, \:\:\:\:\:\:\ b = \frac{7}{5} - \frac{t}{5} \\
+  c = 2 - \frac{3s}{5}, \:\: d = \frac{1}{5} - \frac{3t}{5}  \\
+  e = s, \:\:\:\:\:\:\:\:\:\:\:\: f = t \\
+\end{cases} \vspace{0.2em}\\
+$
+This implies there are infinite linear transformations that satisfy the
+constraints. This agrees with the fact that the set
+$\{ (2, 1, 1), (1, 3, 2), (-1, 7, 4)\}$ is linearly dependent. \\ One such linear
+transforamtion is:
+$f(x,y,z) = x \cdot (0, \frac{7}{5}) + y \cdot (2, \frac{1}{5}) + z \cdot (0, 0)$
+\end{document}
