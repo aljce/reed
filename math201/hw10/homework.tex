@@ -1,0 +1,86 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+\usepackage[inline]{enumitem}
+
+\setlength\parindent{0pt}
+
+\newcommand{\problem}[1]{\large\textbf{Problem #1}\normalsize}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+
+\begin{document}
+
+\noindent\Large\textbf{Problem Set Week 7 Tuesday} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{1a}
+\begin{align*}
+  \displaystyle
+  \text{tr}(AB)
+     & \equal \sum_{i=1}^{n} (AB)_{ii}                  && \evidence{Definition of tr} \\
+  {} & \equal \sum_{i=1}^{n} \sum_{k=1}^{n} A_{ik}B_{ki} && \evidence{Definition of matrix multiplication} \\
+  {} & \equal \sum_{i=1}^{n} \sum_{k=1}^{n} B_{ki}A_{ik} && \evidence{Commutativity of multiplication} \\
+  {} & \equal \sum_{k=1}^{n} \sum_{i=1}^{n} B_{ki}A_{ik} && \evidence{Commutativity of vector addition} \\
+  {} & \equal \sum_{i=1}^{n} \sum_{k=1}^{n} B_{ik}A_{ki} && \evidence{Rename indices} \\
+  {} & \equal \sum_{i=1}^{n} (BA)_{ii}                  && \evidence{Definition of matrix multiplication} \\
+  {} & \equal \text{tr}(BA)                           && \evidence{Definition of tr} \\
+\end{align*}
+
+\problem{1b}
+
+$
+\begin{gmatrix}[b]
+  1 & 0 & 0 & 1
+\end{gmatrix} 
+$ \\
+
+\problem{2}
+
+\begin{enumerate}[label=(\alph*)]
+\item
+  $
+  \begin{gmatrix}[p]
+    13 & 3  & 3 \\
+    -2 & -1 & -8
+  \end{gmatrix} 
+  $
+\item
+  $
+  \begin{gmatrix}[p]
+    20 & 27 & 18 \\
+    5 & -2  & 8
+  \end{gmatrix} 
+  $
+\item Not possible $C$ has more columns than $A$.
+\item
+  $
+  \begin{gmatrix}[p]
+    29 \\
+    -26
+  \end{gmatrix} 
+  $
+\item The same as (d) by associativity.
+\item Not possible the number of columns in $A$ doesn't equal the number of rows
+  in $D$.
+\end{enumerate}
+
+\problem{3}
+
+
+Assume that $J \in \mathcal{M}_{n \times n}$ such that for any $A \in
+\mathcal{M}_{m \times n}$ the following equation holds: $AJ = A$. Let $A = I_n$
+so by assumption $I_nJ = I_n$ but $I_n$ is a left unit for matrix
+multiplication so
+$J = I_n$. $\qed$
+
+\end{document}
