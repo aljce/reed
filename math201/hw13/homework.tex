@@ -1,0 +1,200 @@
+\documentclass[fleqn]{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+\usepackage[inline]{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\mathindent}{0pt}
+
+% Allow for Augmented Matricies
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\g@matrix
+ {\vbox\bgroup}
+ {\vbox\bgroup\normalbaselines}% restore the standard baselineskip
+ {}{}
+\makeatother
+
+\newcommand{\BAR}{%
+  \hspace{-\arraycolsep}%
+  \strut\vrule % the `\vrule` is as high and deep as a strut
+  \hspace{-\arraycolsep}%
+}
+
+\newcommand{\squig}[0]{\ensuremath{\rightsquigarrow}}
+
+\newcommand{\problem}[1]{\large\textbf{Problem #1}\normalsize}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+\newcommand{\idF}[1]{\ensuremath{\text{id}(#1)}}
+\newcommand{\coordsF}[2]{\ensuremath{[ \: #1 \: ]_{\mathcal{#2}}}}
+\newcommand{\rankF}[1]{\ensuremath{\text{rank}(#1)}}
+\newcommand{\nullityF}[1]{\ensuremath{\text{nullity}(#1)}}
+\newcommand{\matrixRep}[3]{\ensuremath{[ \: #1 \: ]_{\mathcal{#2}}^{\mathcal{#3}}}}
+
+\begin{document}
+
+\noindent\Large\textbf{Problem Set Week 8 Tuesday} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{1}
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    1 & -3 \\
+    0 & 1
+  \end{gmatrix} 
+  \begin{gmatrix}[p]
+    1 & 0 \\
+    0 & 1/11
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    1 & 0 \\
+    3 & 1
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    1  &  2 &  3 &  4 \\
+    -3 & -6 &  2 &  4
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    1  &  2 &  0 & -4/11 \\
+    0  &  0 &  1 & 16/11
+  \end{gmatrix}
+\end{align*}
+\begin{align*}
+  \rowarrowsep=-2pt
+  E_1 =
+  \begin{gmatrix}[p]
+    1 & 0 \\
+    3 & 1
+  \end{gmatrix}
+  \:\:\:\: E_2 =
+  \begin{gmatrix}[p]
+    1 & 0 \\
+    0 & 1/11
+  \end{gmatrix}
+  \:\:\:\: E_3 =
+  \begin{gmatrix}[p]
+    1 & -3 \\
+    0 & 1
+  \end{gmatrix} 
+\end{align*}
+
+\problem{2a}
+
+In this proof instead of thinking of $r_i$ as elements of $F^n$ we think of
+them as elements of $\mathcal{M}_{1 \times n}$.
+\begin{align*}
+  & d(r_1, \dots, r_i + kr_i', \dots, r_n) \\
+  {} & \hspace{0.3em} = \frac{\det{((r_1, \dots, r_i + kr_i', \dots, r_n)B)}}{\det{(B)}}
+     && \evidence{Definition of $d$} \\
+  {} & \hspace{0.3em} = \frac{\det{(r_1B, \dots, (r_i + kr_i')B, \dots, r_nB)}}{\det{(B)}}
+     && \evidence{Matrix multiplication} \\
+  {} & \hspace{0.3em} = \frac{\det{(r_1B, \dots, r_iB + k(r_i'B), \dots, r_nB)}}{\det{(B)}}
+     && \evidence{Distributivity of matrix multiplication} \\
+  {} & \hspace{0.3em} = \frac{\det{(r_1B, \dots, r_iB, \dots, r_nB)} +
+              k \det{(r_1B, \dots, r_i'B, \dots, r_nB)}}{\det{(B)}}
+     &&  \evidence{Multilinearity of $\det$} \\
+  {} & \hspace{0.3em} = \frac{\det{(r_1B, \dots, r_iB, \dots, r_nB)}}{\det(B)} +
+              k \frac{\det{(r_1B, \dots, r_i'B, \dots, r_nB)}}{\det{(B)}}
+     && \evidence{Algebra} \\
+  {} & \hspace{0.3em} = d(r_1, \dots, r_i, \dots, r_n) + k d(r_1, \dots, r_i', \dots, r_n)
+     && \evidence{Definition of $d$}
+\end{align*}
+Note that for the rows $r_i \in \mathcal{M}_{1 \times n}$ of $A$ the
+rows of $AB$ are $r_iB \in \mathcal{M}_{1 \times n}$. $\qed$ \\
+
+\problem{2b}
+
+In this proof we think of $r_i$ as elements of $\mathcal{M}_{1 \times n}$ as we
+did in (2a). Assume that $r_i = r_j$ for some $i \neq j$.
+\begin{align*}
+  d(r_1, \dots, r_n)
+     &= \frac{\det((r_1, \dots, r_n)B)}{\det(B)}
+     && \evidence{Definition of $d$} \\
+  {} &= \frac{\det(r_1B, \dots, r_nB)}{\det(B)}
+     && \evidence{Matrix multiplication} \\
+  {} &= \frac{0}{\det(B)} = 0
+     && \evidence{Alternation of $\det$}
+\end{align*}
+Note that by assumption $r_i = r_j$ so $r_iB = r_jB$. $\qed$ \\
+
+\problem{2c}
+\begin{align*}
+  d(I_n) = \frac{\det(I_nB)}{\det(B)} = \frac{\det(B)}{\det(B)} = 1
+\end{align*}
+Note that all the equalities given above require $\det(B) \neq 0$ but that is satisfied
+by assumption. $\qed$ \\
+
+\problem{2d}
+
+The above proofs show $d$ is a determinant but by a previous theorem
+determinants are unique so $d(A) = \det(A)$. The previous equality
+and the definition of $d$ implies $\det(AB) = \det(A)\det(B)$. $\qed$ \\
+
+\problem{3a}
+
+Assume $v \in \mathcal{N}(f)$ with $f(v) = 0$.
+Then $v \in \mathcal{N}(g \circ f)$ because
+$(g \circ f)(v) = g(f(v)) = g(0) = 0$. \\
+
+Assume $u \in \mathcal{R}(g \circ f)$ with $(g \circ f)(v) = u$ for some $v \in
+V$. Then $u \in \mathcal{R}(g)$ because $f(v)$ is an element of $W$. $\qed$ \\
+
+\newpage
+
+\problem{3b}
+
+If $V$ is a subspace of $W$ then $\text{dim} V \leq \text{dim} W$. To prove this
+claim assume to the contrary that $\text{dim} V > \text{dim} W$.
+Let $B = \{ v_1, v_2, \dots, v_n \}$ be a basis for $V$. Note
+that $B$ is a linearly independent subset of $W$ because $V \subseteq W$.
+So the dimension of $W$ is at least the dimension of $V$. These facs imply
+$\text{dim} V > \text{dim} W \geq \text{dim} V$.
+$\rightarrow\leftarrow$ \\
+
+The lemma given above and the previous results imply that
+$\nullityF{f} \leq \nullityF{g \circ f}$
+and $\rankF{g \circ f} \leq \rankF{f}$.
+\begin{align*}
+  \rankF{g \circ f}
+     &= \text{dim} V - \nullityF{g \circ f}
+     && \evidence{Dimension Theorem} \\
+  {} &\leq \text{dim} V - \nullityF{f}
+     && \evidence{$-\nullityF{f} \geq -\nullityF{g \circ f}$} \\
+  {} &= \text{dim} V - (\text{dim} V - \rankF{f})
+     && \evidence{Dimension Theorem} \\
+  {} &= \rankF{f}
+\end{align*} $\qed$
+
+\problem{3c}
+
+$\rankF{AB} = \rankF{L_{AB}} = \rankF{L_A \circ L_B} \leq \rankF{L_A} =
+\rankF{A}$ \\
+
+$\rankF{AB} = \rankF{L_{AB}} = \rankF{L_A \circ L_B} \leq \rankF{L_B} = \rankF{B}$
+$\qed$ \\
+
+\problem{3d}
+
+First case on $\det(A) = 0$ or $\det(B) = 0$:
+\begin{enumerate}[label=\roman*:]
+\item Assume $\det(A) = 0$ so $A$ is not invertable and $\rankF{A} < n$.
+  This fact coupled with the previous proof implies $\rankF{AB} < A$ and $AB$ is
+  not invertable. Therefore $\det(AB) = 0$.
+\item Assume $\det(B) = 0$ so $B$ is not invertable and $\rankF{B} < n$.
+  This fact coupled with the previous proof implies $\rankF{AB} < n$ so $AB$ is
+  not invertable. Therefore $\det(AB) = 0$. $\qed$
+\end{enumerate}
+
+\end{document}
