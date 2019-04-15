@@ -1,0 +1,708 @@
+\documentclass[fleqn]{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+\usepackage[inline]{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\mathindent}{0pt}
+
+% Allow for Augmented Matricies
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\g@matrix
+ {\vbox\bgroup}
+ {\vbox\bgroup\normalbaselines}% restore the standard baselineskip
+ {}{}
+\makeatother
+
+\newcommand{\BAR}{%
+  \hspace{-\arraycolsep}%
+  \strut\vrule % the `\vrule` is as high and deep as a strut
+  \hspace{-\arraycolsep}%
+}
+
+\newcommand{\squig}[0]{\ensuremath{\rightsquigarrow}}
+
+\newcommand{\problem}[1]{\large\textbf{Problem #1}\normalsize}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+\newcommand{\idF}[1]{\ensuremath{\text{id}(#1)}}
+\newcommand{\coordsF}[2]{\ensuremath{[ \: #1 \: ]_{\mathcal{#2}}}}
+\newcommand{\rankF}[1]{\ensuremath{\text{rank}(#1)}}
+\newcommand{\nullityF}[1]{\ensuremath{\text{nullity}(#1)}}
+\newcommand{\matrixRep}[3]{\ensuremath{{\left [ \: #1 \: \right ]}_{\mathcal{#2}}^{\mathcal{#3}}}}
+\newcommand{\signF}[1]{\ensuremath{\text{sign}(#1)}}
+\usepackage{listofitems}
+% Cycle Notation
+\newcommand\cycle[2][\:]{
+  \readlist\thecycle{#2}
+  #1\foreachitem\i\in\thecycle{\ifnum\icnt=1\else#1\fi\i}#1
+}
+\begin{document}
+
+\noindent\Large\textbf{Problem Set Week 10 Tuesday} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{1a}
+
+The eigenvalues of $A$ are $\lambda = -1, 3$ as shown by the following equation:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \det
+  \begin{gmatrix}[p]
+    1 - \lambda & 1 \\
+    4 & 1 - \lambda
+  \end{gmatrix}
+  = (1 - \lambda)^2 - 4 = (\lambda + 1)(\lambda - 3)
+\end{align*}
+
+The eigenvectors for $\lambda = -1$ are the nonzero solutions to:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    1 + 1 & 1 \\
+    4 & 1 + 1
+  \end{gmatrix} 
+  \begin{gmatrix}[p]
+    x \\
+    y
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    2 & 1 \\
+    4 & 2
+  \end{gmatrix} 
+  \begin{gmatrix}[p]
+    x \\
+    y
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    0 \\
+    0
+  \end{gmatrix}
+\end{align*}
+Thus the set of eigenvectors for $\lambda = -1$ can be described as:
+\begin{align*}
+\rowarrowsep=-2pt
+\left \{ \:
+  t \cdot
+  \begin{gmatrix}[p]
+    1 \\
+    -2
+  \end{gmatrix}
+  \: \biggr | \: t \in \mathbb{R}, \: t \neq 0 \:
+\right \}
+\end{align*}
+
+The eigenvectors for $\lambda = 3$ are the nonzero solutions to:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    1 - 3 & 1 \\
+    4 & 1 - 3
+  \end{gmatrix} 
+  \begin{gmatrix}[p]
+    x \\
+    y
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    -2 & 1 \\
+    4 & -2
+  \end{gmatrix} 
+  \begin{gmatrix}[p]
+    x \\
+    y
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    0 \\
+    0
+  \end{gmatrix}
+\end{align*}
+Thus the set of eigenvectors for $\lambda = 3$ can be described as:
+\begin{align*}
+\rowarrowsep=-2pt
+\left \{ \:
+  t \cdot
+  \begin{gmatrix}[p]
+    1 \\
+    2
+  \end{gmatrix}
+  \: \biggr | \: t \in \mathbb{R}, \: t \neq 0 \:
+\right \}
+\end{align*}
+The set $\mathcal{B}$ given below clearly forms a basis for $\mathbb{R}^2$.
+\begin{align*}
+  \rowarrowsep=-2pt
+  \mathcal{B} =
+  \left \{
+  \begin{gmatrix}[p]
+    1 \\
+    -2
+  \end{gmatrix}
+  ,
+  \begin{gmatrix}[p]
+    1 \\
+    2
+  \end{gmatrix}
+  \right \}
+\end{align*}
+Now all the pieces put together $A = PDP^{-1}$:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    1 & 1 \\
+    4 & 1
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    1 & 1 \\
+    -2 & 2
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    -1 & 0 \\
+     0 & 3
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    1/2 & -1/4 \\
+    1/2 & 1/4
+  \end{gmatrix}
+\end{align*}
+
+\problem{1b}
+
+The eigenvalues of $A$ are $\lambda = 2, 1, -1$ as shown by the following equation:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \det
+  \begin{gmatrix}[p]
+    7 - \lambda & 4 & 10 \\
+    4 & 3 - \lambda & 8 \\
+    -2 & 1 & -2 - \lambda
+  \end{gmatrix}
+  = - \lambda^3 + 2\lambda^2 + \lambda - 2
+  = -(\lambda - 2)(\lambda - 1)(\lambda + 1)
+\end{align*}
+
+The eigenvectors for $\lambda = 2$ are the nonzero solutions to:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    7 - 2 & -4 & 10 \\
+    4 & -3 - 2 & 8 \\
+    -2 & 1 & -2 - 2
+  \end{gmatrix} 
+  \begin{gmatrix}[p]
+    x \\
+    y \\
+    z
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    5 & -4 & 10 \\
+    4 & -5 & 8 \\
+    -2 & 1 & -4
+  \end{gmatrix} 
+  \begin{gmatrix}[p]
+    x \\
+    y \\
+    z
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    0 \\
+    0 \\
+    0
+  \end{gmatrix}
+\end{align*}
+
+After solving the linear equations above the eigenvectors for $\lambda = 2$ are:
+\begin{align*}
+\rowarrowsep=-2pt
+\left \{ \:
+  t \cdot
+  \begin{gmatrix}[p]
+    -2 \\
+    0 \\
+    1
+  \end{gmatrix}
+  \: \biggr | \: t \in \mathbb{R}, \: t \neq 0 \:
+\right \}
+\end{align*}
+
+The eigenvectors for $\lambda = 1$ are the nonzero solutions to:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    7 - 1 & -4 & 10 \\
+    4 & -3 - 1 & 8 \\
+    -2 & 1 & -2 - 1
+  \end{gmatrix} 
+  \begin{gmatrix}[p]
+    x \\
+    y \\
+    z
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    6 & -4 & 10 \\
+    4 & -4 & 8 \\
+    -2 & 1 & -3
+  \end{gmatrix} 
+  \begin{gmatrix}[p]
+    x \\
+    y \\
+    z
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    0 \\
+    0 \\
+    0
+  \end{gmatrix}
+\end{align*}
+
+After solving the linear equations above the eigenvectors for $\lambda = 1$ are:
+\begin{align*}
+\rowarrowsep=-2pt
+\left \{ \:
+  t \cdot
+  \begin{gmatrix}[p]
+    1 \\
+    -1 \\
+    -1
+  \end{gmatrix}
+  \: \biggr | \: t \in \mathbb{R}, \: t \neq 0 \:
+\right \}
+\end{align*}
+
+The eigenvectors for $\lambda = -1$ are the nonzero solutions to:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    7 + 1 & -4 & 10 \\
+    4 & -3 + 1 & 8 \\
+    -2 & 1 & -2 + 1
+  \end{gmatrix} 
+  \begin{gmatrix}[p]
+    x \\
+    y \\
+    z
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    8 & -4 & 10 \\
+    4 & -2 & 8 \\
+    -2 & 1 & -1
+  \end{gmatrix} 
+  \begin{gmatrix}[p]
+    x \\
+    y \\
+    z
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    0 \\
+    0 \\
+    0
+  \end{gmatrix}
+\end{align*}
+
+After solving the linear equations above the eigenvectors for $\lambda = -1$ are:
+\begin{align*}
+\rowarrowsep=-2pt
+\left \{ \:
+  t \cdot
+  \begin{gmatrix}[p]
+    1 \\
+    2 \\
+    0
+  \end{gmatrix}
+  \: \biggr | \: t \in \mathbb{R}, \: t \neq 0 \:
+\right \}
+\end{align*}
+
+The set $\mathcal{B}$ forms a basis for $\mathbb{R}^3$ as shown below:
+\begin{align*}
+  \mathcal{B} =
+  \left \{
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    -2 \\
+    0 \\
+    1
+  \end{gmatrix}
+  ,
+  \begin{gmatrix}[p]
+    1 \\
+    -1 \\
+    -1
+  \end{gmatrix}
+  ,
+  \begin{gmatrix}[p]
+    1 \\
+    2 \\
+    0
+  \end{gmatrix}
+  \right \}
+\end{align*}
+The set is linearly independent:
+\begin{align*}
+  \begin{cases}
+  \rowarrowsep=-2pt
+  a \cdot
+  \begin{gmatrix}[p]
+    -2 \\
+    0 \\
+    1
+  \end{gmatrix}
+  + b \cdot
+  \begin{gmatrix}[p]
+    1 \\
+    -1 \\
+    -1
+  \end{gmatrix}
+  + c \cdot
+  \begin{gmatrix}[p]
+    1 \\
+    2 \\
+    0
+  \end{gmatrix}
+  = 0
+  \end{cases}
+  \squig
+  \begin{cases}
+    0 = -2a + b + c \\
+    0 = -b + 2c \\
+    0 = a - b
+  \end{cases}
+  \squig
+  \begin{cases}
+    0 = a \\
+    0 = b \\
+    0 = c
+  \end{cases}
+\end{align*}
+and it spans $\mathbb{R}^3$:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    a \\
+    b \\
+    c
+  \end{gmatrix}
+  =
+  (-2a + b - 3c) \cdot
+  \begin{gmatrix}[p]
+    -2 \\
+    0 \\
+    1
+  \end{gmatrix}
+  + (-2a + b - 4c) \cdot
+  \begin{gmatrix}[p]
+    1 \\
+    -1 \\
+    -1
+  \end{gmatrix}
+  + (-a + b - 2c) \cdot
+  \begin{gmatrix}[p]
+    1 \\
+    2 \\
+    0
+  \end{gmatrix}
+\end{align*}
+Now all the pieces put together $A = PDP^{-1}$:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    7 & -4 & 10 \\
+    4 & -3 & 8 \\
+    -2 & 1 & -2
+  \end{gmatrix} 
+  =
+  \begin{gmatrix}[p]
+    -2 & 1 & 1 \\
+    0 & -1 & 2 \\
+    1 & -1 & 0
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    2 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & -1
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    -2 & 1 & -3 \\
+    -2 & 1 &  -4 \\
+    -1 & 1 & -2
+  \end{gmatrix}
+\end{align*}
+
+\problem{1c}
+
+The matrix $A$ has no real eigenvalues as demonstrated by the following equation: 
+\begin{align*}
+  \rowarrowsep=-2pt
+  \det
+  \begin{gmatrix}[p]
+    7 - \lambda & -5 \\
+    10 & -7 - \lambda
+  \end{gmatrix}
+  = \lambda^2 + 1
+\end{align*}
+
+\problem{2}
+
+Assume $f : V \to V$ is a linear transformation with eigenvalue $\lambda$ such
+that $f(v) = \lambda v$ for some $v$. Then $\lambda^m$ is an eigenvalue for
+$f^m$ as shown below:
+\begin{enumerate}[label=\roman*:]
+  \item When $m = 1$ the base case is trival $f^1(v) = f(v) = \lambda v = \lambda^1 v$
+  \item When $m \geq 1$ assume that for any positive $k \leq m$ the equality $f^k(v) =
+    \lambda^kv$ holds. The inductive step: \\
+    $f^{m + 1}(v) = (f \circ f^m)(v) = f(f^m(v)) = f(\lambda^mv) = \lambda^mf(v)
+    = \lambda^m \lambda v = \lambda^{m + 1}v$
+\end{enumerate}
+Thus by the principle of induction $f^m(v) = \lambda^mv$ for any positive $m$.
+$\qed$ \\
+
+\problem{3a}
+
+An eigenvalue of $T$ is $1$ as $T(I_n) = I_n = 1 \cdot I_n$. Another eigenvalue
+of $T$ is $-1$ as shown by the following equality:
+\begin{align*}
+  \rowarrowsep=-2pt
+  T
+  \begin{gmatrix}[p]
+    0 & -1 \\
+    1 & 0
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    0 & 1 \\
+    -1 & 0
+  \end{gmatrix}
+  = -1 \cdot
+  \begin{gmatrix}[p]
+    0 & -1 \\
+    1 & 0
+  \end{gmatrix}
+\end{align*}
+Now assume $T$ has some other eigenvalue $\lambda$ such that $T(v) = \lambda v$
+for some $v$. $T$ is a linear transformation so by the previous problem
+$\lambda^2v = T^2(v) = (T \circ T)(v) = T(T(v)) = v$. Therefore $\lambda = \pm
+1$. $\qed$ \\
+
+\problem{3b}
+
+The eigenvectors for the eigenvalue $1$ are all the matrices $A \in M_{2\times 2}(\mathbb{R})$
+such that $A_{ij} = A_{ji}$.
+
+Similarly the eigenvectors for the eigenvalue $-1$ are all the matrices
+$A \in M_{2 \times 2}(\mathbb{R})$ such that $A_{ij} = -A_{ji}$. \\
+
+\problem{3c}
+\begin{align*}
+  \rowarrowsep=-2pt
+  \mathcal{B} = \left \{
+  \begin{gmatrix}[p]
+    1 & 0 \\
+    0 & 0
+  \end{gmatrix} 
+  ,
+  \begin{gmatrix}[p]
+    0 & 1 \\
+    1 & 0
+  \end{gmatrix} 
+  ,
+  \begin{gmatrix}[p]
+    0 & 0 \\
+    0 & 1
+  \end{gmatrix} 
+  ,
+  \begin{gmatrix}[p]
+    0 & 1 \\
+    -1 & 0
+  \end{gmatrix} 
+  \right \}
+\end{align*}
+
+This set is clearly linearly independent and it spans
+$M_{2\times 2}(\mathbb{R})$ as show in the following equation:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    a & b \\
+    c & d
+  \end{gmatrix}
+  =
+  a \cdot
+  \begin{gmatrix}[p]
+    1 & 0 \\
+    0 & 0
+  \end{gmatrix} 
+  + \frac{b + c}{2} \cdot
+  \begin{gmatrix}[p]
+    0 & 1 \\
+    1 & 0
+  \end{gmatrix} 
+  + d \cdot
+  \begin{gmatrix}[p]
+    0 & 0 \\
+    0 & 1
+  \end{gmatrix} 
+  + \frac{b - c}{2} \cdot
+  \begin{gmatrix}[p]
+    0 & 1 \\
+    -1 & 0
+  \end{gmatrix} 
+\end{align*}
+Now we can find the matrix that represents $T$ with respect to $B$ and $B$:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \matrixRep{T}{B}{B} =
+  \begin{gmatrix}[p]
+    \BAR      & \BAR      & \BAR & \BAR \\
+    \coordsF{T
+      \begin{gmatrix}[p]
+        1 & 0 \\
+        0 & 0
+      \end{gmatrix} 
+    }{B} &
+    \coordsF{T
+      \begin{gmatrix}[p]
+        0 & 1 \\
+        1 & 0
+      \end{gmatrix} 
+    }{B} &
+    \coordsF{T
+      \begin{gmatrix}[p]
+        0 & 0 \\
+        0 & 1
+      \end{gmatrix} 
+    }{B} &
+    \coordsF{T
+      \begin{gmatrix}[p]
+        0 & 1 \\
+        -1 & 0
+      \end{gmatrix} 
+    }{B} \\
+    \BAR      & \BAR      & \BAR & \BAR
+  \end{gmatrix} 
+  =
+  \begin{gmatrix}[p]
+    1 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & -1
+  \end{gmatrix}
+\end{align*}
+
+\problem{3d}
+
+The eigenvectors for the eigenvalue $1$ are all the matrices $A \in M_{n\times n}(\mathbb{R})$
+such that $A_{ij} = A_{ji}$.
+
+Similarly the eigenvectors for the eigenvalue $-1$ are all the matrices
+$A \in M_{n \times n}(\mathbb{R})$ such that $A_{ij} = -A_{ji}$. \\
+
+\problem{3e}
+\begin{align*}
+  \mathcal{B} &=
+  \left \{
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    1 & 0 & \dots & 0 \\
+    0 & 0 & \dots & 0 \\
+    \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & \dots & 0 
+  \end{gmatrix}
+  ,
+  \begin{gmatrix}[p]
+    0 & 0 & \dots & 0 \\
+    0 & 1 & \dots & 0 \\
+    \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & \dots & 0 
+  \end{gmatrix}
+  , \: \dots \: ,
+  \begin{gmatrix}[p]
+    0 & 0 & \dots & 0 \\
+    0 & 0 & \dots & 0 \\
+    \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & \dots & 1
+  \end{gmatrix}
+  \right \} \\
+ {} & \relation{\cup} 
+      \left \{
+      \rowarrowsep=-2pt
+      \begin{gmatrix}[p]
+        0 & 1 & \dots & 0 \\
+        1 & 0 & \dots & 0 \\
+        \vdots & \vdots & \ddots & \vdots \\
+        0 & 0 & \dots & 0
+      \end{gmatrix}
+      , \: \dots \: ,
+      \begin{gmatrix}[p]
+        0 & \dots & 1 & 0 \\
+        \vdots & \ddots & \vdots & \vdots \\
+        1 & \dots & 0 & 0 \\
+        0 & \dots & 0 & 0
+      \end{gmatrix}
+      , \: \dots \: ,
+      \begin{gmatrix}[p]
+        0 & \dots & 0 & 0 \\
+        \vdots & \ddots & \vdots & \vdots \\
+        0 & \dots & 0 & 1 \\
+        0 & \dots & 1 & 0
+      \end{gmatrix}
+      \right \} \\
+ {} & \relation{\cup}
+      \left \{
+      \rowarrowsep=-2pt
+      \begin{gmatrix}[p]
+        0 & 1 & \dots & 0 \\
+        -1 & 0 & \dots & 0 \\
+        \vdots & \vdots & \ddots & \vdots \\
+        0 & 0 & \dots & 0
+      \end{gmatrix}
+      , \: \dots \: ,
+      \begin{gmatrix}[p]
+        0 & \dots & 1 & 0 \\
+        \vdots & \ddots & \vdots & \vdots \\
+        -1 & \dots & 0 & 0 \\
+        0 & \dots & 0 & 0
+      \end{gmatrix}
+      , \: \dots \: ,
+      \begin{gmatrix}[p]
+        0 & \dots & 0 & 0 \\
+        \vdots & \ddots & \vdots & \vdots \\
+        0 & \dots & 0 & 1 \\
+        0 & \dots & -1 & 0
+      \end{gmatrix}
+      \right \}
+\end{align*}
+This set is clearly a basis for $M_{n\times n}(\mathbb{R})$ and the proof is
+just an expanded version of the proof given in 3c.
+\begin{align*}
+  \matrixRep{T}{B}{B} =
+  \begin{gmatrix}[p]
+    1 & 0 & 0 & \dots & 0 & 0 & 0 \\
+    0 & 1 & 0 & \dots & 0 & 0 & 0 \\
+    0 & 0 & 1 & \dots & 0 & 0 & 0 \\
+    \vdots & \vdots & \vdots & \ddots & \vdots & \vdots & \vdots \\
+    0 & 0 & 0 & \dots & -1 & 0 & 0 \\
+    0 & 0 & 0 & \dots & 0 & -1 & 0 \\
+    0 & 0 & 0 & \dots & 0 & 0 & -1
+  \end{gmatrix}
+\end{align*}
+\end{document}
