@@ -1,0 +1,42 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[a4paper, margin=2cm]{geometry}
+
+\title{A Tropical Mindset}
+\author{Alice McKean}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\noindent
+In this presentation I will introduce the tropical semiring
+$(\mathbb{R},\oplus=\text{min},\otimes=+,\infty,0)$.
+\cite{mohri,speyer}
+After this I will work through some examples and demonstrate some
+properties they posses such as idempotentency and the ``freshmen dream''
+$(x \oplus y)^2 = x^2 \oplus y^2$. Then I will show how to reinterpret a
+homework problem tropically:
+\begin{equation*}
+  \sum_{k=1}^np(i,k,\ell - 1)p(k,j,1) \simeq \bigoplus_{k=1}^{n} p(i,k,\ell - 1)\otimes p(k,j,1)
+\end{equation*}
+
+\noindent
+This equation can be thought of as the recurrance to find the length of the shortest path.
+The recurrance generates a dynamic programming solution to the all pairs shortest path problem.
+This solution also happens to be matrix multiplication under the tropical
+semiring. \cite{mohri,antimatroid}
+If time permits I will demonstrate how to improve the algorithm's complexity
+from $O(V^4)$ to $O(V^3\text{lg}(V))$ via repeated squaring. \\
+
+\noindent
+My backup topic is absorbing markov chains. I would cover the drunkards walk.
+
+\bibliographystyle{plain}
+\bibliography{citation.bib}
+
+\end{document}

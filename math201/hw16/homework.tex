@@ -1,0 +1,428 @@
+\documentclass[fleqn]{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+\usepackage[inline]{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\mathindent}{0pt}
+
+% Allow for Augmented Matricies
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\g@matrix
+ {\vbox\bgroup}
+ {\vbox\bgroup\normalbaselines}% restore the standard baselineskip
+ {}{}
+\makeatother
+
+\newcommand{\BAR}{%
+  \hspace{-\arraycolsep}%
+  \strut\vrule % the `\vrule` is as high and deep as a strut
+  \hspace{-\arraycolsep}%
+}
+
+\newcommand{\squig}[0]{\ensuremath{\rightsquigarrow}}
+
+\newcommand{\problem}[1]{\large\textbf{Problem #1}\normalsize}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+\newcommand{\idF}[1]{\ensuremath{\text{id}(#1)}}
+\newcommand{\coordsF}[2]{\ensuremath{[ \: #1 \: ]_{\mathcal{#2}}}}
+\newcommand{\rankF}[1]{\ensuremath{\text{rank}(#1)}}
+\newcommand{\nullityF}[1]{\ensuremath{\text{nullity}(#1)}}
+\newcommand{\matrixRep}[3]{\ensuremath{{\left [ \: #1 \: \right ]}_{\mathcal{#2}}^{\mathcal{#3}}}}
+\newcommand{\signF}[1]{\ensuremath{\text{sign}(#1)}}
+\usepackage{listofitems}
+% Cycle Notation
+\newcommand\cycle[2][\:]{
+  \readlist\thecycle{#2}
+  #1\foreachitem\i\in\thecycle{\ifnum\icnt=1\else#1\fi\i}#1
+}
+\begin{document}
+
+\noindent\Large\textbf{Problem Set Week 11 Tuesday} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{1}
+
+The adjacency matrix for $G$ is:
+\begin{align*}
+  A = A(G) =
+  \begin{gmatrix}[p]
+    1 & 1 \\
+    1 & 0
+  \end{gmatrix}
+\end{align*}
+Note that $\displaystyle {(A^4)}_{12} = 3$ so there are $3$ distinct walks from $v_1$ to $v_2$
+of length $4$. \\
+The possible walks are $v_1v_2v_1v_1v_2$, $v_1v_1v_2v_1v_2$, and $v_1v_1v_1v_1v_2$.
+\begin{align*}
+  A^4 =
+  {\rowarrowsep=-2pt
+   \begin{gmatrix}[p]
+    1 & 1 \\
+    1 & 0
+   \end{gmatrix}
+  }^4
+  =
+  \begin{gmatrix}[p]
+    5 & 3 \\
+    3 & 2
+  \end{gmatrix}
+\end{align*}
+The total number of closed walks of length $4$ is the $\text{tr}(A^4)$ as shown
+below:
+\begin{align*}
+  \text{tr}(A^4) = \text{tr}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    5 & 3 \\
+    3 & 2
+  \end{gmatrix}
+  = 5 + 2 = 7
+\end{align*}
+The factors of the characteristic polynomial given below can be found via the
+quadratic forumla to be $\phi$ and $\bar{\phi}$.
+\begin{align*}
+  \det(A - \lambda I) =
+  \det
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    1 - \lambda & 1 \\
+    1 & - \lambda
+  \end{gmatrix}
+  = \lambda^2 - \lambda - 1
+\end{align*}
+A basis for $V_{\phi}$ is
+$
+\rowarrowsep=-2pt
+\begin{gmatrix}[p]
+  \phi \\
+  1
+\end{gmatrix}
+$
+as shown by the following row reduction:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    1 - \phi & 1 \\
+    1 & - \phi
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    \bar{\phi} & 1 \\
+    1 & - \phi
+  \end{gmatrix}
+  \squig
+  \begin{gmatrix}[p]
+    1 & 1/\bar{\phi} \\
+    1 & - \phi
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    1 & - \phi \\
+    1 & - \phi
+  \end{gmatrix}
+  \squig
+  \begin{gmatrix}[p]
+    1 & - \phi \\
+    0 & 0
+  \end{gmatrix}
+\end{align*}
+A basis for $V_{\bar{\phi}}$ is
+$
+\rowarrowsep=-2pt
+\begin{gmatrix}[p]
+  \bar{\phi} \\
+  1
+\end{gmatrix}
+$
+as shown by a similar row reduction:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    1 - \bar{\phi} & 1 \\
+    1 & - \bar{\phi}
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    \phi & 1 \\
+    1 & - \bar{\phi}
+  \end{gmatrix}
+  \squig
+  \begin{gmatrix}[p]
+    1 & 1/\phi \\
+    1 & - \bar{\phi}
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    1 & - \bar{\phi} \\
+    1 & - \bar{\phi}
+  \end{gmatrix}
+  \squig
+  \begin{gmatrix}[p]
+    1 & - \bar{\phi} \\
+    0 & 0
+  \end{gmatrix}
+\end{align*}
+\begin{align*}
+  [ \: P \: | \: I_2 \: ] &=
+  \begin{gmatrix}[p]
+    \phi & \bar{\phi} & \BAR & 1 & 0 \\
+    1    & 1          & \BAR & 0 & 1
+    \rowops
+    \mult{0}{\div{{\phi}}}
+  \end{gmatrix}
+  \\ & \squig
+  \begin{gmatrix}[p]
+    1 & \bar{\phi}/\phi & \BAR & 1/\phi & 0 \\
+    1    & 1          & \BAR & 0 & 1
+    \rowops
+    \add[-1]{0}{1}
+  \end{gmatrix}
+  \\ & \squig
+  \begin{gmatrix}[p]
+    1 & \bar{\phi}/\phi     & \BAR & 1/\phi & 0 \\
+    0 & 1 - \bar{\phi}/\phi & \BAR & - 1/\phi & 1
+    \rowops
+  \end{gmatrix}
+  \\ &=
+  \begin{gmatrix}[p]
+    1 & \bar{\phi}/\phi     & \BAR & -\bar{\phi} & 0 \\
+    0 & 1 - \bar{\phi}/\phi & \BAR & \bar{\phi} & 1
+    \rowops
+    \mult{1}{\cdot\phi}
+  \end{gmatrix}
+  \\ & \squig
+  \begin{gmatrix}[p]
+    1 & \bar{\phi}/\phi   & \BAR & -\bar{\phi} & 0 \\
+    0 & \phi - \bar{\phi} & \BAR & \bar{\phi}\phi & \phi
+    \rowops
+  \end{gmatrix}
+  \\ &=
+  \begin{gmatrix}[p]
+    1 & \bar{\phi}/\phi   & \BAR & -\bar{\phi} & 0 \\
+    0 & \phi - \bar{\phi} & \BAR & -1 & \phi
+    \rowops
+    \mult{1}{\div{\phi - \bar{\phi}}}
+  \end{gmatrix}
+  \\ & \squig
+  \begin{gmatrix}[p]
+    1 & \bar{\phi}/\phi & \BAR & -\bar{\phi} & 0 \\
+    0 & 1               & \BAR & \dfrac{-1}{\phi - \bar{\phi}} & \dfrac{\phi}{\phi - \bar{\phi}}
+    \rowops
+    \add[-\bar{\phi}/\phi]{1}{0}
+  \end{gmatrix}
+  \\ & \squig
+  \begin{gmatrix}[p]
+    1 & 0 & \BAR & -\bar{\phi} + \dfrac{\bar{\phi}}{\phi(\phi - \bar{\phi})}
+                 & \dfrac{-\bar{\phi}\phi}{\phi(\phi - \bar{\phi})}  \\
+    0 & 1 & \BAR & \dfrac{-1}{\phi - \bar{\phi}} & \dfrac{\phi}{\phi - \bar{\phi}}
+  \end{gmatrix}
+  \\ &=
+  \rowarrowsep=-2pt
+   \begin{gmatrix}[p]
+    1 & 0 & \BAR & \dfrac{\phi}{\phi(\phi - \bar{\phi})}
+                 & \dfrac{1}{\phi(\phi - \bar{\phi})}  \\
+    0 & 1 & \BAR & \dfrac{-\phi}{\phi(\phi - \bar{\phi})} & \dfrac{\phi + 1}{\phi(\phi - \bar{\phi})}
+  \end{gmatrix}
+  = [ \: I_2 \: | \: P^{-1} \: ]
+\end{align*}
+Now we can put all these pieces together to diagonalize $A$ with respect to the
+ordered basis
+$\rowarrowsep=-2pt
+\left \langle
+\begin{gmatrix}[p]
+  \phi \\
+  1
+\end{gmatrix}
+,
+\begin{gmatrix}[p]
+  \bar{\phi} \\
+  1
+\end{gmatrix}
+\right \rangle$.
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    \phi & 0 \\
+    0 & \bar{\phi}
+  \end{gmatrix}
+  = \dfrac{1}{\phi + 2}
+  \begin{gmatrix}[p]
+    \phi & 1 \\
+    -\phi & \phi + 1
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    1 & 1 \\
+    1 & 0
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    \phi & \bar{\phi} \\
+    1 & 1
+  \end{gmatrix}
+\end{align*}
+A previous theorem gave us $A^n = PD^nP^{-1}$ if $A$ is diagonalizable so the
+following equality holds:
+\begin{align*}
+  \rowarrowsep=-2pt
+  A^n = \dfrac{1}{\phi + 2}
+  \begin{gmatrix}[p]
+    \phi & \bar{\phi} \\
+    1 & 1
+  \end{gmatrix}
+  {\begin{gmatrix}[p]
+    \phi & 0 \\
+    0 & \bar{\phi}
+  \end{gmatrix}}^n
+  \begin{gmatrix}[p]
+    \phi & 1 \\
+    -\phi & \phi + 1
+  \end{gmatrix}
+  = \dfrac{1}{\phi + 2}
+  \begin{gmatrix}[p]
+    \phi & \bar{\phi} \\
+    1 & 1
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    \phi^n & 0 \\
+    0 & \bar{\phi}^n
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    \phi & 1 \\
+    -\phi & \phi + 1
+  \end{gmatrix}
+\end{align*}
+This gives us a closed form for the number of closed walks of length $n$:
+\begin{align*}
+  \text{tr}(A^n) &\equal \text{tr} \left (
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    \phi & \bar{\phi} \\
+    1 & 1
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    \phi^n & 0 \\
+    0 & \bar{\phi}^n
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    \phi & 1 \\
+    -\phi & \phi + 1
+  \end{gmatrix}
+  \right ) \\
+  & \equal \text{tr} \left (
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    \phi^n & 0 \\
+    0 & \bar{\phi}^n
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    \phi & \bar{\phi} \\
+    1 & 1
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    \phi & 1 \\
+    -\phi & \phi + 1
+  \end{gmatrix}
+  \right ) \\
+  & \equal \text{tr} \left (
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    \phi^n & 0 \\
+    0 & \bar{\phi}^n
+  \end{gmatrix}
+  \right ) = \phi^n + {\bar{\phi}}^n
+\end{align*}
+\problem{2}
+
+First we need to redefine $p(i, j, \ell)$ as it's an inductive definition with no
+base case.
+\begin{align*}
+  p(i, j, 1)    &= A_{ij} \\
+  p(i, j, \ell) &= \sum_{k=1}^n p(i, k, \ell) p(k, j, 1) \text{ when } \ell > 1
+\end{align*}
+This definition constructs all the walks of length $\ell$ in $G$ from $v_i$ to
+$v_j$ by fixing some $v_k$ as the ``join'' vertex between two paths of length
+$\ell - 1$ and $1$.
+\begin{align*}
+  w(i, j, 1)    &=
+    \begin{cases}
+      v_iv_j \:\: \text{if} \: v_i \: \text{connects to} \: v_j \: \text{in} \: G \\
+      \varepsilon
+    \end{cases} \\
+  w(i, j, \ell) &=
+    \bigcup_{k=1}^n \left \{ \: xv_ky \: | \: xv_k \in w(i, k, \ell - 1), \: v_ky \in w(k, j, 1) \: \right \}
+\end{align*}
+Note that $p(i, j, \ell) = | \: w(i, j, \ell) \: |$ as the sets being unioned
+are all disjoint. \\
+
+We proceed by induction in order to prove $(A^{\ell})_{ij} = p(i,j,\ell)$. First
+note that the base case $(\ell = 1)$ is true by definition. Now assume forall
+$r < \ell$ and forall $i,j \in \{1 .. n\}$ that $(A^r)_{ij} = p(i,j,r)$.
+\begin{align*}
+  \displaystyle
+  (A^{\ell})_{ij}
+  {} &\equal (A^{\ell - 1}A^1)_{ij} && \evidence{Definition of exponentiation} \\
+  {} &\equal \sum_{k=1}^n(A^{\ell - 1})_{ik}(A^1)_{kj} && \evidence{Definition of matrix multiplication} \\
+  {} &\equal \sum_{k=1}^n(A^{\ell - 1})_{ik} \, p(k, j, 1) && \evidence{Base definition} \\
+  {} &\equal \sum_{k=1}^np(i, k, \ell - 1) \, p(k, j, 1) && \evidence{Inductive hypothesis} \\
+  {} &\equal p(i, j, \ell) && \evidence{Inductive definition}
+\end{align*}
+Thus by the principle of induction $(A^{\ell})_{ij} = p(i,j,\ell)$ forall
+$\ell$. $\qed$ \\
+
+\problem{3}
+
+First note that when $a = b = 1$, $p_0 = 0$, and $p_1 = 1$ the sequence $p_n$ is the
+fibonnaci sequence ($0, 1, 1, 2, 3, 5, 8, \dots$).
+Now we can use the results
+from part 1 to find a closed form equation for the fibonnaci sequence:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    p_{n+1} \\
+    p_{n}
+  \end{gmatrix}
+  =
+  {\begin{gmatrix}[p]
+      1 & 1 \\
+      1 & 0
+  \end{gmatrix}}^n
+  \begin{gmatrix}[p]
+    1 \\
+    0
+  \end{gmatrix}
+  = \dfrac{1}{\phi + 2}
+  \begin{gmatrix}[p]
+    \phi & \bar{\phi} \\
+    1 & 1
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    \phi^n & 0 \\
+    0 & \bar{\phi}^n
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    \phi & 1 \\
+    -\phi & \phi + 1
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    1 \\
+    0
+  \end{gmatrix}
+  = \dfrac{1}{\phi + 2}
+  \begin{gmatrix}[p]
+    \phi^{n+2} + \bar{\phi}^n \\
+    \phi^{n + 1} + \bar{\phi}^{n - 1}
+  \end{gmatrix}
+\end{align*}
+Therefore $p_n = \dfrac{\phi^{n + 1} + \bar{\phi}^{n - 1}}{\phi + 2}$.
+\end{document}
