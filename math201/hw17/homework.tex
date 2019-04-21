@@ -1,0 +1,231 @@
+\documentclass[fleqn]{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+\usepackage[inline]{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\mathindent}{0pt}
+
+% Allow for Augmented Matricies
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\g@matrix
+ {\vbox\bgroup}
+ {\vbox\bgroup\normalbaselines}% restore the standard baselineskip
+ {}{}
+\makeatother
+
+\newcommand{\BAR}{%
+  \hspace{-\arraycolsep}%
+  \strut\vrule % the `\vrule` is as high and deep as a strut
+  \hspace{-\arraycolsep}%
+}
+
+\newcommand{\squig}[0]{\ensuremath{\rightsquigarrow}}
+
+\newcommand{\problem}[1]{\large\textbf{Problem #1}\normalsize}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+\newcommand{\idF}[1]{\ensuremath{\text{id}(#1)}}
+\newcommand{\coordsF}[2]{\ensuremath{[ \: #1 \: ]_{\mathcal{#2}}}}
+\newcommand{\rankF}[1]{\ensuremath{\text{rank}(#1)}}
+\newcommand{\nullityF}[1]{\ensuremath{\text{nullity}(#1)}}
+\newcommand{\matrixRep}[3]{\ensuremath{{\left [ \: #1 \: \right ]}_{\mathcal{#2}}^{\mathcal{#3}}}}
+\newcommand{\signF}[1]{\ensuremath{\text{sign}(#1)}}
+\usepackage{listofitems}
+% Cycle Notation
+\newcommand\cycle[2][\:]{
+  \readlist\thecycle{#2}
+  #1\foreachitem\i\in\thecycle{\ifnum\icnt=1\else#1\fi\i}#1
+}
+
+\begin{document}
+
+\noindent\Large\textbf{Problem Set Week 11 Friday} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{1a}
+
+Here we can see that $\langle \, , \rangle$ is linear on its first argument:
+\begin{align*}
+  \left \langle x + r \cdot z, y \right \rangle
+  = y^* A (x + r \cdot z)
+  = y^* A x + y^* A (r \cdot z)
+  = y^* A x + r \cdot (y^* A z)
+  = \langle x, y \rangle + r \langle z, y \rangle
+\end{align*}
+Note that $A = \overline{A^T}$ as $A$ is anti-symmetric and purely imaginary on
+the antidiagonal. \\
+This fact allows $\langle \, , \rangle$ to be conjugate symmetric:
+\begin{align*}
+  \langle x, y \rangle
+  &\equal y^* A x
+  &&\evidence{Definition of $\langle \, , \rangle$} \\
+  &\equal (y^* A x)^T
+  &&\evidence{When $Z \in M_{1\times 1}$ then $Z = Z^T$} \\
+  &\equal x^T A^T \overline{y}
+  &&\evidence{$(Z_1Z_2\dots Z_n)^T = Z_n^TZ_{n-1}^T\dots Z_1^T$} \\
+  &\equal \overline{\overline{x^T A^T \overline{y}}}
+  &&\evidence{Conjugation is an ivolution} \\
+  &\equal \overline{\overline{x^T} \: \overline{A^T} \: \overline{\overline{y}}} 
+  &&\evidence{Conjugation respects matrix multiplication} \\
+  &\equal \overline{x^* A y}
+  &&\evidence{Lemma given above} \\
+  &\equal \overline{\langle y, x \rangle}
+  &&\evidence{Definition of $\langle \, , \rangle$}
+\end{align*}
+Lastly $\langle \, , \rangle$ is positive definite:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \left \langle
+  \begin{gmatrix}[p]
+    a + bi \\
+    c + di
+  \end{gmatrix}
+  ,
+  \begin{gmatrix}[p]
+    a + bi \\
+    c + di
+  \end{gmatrix}
+  \right \rangle
+  {} &\equal
+  \rowarrowsep=-2pt
+  {\begin{gmatrix}[p]
+    a + bi \\
+    c + di
+  \end{gmatrix}}^*
+  \begin{gmatrix}[p]
+    1 & i \\
+    -i & 2
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    a + bi \\
+    c + di
+  \end{gmatrix}
+  &&\evidence{Definition of $\langle \, , \rangle$} \\
+  {} &\equal
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    a - bi & c - di
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    1 & i \\
+    -i & 2
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    a + bi \\
+    c + di
+  \end{gmatrix}
+  &&\evidence{Definition of transpose and conjugate} \\
+  {} &\equal a^2 - 2ad + 2d^2 + b^2 + 2bc + 2c^2
+  &&\evidence{Complex multiplication} \\
+  {} &\equal (a - d)^2 + d^2 + (b + c)^2 + c^2
+  &&\evidence{Complete the square} \\
+  {} &\relation{\geq} 0
+  &&\evidence{Sum of squares}
+\end{align*}
+Now assume to the contrary that the above equation equals zero when $a \neq 0$
+The first term requires $d = a$ but the next term makes the whole equation
+non zero. All the other variables follow similar logic so the equation is zero
+if and only if $a = b = c = d = 0$. $\qed$ \\
+
+\problem{1b}
+\begin{align*}
+  \rowarrowsep=-2pt
+  \left \langle
+  \begin{gmatrix}[p]
+    1 - i \\
+    2 + 3i
+  \end{gmatrix}
+  ,
+  \begin{gmatrix}[p]
+    2 + i \\
+    3 - 2i
+  \end{gmatrix}
+  \right \rangle
+  =
+  {\begin{gmatrix}[p]
+    2 + i \\
+    3 - 2i
+  \end{gmatrix}}^*
+  \begin{gmatrix}[p]
+    1 & i \\
+    -i & 2
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    1 - i \\
+    2 + 3i
+  \end{gmatrix}
+  = 
+  \begin{gmatrix}[p]
+    2 - i & 3 + 2i
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    1 & i \\
+    -i & 2
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    1 - i \\
+    2 + 3i
+  \end{gmatrix}
+  = - 4 + 25i
+\end{align*} \\
+
+\newpage
+
+\problem{2}
+
+Here we can see that $\langle \, , \rangle$ is linear on its first argument:
+\begin{align*}
+  \langle A + rC, B \rangle
+  = \text{tr}(B^*(A + rC))
+  = \text{tr}(B^*A) + r \, \text{tr}(B^*C)
+  =  \langle A, B \rangle + r \langle C, B \rangle
+\end{align*}
+Note that $\langle \, , \rangle$ is conjugate symmetric:
+\begin{align*}
+  \langle A, B \rangle
+  &= \text{tr}\left ( B^*A \right )
+  && \evidence{Definition of $\langle \, , \rangle$} \\
+  &= \text{tr}\left ( \overline{B^T}A \right )
+  && \evidence{Definition of $X^*$} \\
+  &= \text{tr}\left ( A^T \, \overline{B} \, \right )
+  && \evidence{$\text{tr}(A) = \text{tr}(A^T)$} \\
+  &= \text{tr}\left ( \overline{\overline{A^T\overline{B}}} \right )
+  && \evidence{Conjugation is an involution} \\
+  &= \text{tr}\left ( \overline{A^*B} \, \right )
+  && \evidence{Simplification} \\
+  &= \sum_{i=1}^n {\left ( \overline{A^*B} \right )}_{ii}
+  && \evidence{Definition of tr} \\
+  &= \sum_{i=1}^n \overline{\left ( A^*B \right )_{ii}}
+  && \evidence{Definition of matrix conjugate} \\
+  &= \overline{\sum_{i=1}^n \left ( A^*B \right )_{ii}}
+  && \evidence{Conjugation respects addition} \\
+  &= \overline{\text{tr}\left ( A^*B \right )}
+  && \evidence{Defintion of tr} \\
+  &= \overline{\langle B, A \rangle}
+  && \evidence{Definition of $\langle \, , \rangle$}
+\end{align*}
+Lastly $\langle \, , \rangle$ is positive definite:
+\begin{align*}
+  \langle A, A \rangle
+  = \text{tr}(A^*A)
+  = \sum_{i=1}^n (A^*A)_{ii}
+  = \sum_{i=1}^n\sum_{k=1}^m \overline{(A^T)_{ik}} A_{ki}
+  = \sum_{i=1}^n\sum_{k=1}^m \overline{A_{ki}} A_{ki}
+  \geq 0
+\end{align*}
+Note that the last sum covers every element of $A$ so the equation above is zero
+when every element in $A$ is zero. Therefore the equation above is zero when
+$A = 0_{n\times m} = 0$. $\qed$
+
+\end{document}
