@@ -1,0 +1,211 @@
+\documentclass[fleqn]{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+\usepackage[inline]{enumitem}
+\usepackage{tikz}
+
+\setlength{\parindent}{0pt}
+\setlength{\mathindent}{0pt}
+
+% Allow for Augmented Matricies
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\g@matrix
+ {\vbox\bgroup}
+ {\vbox\bgroup\normalbaselines}% restore the standard baselineskip
+ {}{}
+\makeatother
+
+\newcommand{\BAR}{%
+  \hspace{-\arraycolsep}%
+  \strut\vrule % the `\vrule` is as high and deep as a strut
+  \hspace{-\arraycolsep}%
+}
+
+\newcommand{\squig}[0]{\ensuremath{\rightsquigarrow}}
+
+\newcommand{\problem}[1]{\large\textbf{Problem #1}\normalsize}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+\newcommand{\idF}[1]{\ensuremath{\text{id}(#1)}}
+\newcommand{\coordsF}[2]{\ensuremath{[ \: #1 \: ]_{\mathcal{#2}}}}
+\newcommand{\rankF}[1]{\ensuremath{\text{rank}(#1)}}
+\newcommand{\nullityF}[1]{\ensuremath{\text{nullity}(#1)}}
+\newcommand{\matrixRep}[3]{\ensuremath{{\left [ \: #1 \: \right ]}_{\mathcal{#2}}^{\mathcal{#3}}}}
+\newcommand{\signF}[1]{\ensuremath{\text{sign}(#1)}}
+\usepackage{listofitems}
+% Cycle Notation
+\newcommand\cycleF[2][\:]{
+  \readlist\thecycle{#2}
+  #1\foreachitem\i\in\thecycle{\ifnum\icnt=1\else#1\fi\i}#1
+}
+\newcommand{\normF}[1]{\left\lVert#1\right\rVert}
+
+\begin{document}
+
+\noindent\Large\textbf{Problem Set Week 12 Tuesday} \\
+\normalsize
+Kyle McKean \\
+\today \\
+
+\problem{1}
+
+In this problem we will be working with an arbitrary parrallelogram with sides
+$\vec{x}$ and $\vec{y}$. As you can see in the following diagram one diagonal is
+$\vec{x} + \vec{y}$ and the other diagonal is $\vec{x} - \vec{y}$. \\
+\begin{tikzpicture}
+  \draw[line width=0.5pt,-stealth,shorten >=0.01cm](0,0)--(3,3) node[midway, left]{$\vec{x} \:$};
+  \draw[line width=0.5pt,-stealth,shorten >=0.01cm](0,0)--(4,0) node[midway, below]{$\vec{y}$};
+  \draw[line width=0.5pt,-stealth,shorten >=0.1cm](3,3)--(7,3) node[midway, above]{$\vec{y}$};
+  \draw[line width=0.5pt,-stealth,shorten >=0.1cm](4,0)--(7,3) node[midway, right]{$\vec{x}$};
+  \draw[line width=0.5pt,-stealth,shorten >=0.01cm](4,0)--(3,3) node[near end, right]{$\vec{x} - \vec{y}$};
+  \draw[line width=0.5pt,-stealth,shorten >=0.1cm](0,0)--(7,3) node[near start, right]{$\:\:\:\: \vec{x} + \vec{y}$};
+\end{tikzpicture}
+
+$[\Leftarrow]$: Assume that the diagonals are perpendicular so
+$\langle \, \vec{x} + \vec{y}, \, \vec{x} - \vec{y} \: \rangle = 0$:
+\begin{align*}
+  \normF{\vec{x}}^2
+  &= \langle \, \vec{x}, \vec{x} \, \rangle \\
+  &= \langle \, \vec{x}, \vec{x} \, \rangle
+   - \langle \, \vec{y}, \vec{y} \, \rangle
+   + \langle \, \vec{y}, \vec{y} \, \rangle \\
+  &= \langle \, \vec{x}, \vec{x} \, \rangle
+   - \langle \, \vec{x}, \vec{y} \, \rangle
+   + \langle \, \vec{x}, \vec{y} \, \rangle
+   - \langle \, \vec{y}, \vec{y} \, \rangle
+   + \langle \, \vec{y}, \vec{y} \, \rangle \\
+  &= \langle \, \vec{x}, \vec{x} \, \rangle
+   - \langle \, \vec{y}, \vec{x} \, \rangle
+   + \langle \, \vec{x}, \vec{y} \, \rangle
+   - \langle \, \vec{y}, \vec{y} \, \rangle
+   + \langle \, \vec{y}, \vec{y} \, \rangle \\
+  &= \langle \, \vec{x} - \vec{y}, \vec{x} \, \rangle
+   + \langle \, \vec{x} - \vec{y}, \vec{y} \, \rangle
+   + \langle \, \vec{y}, \vec{y} \, \rangle \\
+  &= \langle \, \vec{x} - \vec{y}, \vec{x} + \vec{y} \, \rangle
+   + \langle \, \vec{y}, \vec{y} \, \rangle \\
+  &= \langle \, \vec{x} + \vec{y}, \vec{x} - \vec{y} \, \rangle
+   + \langle \, \vec{y}, \vec{y} \, \rangle \\
+  &= \langle \, \vec{y}, \vec{y} \, \rangle = \normF{\vec{y} }^2
+\end{align*}
+Now take the square root of both sides of the equation above so
+$\normF{\vec{x}} = \normF{\vec{y}}$. \\
+
+$[\Rightarrow]$: This direction is basically the reverse of above. $\qed$ \\
+
+\problem{2}
+
+The length of $(1,0)$ is:
+\begin{align*}
+  \normF{(1,0)}
+  = \sqrt{\langle (1,0), (1,0) \rangle}
+  = \sqrt{3 \cdot 1 \cdot 1 + 2 \cdot 1 \cdot 0 + 2 \cdot 0 \cdot 1 + 4 \cdot 0 \cdot 0}
+  = \sqrt{3}
+\end{align*}
+The length of $(0,1)$ is:
+\begin{align*}
+  \normF{(0,1)}
+  = \sqrt{\langle (0,1), (0,1) \rangle}
+  = \sqrt{3 \cdot 0 \cdot 0 + 2 \cdot 0 \cdot 1 + 2 \cdot 1 \cdot 0 + 4 \cdot 1 \cdot 1}
+  = \sqrt{4}
+\end{align*}
+The inner product of $(1, 0)$ and $(0, 1)$ is:
+\begin{align*}
+  \langle (1, 0), (0, 1) \rangle
+  = 3 \cdot 1 \cdot 0 + 2 \cdot 1 \cdot 1 + 2 \cdot 0 \cdot 0 + 4 \cdot 0 \cdot 1
+  = 2
+\end{align*}
+Now we can put all these pieces together to find the cosine of the angle between
+the two vectors:
+\begin{align*}
+  \cos{\left ( \arccos{\left ( \dfrac{\langle (1, 0), (0,1) \rangle}{\normF{(1, 0)}\normF{(0,1)}}\right ) }\right )}
+  = \dfrac{2}{\sqrt{3}\sqrt{4}}
+  = \dfrac{\sqrt{3}}{3}
+\end{align*}
+Any point $(y_1, y_2)$ perpendicular to $(1, 0)$ would have to satisfy the
+following equation:
+\begin{align*}
+  0 = \langle (1, 0), (y_1, y_2) \rangle
+  = 3 \cdot 1 \cdot y_1 + 2 \cdot 1 \cdot y_2 + 2 \cdot 0 \cdot y_1 + 4 \cdot 0 \cdot y_2 
+  = 3 y_1 + 2 y_2
+\end{align*}
+A point that does is $(-2, 3)$ so that point is perpendicular to $(1, 0)$. \\
+
+\newpage
+
+\problem{3}
+
+Note that $B$ is a basis for $V$ so $x$ and $y$ can be written as linear
+combinations of $\{ v_1, \dots, v_n \}$:
+\begin{align*}
+  \langle x, y \rangle
+  &= \left \langle \sum_{j=1}^n a_j v_j, y \right \rangle
+  && \evidence{$\mathcal{B}$ is a basis for $V$} \\
+  &= \sum_{j=1}^n a_j \left \langle v_j, y \right \rangle
+  && \evidence{$\langle \, , \rangle$ is linear in the first argument} \\
+  &= \sum_{j=1}^n a_j \overline{\left \langle y, v_j \right \rangle}
+  && \evidence{$\langle \, , \rangle$ is conjugate symmetric} \\
+  &= \sum_{j=1}^n a_j \overline{\left \langle \sum_{i=1}^n b_i v_i, v_j \right \rangle}
+  && \evidence{$\mathcal{B}$ is a basis for $V$} \\
+  &= \sum_{j=1}^n a_j \overline{\sum_{i=1}^n b_i \left \langle  v_i, v_j \right \rangle}
+  && \evidence{$\langle \, , \rangle$ is linear in the first argument} \\
+  &= \sum_{j=1}^n a_j \sum_{i=1}^n \overline{b_i} \, \overline{\left \langle  v_i, v_j \right \rangle}
+  && \evidence{Conjugation respects field addition and multiplication} \\
+  &= \sum_{j=1}^n a_j \sum_{i=1}^n \overline{b_i} \left \langle  v_j, v_i \right \rangle
+  && \evidence{$\langle \, , \rangle$ is conjugate symmetric} \\
+  &= \sum_{i=1}^n \overline{b_i} \sum_{j=1}^n \left \langle  v_j, v_i \right \rangle a_j
+  && \evidence{Field axioms} \\
+  &= \sum_{i=1}^n \overline{b_i} \sum_{j=1}^n A_{ij} a_j
+  && \evidence{Definition of $A$} \\
+  &= \sum_{i=1}^n \overline{b_i} \sum_{j=1}^n A_{ij} (\coordsF{x}{B})_{j1}
+  && \evidence{Definition of $\coordsF{x}{B}$} \\
+  &= \sum_{i=1}^n \overline{b_i} (A \coordsF{x}{B})_{i1}
+  && \evidence{Definition of matrix multiplication} \\
+  &= \sum_{i=1}^n \overline{(\coordsF{y}{B})_{i1}} (A \coordsF{x}{B})_{i1}
+  && \evidence{Definition of $\coordsF{y}{B}$} \\
+  &= \sum_{i=1}^n \overline{((\coordsF{y}{B})^T)_{1i}} (A \coordsF{x}{B})_{i1}
+  && \evidence{Definition of the transpose} \\
+  &= \sum_{i=1}^n \left (\overline{(\coordsF{y}{B})^T} \right )_{1i} (A \coordsF{x}{B})_{i1}
+  && \evidence{Definition of the matrix conjugate} \\
+  &= \sum_{i=1}^n \left ((\coordsF{y}{B})^* \right )_{1i} (A \coordsF{x}{B})_{i1}
+  && \evidence{Definition of the conjugate transpose} \\
+  &= \left ((\coordsF{y}{B})^* A \coordsF{x}{B}\right )_{11}
+  && \evidence{Definition of matrix multiplication} \\
+  &= (\coordsF{y}{B})^* A \coordsF{x}{B}
+  && \evidence{A matrix of size $1\times 1$ is just a value}
+\end{align*}
+Note that two matrices $X, Y \in M_{n\times n}$ are equal if forall $i,j$ the
+following equality holds $X_{ij} = Y_{ij}$.
+\begin{align*}
+  A_{ij}
+  = \langle v_j, v_i \rangle
+  = \overline{\langle v_i, v_j \rangle}
+  = \overline{A_{ji}}
+  = \overline{(A^T)_{ij}}
+  = \left (\overline{A^T}\right )_{ij}
+  = (A^*)_{ij}
+\end{align*}
+Therefore $A$ equals $A^*$ as the two matrices are equal for every element. $\qed$ \\
+
+If the basis $B$ is orthonormal then $A = I_n$. Note the proof follows from cases.
+Let $i,j$ be arbitrary indices of $A$:
+\begin{enumerate}[label=\roman*:]
+\item $i=j$ so
+  $A_{ii}
+  = \langle v_i, v_i \rangle
+  = (\sqrt{\langle v_i, v_i \rangle})^2
+  = (\normF{v_i})^2
+  = 1^2 = 1 = I_{ii}$
+\item $i \neq j$ so
+  $A_{ij} = \langle v_j, v_i \rangle = 0 = I_{ij}$
+\end{enumerate}
+Therefore $A$ equals $I_n$ as the two matrices are equal for every element. $\qed$ \\
+\end{document}
