@@ -1,0 +1,150 @@
+\documentclass[fleqn]{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+\usepackage[inline]{enumitem}
+\usepackage{tikz}
+
+\setlength{\parindent}{0pt}
+\setlength{\mathindent}{0pt}
+
+% Allow for Augmented Matricies
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\g@matrix
+ {\vbox\bgroup}
+ {\vbox\bgroup\normalbaselines}% restore the standard baselineskip
+ {}{}
+\makeatother
+
+\newcommand{\BAR}{%
+  \hspace{-\arraycolsep}%
+  \strut\vrule % the `\vrule` is as high and deep as a strut
+  \hspace{-\arraycolsep}%
+}
+
+\newcommand{\squig}[0]{\ensuremath{\rightsquigarrow}}
+
+\newcommand{\problem}[1]{\large\textbf{Problem #1}\normalsize}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+\newcommand{\idF}[1]{\ensuremath{\text{id}(#1)}}
+\newcommand{\coordsF}[2]{\ensuremath{[ \: #1 \: ]_{\mathcal{#2}}}}
+\newcommand{\rankF}[1]{\ensuremath{\text{rank}(#1)}}
+\newcommand{\nullityF}[1]{\ensuremath{\text{nullity}(#1)}}
+\newcommand{\matrixRep}[3]{\ensuremath{{\left [ \: #1 \: \right ]}_{\mathcal{#2}}^{\mathcal{#3}}}}
+\newcommand{\signF}[1]{\ensuremath{\text{sign}(#1)}}
+\usepackage{listofitems}
+% Cycle Notation
+\newcommand\cycleF[2][\:]{
+  \readlist\thecycle{#2}
+  #1\foreachitem\i\in\thecycle{\ifnum\icnt=1\else#1\fi\i}#1
+}
+\newcommand{\normF}[1]{\left\lVert#1\right\rVert}
+
+\begin{document}
+
+\noindent\Large\textbf{Problem Set Week 12 Friday} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{1}
+
+The problem simplifies to:
+\begin{align*}
+  S^\bot =
+  \left \{ \, x \in \mathbb{C}^3 \, | \, \left \langle \, x, (1, 0, i) \, \right \rangle , \,
+                                         \left \langle \, x, (1, 2, 1) \, \right \rangle \, \right \}
+\end{align*}
+Which generates the following system of equations:
+\begin{align*}
+\begin{cases}
+  0 = \left \langle \, (a, b, c), (1, 0, i) \, \right \rangle \\
+  0 = \left \langle \, (a, b, c), (1, 2, 1) \, \right \rangle
+\end{cases}
+\squig
+\begin{cases}
+  0 = a - i c \\
+  0 = a + 2b + c
+\end{cases}
+\squig
+\begin{cases}
+  a = i c \\
+  b = \dfrac{-1 - i}{2} c
+\end{cases}
+\end{align*}
+Therefore
+$S^\bot =
+\text{span}\left (\left \{ \left (i, \dfrac{-1 - i}{2}, 1 \right ) \right \} \right)$. \\
+
+\problem{2}
+
+Let $x \in S$ and $y \in S^\bot$ so $\langle y, x \rangle = 0$. Take the
+conjugate of both sides to get $\langle x, y \rangle = 0$ therefore $x \in
+(S^\bot)^\bot$. \\ 
+
+% For any $x \in S$ the equality $\langle x, y \rangle = 0$ holds for any $y \in
+% S^\bot$ as all the elements of $S^\bot$ are perpendicular to $S$. Therefore $x \in (S^\bot)^\bot$. \\
+
+Assume $V$ is a finite dimensional inner product space and that $W$ is a
+subspace of $V$.
+\begin{align*}
+  \text{dim} V &= \text{dim} W + \text{dim} W^\bot 
+               && \evidence{$W$ is a subspace of $V$} \\
+               &\relation{\leq} \text{dim} (W^\bot)^\bot + \text{dim} W^\bot
+               && \evidence{By the previous question $W \subseteq (W^\bot)^\bot$ as $W \subseteq V$} \\
+               &= \text{dim} W^\bot + \text{dim} (W^\bot)^\bot
+               && \evidence{Communitivity} \\
+               &= \text{dim} V
+               && \evidence{$W^\bot$ is a subspace of $V$}
+\end{align*}
+The facts above imply
+$\text{dim} W = \text{dim} (W^\bot)^\bot$ and by the previous question $W
+\subseteq (W^\bot)^\bot$ therefore $W = (W^\bot)^\bot$. \\
+
+\problem{3}
+
+Apply Gram-Schmidt orthogonalization to the basis $\{ 1, x \kern0.05em \}$:
+\begin{align*}
+  v_1 &= 1 \\
+  v_2 &= x - \dfrac{\langle \kern0.1em x, v_1 \rangle \cdot v_1}{\normF{\kern0.05em v_1}}
+       = x - \dfrac{\langle x, 1 \rangle \cdot 1}{\normF{\kern0.1em 1}} 
+       = x - \dfrac{1}{2}
+\end{align*}
+Now normalize the basis above:
+\begin{align*}
+  \displaystyle
+  u_1 &= \dfrac{1}{\normF{1}} = 1 \\
+  u_2 &= \dfrac{x - \dfrac{1}{2}}{\kern0.05em \normF{x - \dfrac{1}{2} \kern0.05em}}
+       = \dfrac{x - \dfrac{1}{2}}{\sqrt{\displaystyle\int_0^1 \left (x - \dfrac{1}{2} \right )^2 dx}}
+       = 2\sqrt{3}x - \sqrt{3}
+\end{align*}
+This vector is the closest vector to $h(x)$ under the given dot product
+as $\{ u_1, u_2 \}$ is an othornormal basis:
+\begin{align*}
+  w &= \langle \, h(x), u_1 \kern0.1em \rangle \cdot u_1 + \langle \, h(x), u_2 \kern0.1em \rangle \cdot u_2 \\
+    &= \int_0^1 \left (4 + 3x - 2x^2 \right )1 \, dx \cdot u_1 +
+       \int_0^1 \left (4 + 3x - 2x^2 \right ) \left (2\sqrt{3}x - \sqrt{3} \kern0.15em \right ) \, dx \cdot u_2 \\
+    &= \dfrac{29}{6} \cdot u_1 +
+       \dfrac{1}{2\sqrt{3}} \cdot u_2
+\end{align*}
+The vector given above can be written using the standard basis:
+\begin{align*}
+  w &= \dfrac{29}{6} \cdot u_1 +
+       \dfrac{1}{2\sqrt{3}} \cdot u_2 \\
+    &= \dfrac{29}{6} \cdot 1 +
+       \dfrac{1}{2\sqrt{3}} \cdot \left (2\sqrt{3}x - \sqrt{3} \kern0.15em \right ) \\
+    &= \dfrac{29}{6} +
+       x - \dfrac{1}{2} \\
+    &= \dfrac{13}{3} \cdot 1 +
+       1 \cdot x
+\end{align*}
+
+\end{document}
