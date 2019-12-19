@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+"""
+This program runs the checktags program from the shell command line
+"""
+
+import sys
+from checktags import checkURL
+
+def checktags():
+    for i in range(1, len(sys.argv)):
+    	checkURL(sys.argv[i])
+
+# Startup code
+
+if __name__ == "__main__":
+    checktags()
