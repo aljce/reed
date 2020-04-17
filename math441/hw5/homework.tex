@@ -1,0 +1,150 @@
+\documentclass[fleqn]{article}
+
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+\usepackage{enumitem}
+\usepackage{qcircuit}
+
+\setlength{\parindent}{0pt}
+\setlength{\mathindent}{0pt}
+
+% Allow for Augmented Matricies
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\g@matrix
+ {\vbox\bgroup}
+ {\vbox\bgroup\normalbaselines}% restore the standard baselineskip
+ {}{}
+\makeatother
+
+\newcommand{\BAR}{%
+  \hspace{-\arraycolsep}%
+  \strut\vrule % the `\vrule` is as high and deep as a strut
+  \hspace{-\arraycolsep}%
+}
+
+\newcommand{\squig}[0]{\ensuremath{\rightsquigarrow}}
+
+\newcommand{\problem}[1]{{\large\textbf{Problem #1}}}
+\newcommand{\lemma}[2]{\textbf{Lemma #1} #2}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+\newcommand{\idF}[1]{\ensuremath{\text{id}(#1)}}
+\newcommand{\trF}[1]{\ensuremath{\text{tr}\left(#1\right)}}
+\newcommand{\coordsF}[2]{\ensuremath{[ \: #1 \: ]_{\mathcal{#2}}}}
+\newcommand{\rankF}[1]{\ensuremath{\text{rank}(#1)}}
+\newcommand{\nullityF}[1]{\ensuremath{\text{nullity}(#1)}}
+\newcommand{\matrixRep}[3]{\ensuremath{{\left [ \: #1 \: \right ]}_{\mathcal{#2}}^{\mathcal{#3}}}}
+\newcommand{\signF}[1]{\ensuremath{\text{sign}(#1)}}
+\usepackage{listofitems}
+% Cycle Notation
+\newcommand\cycleF[2][\:]{
+  \readlist\thecycle{#2}
+  #1\foreachitem\i\in\thecycle{\ifnum\icnt=1\else#1\fi\i}#1
+}
+\newcommand{\normF}[1]{\left\lVert#1\right\rVert}
+
+\newcommand{\bra}[1]{\ensuremath{\langle #1 |}}
+\newcommand{\ket}[1]{\ensuremath{| #1 \rangle}}
+\newcommand{\innerF}[2]{\ensuremath{\langle #1 | #2 \rangle}}
+\newcommand{\outerF}[2]{\ket{#1} \bra{#2}}
+
+\begin{document}
+
+\noindent\Large\textbf{Problem Set 5} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{1} \\
+The probability that the given algorithm succeeds is shown below:
+\vspace{-0.5em}
+\begin{align*}
+  P(M_1 \, | \, \psi_1) &= \innerF{0}{0}\innerF{0}{0} = 1 \\
+  P(M_2 \, | \, \psi_2) &= \innerF{+}{1}\innerF{1}{+} = 1/2 \\
+  P(\text{success}) &= P(\psi_1 | M_1) P(M_1) + P(\psi_2 | M_2) P(M_2) \\
+  &= \frac{P(M_1 | \psi_1) P(\psi_1) P(M_1)}{P(M_1)} + \frac{P(M_2 | \psi_2)P(\psi_2)P(M_2)}{P(M_2)} \\
+  &= P(M_1 | \psi_1) P(\psi_1) + P(M_2 | \psi_2) P(\psi_2) \\
+  &= 1 * 1/2 + 1/2 * 1/2 = 3/4
+\end{align*}
+
+\problem{2} \\
+My algorithm is to measure with the haddamard basis $\{ \ket{+} , \ket{-} \}$.
+If you see a $\ket{+}$ choose $\psi_3$ and if you see a $\ket{-}$ choose $\psi_2$.
+The reasoning behind this is
+$\bra{\psi_3}M_{+}\ket{\psi_3}$ is very close to $1$ and similarly for $\bra{\psi_2}M_{-}\ket{\psi_2}$.
+\begin{align*}
+  P(M_+ | \psi_2) &= \innerF{\psi_2}{+}\innerF{+}{\psi_2} \approx 0.066 \\ 
+  P(M_- | \psi_2) &= \innerF{\psi_2}{-}\innerF{-}{\psi_2} \approx 0.933 \\ 
+  P(M_+ | \psi_3) &= \innerF{\psi_3}{+}\innerF{+}{\psi_3} \approx 0.933 \\ 
+  P(M_- | \psi_3) &= \innerF{\psi_3}{-}\innerF{-}{\psi_3} \approx 0.066 \\ 
+  P(\text{success}) &= P(G_1 | M_{+})P(M_{+} | \psi_1)P(\psi_1) + P(G_1 | M_{-})P(M_{-} | \psi_1)P(\psi_1) \\
+                    &+ P(G_2 | M_{+})P(M_{+} | \psi_2)P(\psi_2) + P(G_2 | M_{-})P(M_{-} | \psi_2)P(\psi_2) \\
+                    &+ P(G_3 | M_{+})P(M_{+} | \psi_3)P(\psi_3) + P(G_3 | M_{-})P(M_{-} | \psi_3)P(\psi_3) \\
+                    &\approx 2/3 
+\end{align*}
+
+\problem{2.64} \\
+Any subspace formed by a linearly independent set of vectors
+$\{ \, \ket{\psi_i} \, , \, \ket{\psi_2} \, , \, \dots \, , \, \ket{\psi_m} \, \}$ 
+has a orthonormal basis
+$\{ \, \ket{\phi_i} \, , \, \ket{\phi_2} \, , \, \dots \, , \, \ket{\phi_m} \, \}$ 
+via Gram-Schmidt.
+The first $1 \leq i \leq m$ measurements are defined by
+$E_i = \outerF{\phi_i}{\phi_i}$ with the last measurement defined by
+$E_{m + 1} = I - \sum_i E_i$. This definition trivially satisfies the
+completeness condition. The first $1 \leq i \leq m$ measurements are
+also clearly positive operators. Therefore if the measurement $E_{m + 1}$
+is a positive operator the measurements form a POVM. Note that
+$\sum_i E_i$ is a projection. The following equality proves $E_{m + 1}$ is
+a projection and therefore a positive operator:
+\begin{align*}
+  E_{m + 1}^2
+  = \left( I - \sum_i E_i \right) \left( I - \sum_i E_i \right)
+  = I I - I \left( \sum_i E_i \right) - \left( \sum_i E_i \right) I + \sum_i E_i \sum_i E_i
+  = I - \sum_i E_i = E_{m + 1}
+\end{align*}
+Note that
+$\bra{\psi_i}E_j\ket{\psi_i}
+= \innerF{\psi_i}{\phi_j}\innerF{\phi_j}{\psi_i} = \innerF{\psi_i}{\phi_j} {\innerF{\psi_i}{\phi_j}}^*
+\geq 0$ with equality if and only if the vectors are orthogonal ($i \neq j$).
+Therefore $\bra{\psi_i}E_j\ket{\psi_i} = 0$ for $i \neq j$ and
+$\bra{\psi_i}E_i\ket{\psi_i} > 0$ so if you measure $E_i$ for $1 \leq i \leq m$
+you know the state was in $\ket{\psi_i}$ with certainty. If you measure
+$E_{m + 1}$ you unfortunately get no information. \\ 
+
+\problem{2.71} \\
+The following inequality is true because $0 \leq p_i \leq 1$ forall $i$:
+\begin{align*}
+  \trF{\rho^2}
+  = \trF{\left( \sum_i p_i \, \outerF{\psi_i}{\psi_i} \right)^2}
+  = \trF{\sum_i p_i^2 \, \outerF{\psi_i}{\psi_i}}
+  = \sum_i p_i^2 \leq \sum_i p_i = \trF{\sum_i p_i \, \outerF{\psi_i}{\psi_i}}
+  = \trF{\rho} = 1
+\end{align*}
+To prove the forward implication, assume $\trF{\rho^2} = 1$ so
+$\sum_i p_i^2 = \sum_i p_i = 1$ with $0 \leq p_i \leq 1$.
+The proof proceeds from the following two mutually exclusive cases:
+\begin{enumerate}[label=\Roman*.]
+  \item Assume there exists some $p_j$ such that $0 < p_j < 1$: A consequence of
+    this assumption is that $p_j^2 < p_j$ so $1 = \sum_i p_i^2 < \sum_i p_i = 1$
+    a contradiction.
+  \item Otherwise for any $p_i$ either $p_i = 0$ or $p_i = 1$:
+    As $\sum_i p_i = 1$ there exists some $p_j = 1$ with all other $p_i = 0$.
+    This shows the state can be written as a pure state $\{ p_j , \, \ket{\psi_j} \}$
+\end{enumerate}
+
+The reverse implication is easier, assume $\rho$ is a pure state
+$\rho = \{ 1 , \ket{\psi} \}$:
+\begin{align*}
+  \trF{\rho^2} = \trF{\left( 1 \outerF{\psi}{\psi} \right)^2} = \trF{1 \outerF{\psi}{\psi}} = 1
+\end{align*}
+
+\end{document}
+

@@ -1,0 +1,210 @@
+\documentclass[fleqn]{article}
+
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+\usepackage[inline]{enumitem}
+\usepackage{qcircuit}
+
+\setlength{\parindent}{0pt}
+\setlength{\mathindent}{0pt}
+
+% Allow for Augmented Matricies
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\g@matrix
+ {\vbox\bgroup}
+ {\vbox\bgroup\normalbaselines}% restore the standard baselineskip
+ {}{}
+\makeatother
+
+\newcommand{\BAR}{%
+  \hspace{-\arraycolsep}%
+  \strut\vrule % the `\vrule` is as high and deep as a strut
+  \hspace{-\arraycolsep}%
+}
+
+\newcommand{\squig}[0]{\ensuremath{\rightsquigarrow}}
+
+\newcommand{\problem}[1]{{\large\textbf{Problem #1}}}
+\newcommand{\lemma}[2]{\textbf{Lemma #1} #2}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+\newcommand{\idF}[1]{\ensuremath{\text{id}(#1)}}
+\newcommand{\coordsF}[2]{\ensuremath{[ \: #1 \: ]_{\mathcal{#2}}}}
+\newcommand{\rankF}[1]{\ensuremath{\text{rank}(#1)}}
+\newcommand{\nullityF}[1]{\ensuremath{\text{nullity}(#1)}}
+\newcommand{\matrixRep}[3]{\ensuremath{{\left [ \: #1 \: \right ]}_{\mathcal{#2}}^{\mathcal{#3}}}}
+\newcommand{\signF}[1]{\ensuremath{\text{sign}(#1)}}
+\usepackage{listofitems}
+% Cycle Notation
+\newcommand\cycleF[2][\:]{
+  \readlist\thecycle{#2}
+  #1\foreachitem\i\in\thecycle{\ifnum\icnt=1\else#1\fi\i}#1
+}
+\newcommand{\normF}[1]{\left\lVert#1\right\rVert}
+
+\newcommand{\bra}[1]{\ensuremath{\langle #1 |}}
+\newcommand{\ket}[1]{\ensuremath{| #1 \rangle}}
+\newcommand{\innerF}[2]{\ensuremath{\langle #1 | #2 \rangle}}
+\newcommand{\outerF}[2]{\ket{#1} \bra{#2}}
+
+\begin{document}
+
+\noindent\Large\textbf{Problem Set 3} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{1}
+
+\lemma{1.1}{Any operator $A$ can be written as $A = B + iC$ for some hermitian
+  $B$ and $C$
+} \\
+Proof: We can find $B$ and $C$ with the following expression
+\begin{align*}
+  A = \frac{A + A^{\dagger}}{2} + \frac{-A^{\dagger} + A}{2}
+    = \frac{A + A^{\dagger}}{2} + i\left( \frac{iA^{\dagger} - iA}{2} \right)
+\end{align*}
+The following equalities show that the matrices are hermitian:
+\begin{align*}
+  \left( \frac{A + A^{\dagger}}{2} \right)^{\dagger}
+  &= \frac{\left( A + A^{\dagger} \right)^{\dagger}}{2}
+  = \frac{A^{\dagger} + A}{2}
+  = \frac{A + A^{\dagger}}{2} \\
+  \left( \frac{iA^{\dagger} - iA}{2} \right)^{\dagger}
+  &= \frac{\left( iA^{\dagger} - iA \right)^{\dagger}}{2}
+  = \frac{-iA + iA^{\dagger}}{2}
+  = \frac{iA^{\dagger} - iA}{2}
+\end{align*}
+
+\lemma{1.2}{For any hermitian operator $A$ the expression
+  $\bra{v}A\ket{v}$ is real for any $\ket{v}$
+} \\
+Proof: Every hermitian operator $A$ is normal so it has a spectral decomposition
+with real eigenvalues
+\begin{align*}
+  \bra{v}A\ket{v} = \bra{v}\left( \sum_{a} \lambda_{a} \outerF{a}{a} \right)\ket{v}
+  = \sum_{a} \lambda_{a} \innerF{v}{a} \innerF{a}{v}
+  = \sum_{a} \lambda_{a} \innerF{v}{a} \innerF{v}{a}^*
+\end{align*}
+
+Full proof: Assume $A$ is a positive operator
+\begin{align*}
+ 0 &\leq \bra{v}A\ket{v} \\
+   &= \bra{v}B + iC\ket{v} \\
+   &= \bra{v}B\ket{v} + i\bra{v}C\ket{v}
+\end{align*}
+So by Lemma 1.2 $\bra{v}B\ket{v}$ and $\bra{v}C\ket{v}$ are real numbers which
+means that $\bra{v}C\ket{v} = 0$.
+\begin{align*}
+  ( v , Av ) &= ( v, (B + iC)v ) \\
+             &= ( v, Bv ) + i( v , Cv ) \\
+             &= ( v, Bv ) \\
+             &= ( v, Bv ) - i( v, Cv ) \\
+             &= ( Bv, v ) - i( Cv, v ) \\
+             &= ( Bv, v ) + ( iCv, v ) \\
+             &= ( (B + iC)v, v ) \\
+             &= ( Av, v )
+\end{align*}
+
+\problem{2}
+
+\lemma{2.1}{For any vector $\ket{v} \in V$ if
+  $\forall \ket{w} \in V. \, \innerF{w}{v} = 0$ then $\ket{v} = 0$
+} \\
+Proof: Let $\ket{w} = \ket{v}$ with $\innerF{v}{v} = 0$ so by axiom 3 of the
+inner product $\ket{v} = 0$. \\
+
+\lemma{2.2}{For any linear operator $A$ if
+  $\forall \ket{w}, \ket{v} \in V. \, \bra{w}A\ket{v} = 0$
+  then $A = 0$
+} \\
+Proof: Lemma 2.1 shows that $\forall \ket{v}. \, A\ket{v} = 0 = 0\ket{v}$ apply
+function extensionality to get $A = 0$. \\
+
+\lemma{2.3}{For any linear operator $A$ if
+  $\forall \ket{v} \in V. \, \bra{v}A\ket{v} = 0$
+  then $A = 0$
+} \\
+Proof: Let $\ket{p}, \ket{q}$ be arbitrary vectors in $V$:
+\vspace{-0.5em}
+\begin{align*}
+  0 =& 0 + i * 0 \\
+    =& \bra{p + q}A\ket{p + q} + i * \bra{p + iq}A\ket{p + iq} \\
+    =& \bra{p}A\ket{p} + \bra{p}A\ket{q} + \bra{q}A\ket{p} + \bra{q}A\ket{q} + i * \bra{p + iq}A\ket{p + iq} \\
+    =& \bra{p}A\ket{q} + \bra{q}A\ket{p} + i * \bra{p + iq}A\ket{p + iq} \\
+    =& \bra{p}A\ket{q} + \bra{q}A\ket{p} +
+       i * \left( \, \bra{p}A\ket{p} + \bra{p}A\ket{iq} + \bra{iq}A\ket{p} + \bra{iq}A\ket{iq} \, \right) \\
+    =& \bra{p}A\ket{q} + \bra{q}A\ket{p} + i * \left( \, \bra{p}A\ket{iq} + \bra{iq}A\ket{p} \, \right) \\
+    =& \bra{p}A\ket{q} + \bra{q}A\ket{p} + i * \left( \, i * \bra{p}A\ket{q} - i * \bra{q}A\ket{p} \, \right) \\
+    =& \bra{p}A\ket{q} + \bra{q}A\ket{p} - \bra{p}A\ket{q} + \bra{q}A\ket{p} \\
+    =& 2 * \bra{q}A\ket{p}
+\end{align*}
+The equality shown above proves that
+$\forall \ket{p}, \ket{q}. \, \bra{p}A\ket{q} = 0$
+so by Lemma 2.2 $A = 0$. \\
+Note that this lemma is not true for real inner product
+spaces as shown by the following counter example:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    v_1 & v_2
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    0 & 1 \\
+    -1 & 0
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    v_1 \\
+    v_2
+  \end{gmatrix}
+  =
+  \begin{gmatrix}[p]
+    v_1 & v_2
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    v_2 \\
+    - v_1
+  \end{gmatrix}
+  = v_1 * v_2 - v_1 * v_2 = 0
+\end{align*}
+\lemma{2.4}{For any positive operator $M$ note that
+  $\forall \ket{v}. \, \bra{v}M^{\dagger}\ket{v} = \bra{v}M\ket{v}$
+} \\
+Proof: The last line is only true because $M$ is a positive operator
+\vspace{-0.5em}
+\begin{align*}
+  \bra{v}M^{\dagger}\ket{v} =& { \left( { \bra{v}M^{\dagger}\ket{v} }^{\dagger} \right) }^{\dagger} \\
+  =& { \bra{v}{ \left( M^{\dagger} \right) }^{\dagger}\ket{v} }^{\dagger} \\
+  =& { \bra{v}M\ket{v} }^{\dagger} \\
+  =& { \bra{v}M\ket{v} }^* \\
+  =& \bra{v}M\ket{v}
+\end{align*}
+Full proof: Assume $M$ is a positive operator and let $A = M - M^{\dagger}$ note
+that
+$\bra{v}M - M^{\dagger}\ket{v}
+  = \bra{v}M\ket{v} - \bra{v}M^{\dagger}\ket{v}
+  = \bra{v}M\ket{v} - \bra{v}M\ket{v} = 0$
+so by Lemma 2.3 the equalities $A = 0$ and $M = M^{\dagger}$ hold. \qed \\
+
+\problem{4.17}
+
+The gate is $(I \otimes H)C(Z)(I \otimes H)$ with the following diagram: \\
+$
+\Qcircuit @C=1em @R=1.5em {
+    & \qw      & \ctrl{1} & \qw      & \qw \\
+    & \gate{H} & \gate{Z} & \gate{H} & \qw
+}$ \\
+
+When the top qubit is $\ket{0}$ then the gate is the same as $C(X)$ trivially. \\
+When the top qubit is $\ket{1}$ then the gate is the same as $C(X)$ because
+$HZH = X$.
+
+\end{document}
+

@@ -1,0 +1,175 @@
+\documentclass[fleqn]{article}
+
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+\usepackage{enumitem}
+\usepackage{qcircuit}
+
+\setlength{\parindent}{0pt}
+\setlength{\mathindent}{0pt}
+
+% Allow for Augmented Matricies
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\g@matrix
+ {\vbox\bgroup}
+ {\vbox\bgroup\normalbaselines}% restore the standard baselineskip
+ {}{}
+\makeatother
+
+\newcommand{\BAR}{%
+  \hspace{-\arraycolsep}%
+  \strut\vrule % the `\vrule` is as high and deep as a strut
+  \hspace{-\arraycolsep}%
+}
+
+\newcommand{\squig}[0]{\ensuremath{\rightsquigarrow}}
+
+\newcommand{\problem}[1]{{\large\textbf{Problem #1}}}
+\newcommand{\lemma}[2]{\textbf{Lemma #1} #2}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+\newcommand{\idF}[1]{\ensuremath{\text{id}(#1)}}
+\newcommand{\trF}[1]{\ensuremath{\text{tr}\left(#1\right)}}
+\newcommand{\coordsF}[2]{\ensuremath{[ \: #1 \: ]_{\mathcal{#2}}}}
+\newcommand{\rankF}[1]{\ensuremath{\text{rank}(#1)}}
+\newcommand{\nullityF}[1]{\ensuremath{\text{nullity}(#1)}}
+\newcommand{\matrixRep}[3]{\ensuremath{{\left [ \: #1 \: \right ]}_{\mathcal{#2}}^{\mathcal{#3}}}}
+\newcommand{\signF}[1]{\ensuremath{\text{sign}(#1)}}
+\usepackage{listofitems}
+% Cycle Notation
+\newcommand\cycleF[2][\:]{
+  \readlist\thecycle{#2}
+  #1\foreachitem\i\in\thecycle{\ifnum\icnt=1\else#1\fi\i}#1
+}
+\newcommand{\normF}[1]{\left\lVert#1\right\rVert}
+
+\newcommand{\bra}[1]{\ensuremath{\langle #1 |}}
+\newcommand{\ket}[1]{\ensuremath{| #1 \rangle}}
+\newcommand{\innerF}[2]{\ensuremath{\langle #1 | #2 \rangle}}
+\newcommand{\outerF}[2]{\ket{#1} \bra{#2}}
+\newcommand{\modF}[2]{\ensuremath{#1 \, \text{mod} \, #2}}
+\newcommand{\ordF}[2]{\ensuremath{\text{ord}_{#1}\left( #2 \right)}}
+
+\begin{document}
+
+\noindent\Large\textbf{Problem Set 6} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{5.4}
+\vspace{-0.5em}
+\begin{align*}
+  \Qcircuit @C=1em @R=.7em {
+  & \qw                      & \ctrl{1} & \qw                      & \ctrl{1} & \gate{R_{k + 1}} & \qw \\
+  & \gate{R_{k + 1}^{\dagger}} & \targ    & \gate{R_{k + 1}^{\dagger}} & \targ    & \gate{R_k}      & \qw
+                                                                                                      }
+\end{align*}
+The key idea in this construction is that
+$R_{k}R_{k + 1}^{\dagger}R_{k + 1}^{\dagger} = I$. This is because the first two
+gates do two half rotations then the last gate reverses those rotations. Notice
+that $R_k\ket{0} = \ket{0}$ and $R_k\ket{1} = e^{2 \pi i / 2^k}\ket{1}$ the
+eigenvalues of $R_k$. The first equality shows the circuit is correct for the
+basis elements $\ket{00}, \ket{01}$.
+\begin{align*}
+  R_{k} X R_{k + 1}^{\dagger} X R_{k + 1}^{\dagger}\ket{0}
+  &=  R_{k} X R_{k + 1}^{\dagger} X\ket{0} \\
+  &= R_{k} X R_{k + 1}^{\dagger}\ket{1} \\
+  &= e^{-2 \pi i / 2^{k + 1}} R_{k} X \ket{1} \\
+  &= e^{-2 \pi i / 2^{k + 1}} R_{k} \ket{0} \\
+  &= e^{-2 \pi i / 2^{k + 1}} \ket{0} \\
+  R_{k} X R_{k + 1}^{\dagger} X R_{k + 1}^{\dagger}\ket{1}
+  &= e^{-2 \pi i / 2^{k + 1}} R_{k} X R_{k + 1}^{\dagger} X\ket{1} \\
+  &= e^{-2 \pi i / 2^{k + 1}} R_{k} X R_{k + 1}^{\dagger}\ket{0} \\
+  &= e^{-2 \pi i / 2^{k + 1}} R_{k} X \ket{0} \\
+  &= e^{-2 \pi i / 2^{k + 1}} R_{k} \ket{1} \\
+  &= e^{-2 \pi i / 2^{k + 1}} e^{2 \pi i / 2^k} \ket{1} \\
+  &= e^{2 \pi i / 2^{k + 1}} \ket{1}
+\end{align*}
+Using the equalities shown above we can calculate the action of the gate on the
+basis element $\ket{10}$:
+\begin{align*}
+  G(\ket{10}) = e^{2 \pi i / 2^{k + 1}}\ket{1} \otimes e^{-2 \pi i / 2^{k + 1}}\ket{0} = \ket{10}
+\end{align*}
+Using the equalities shown above we can calculate the action of the gate on the
+basis element $\ket{11}$:
+\begin{align*}
+  G(\ket{11}) = e^{2 \pi i / 2^{k + 1}}\ket{1} \otimes e^{2 \pi i / 2^{k + 1}} \ket{1}
+  = e^{2 \pi i / 2^{k}} \ket{11}
+\end{align*}
+The gate defined above has the same action on each basis element as
+$C(R_{k})$ so the two gates are equal. \\
+
+\problem{5.7} \\
+If you write $\ket{j}$ in binary the circuit's correctness becomes quite clear.
+\begin{align*}
+  U^j = U^{2^{t - 1} j_{t - 1} + 2^{t - 2} j_{t - 2} + \dots + 2^0 j_0}
+  = U^{2^{t - 1} j_{t - 1}} U^{2^{t - 2} j_{t - 2}} \dots U^{2^0 j_0}
+\end{align*}
+For each set bit $t$ into the binary expansion the circuit performs the gate $U$, $2^t$ times. \\
+
+\problem{5.9} \\
+Note the following action of $U$ on $\ket{\psi}$ when $\ket{\psi}$ is written in the
+eigenvalues of $U$:
+\begin{align*}
+  \left( \outerF{\psi_{+1}}{\psi_{+1}} - \outerF{\psi_{-1}}{\psi_{-1}} \right) 
+  \left( a \ket{\psi_{+1}} + b \ket{\psi_{-1}} \right)
+  = a \ket{\psi_{+1}} - b \ket{\psi_{-1}}
+\end{align*}
+Therefore the operator $U$ doesn't effect the probabilities of collapse into
+either of the eigenvectors.
+
+Construct a state
+$\ket{0}\ket{\psi} = \ket{0}\left( a \ket{\psi_{+1}} + b \ket{\psi_{-1}} \right)$
+then perform a quantum phase estimation on the state which outputs
+$a \ket{0} \ket{\psi_{+1}} + b \ket{1/2} \ket{\psi_{-1}}$.
+Then measure the first register. If you measure
+a $0$ the state is in $\ket{\psi_{+1}}$ if you measure a $1/2$ the state is in $\psi_{-1}$.
+This gate and the gate found in $4.34$ both only require two qubits. This gate
+only requires two qubits because you only need one bit of precision to determine
+a $0$ from a $1/2$ in binary.
+
+\problem{5.10} \\
+The following calculations show that $6$ is the first positive integer such that
+$\modF{5^n}{21} = 1$ therefore $\ordF{5}{21} = 6$.
+\begin{align*}
+  \modF{5^1}{21} = 5 \,\,\,\,\,
+  \modF{5^2}{21} = 4 \,\,\,\,\,
+  \modF{5^3}{21} = 20 \,\,\,\,\,
+  \modF{5^4}{21} = 16 \,\,\,\,\,
+  \modF{5^5}{21} = 17 \,\,\,\,\,
+  \modF{5^6}{21} = 1 \,\,\,\,\,
+\end{align*}
+
+\problem{5.13} \\
+Note that $\delta_{(t - k)0} = 1$ if and only if $t = k$:
+\begin{align*}
+  \frac{1}{\sqrt{r}} \sum_{s = 0}^{r - 1} e^{2 \pi i s k / r}\ket{u_s}
+  &= \frac{1}{\sqrt{r}} \sum_{s = 0}^{r - 1} e^{2 \pi i s k / r}
+     \frac{1}{\sqrt{r}} \sum_{t = 0}^{r - 1} e^{-2 \pi i s t / r} \ket{\modF{x^t}{N}} \\
+  &= \frac{1}{r} \sum_{s = 0}^{r - 1} \sum_{t = 0}^{r - 1} e^{2 \pi i s (k - t) / r}\ket{\modF{x^t}{N}} \\
+  &= \frac{1}{r} \sum_{t = 0}^{r - 1} \ket{\modF{x^t}{N}} \sum_{s = 0}^{r - 1} e^{2 \pi i s (k - t) / r} \\
+  &= \frac{1}{r} \sum_{t = 0}^{r - 1} \ket{\modF{x^t}{N}} \sum_{s = 0}^{r - 1} e^{-2 \pi i s (t - k) / r} \\
+  &= \frac{1}{r} \sum_{t = 0}^{r - 1} \ket{\modF{x^t}{N}} r \delta_{(t - k)0}\\
+  &= \ket{\modF{x^k}{N}}
+\end{align*}
+\problem{5.14} \\
+If we can prove that $U^j\ket{1} = \ket{\modF{x^j}{N}}$ for any $j$ the exercise
+is solved. What follows is a proof by induction on $j$. When $j = 0$ the
+equality is satisfied $U^0\ket{1} = \ket{1} = \ket{\modF{1}{N}} =
+\ket{\modF{x^0}{N}}$. Next assume that $U^j\ket{1} = \ket{\modF{x^j}{N}}$ to
+show that the equality is satisfied for $1 + j$:
+\begin{align*}
+  U^{1 + j}\ket{1} = U U^j \ket{1} = U \ket{\modF{x^j}{N}} = \ket{\modF{x\left( \modF{x^j}{N} \right)}{N}}
+  = \ket{\modF{x x^{j}}{N}}= \ket{\modF{x^{1 + j}}{N}}
+\end{align*}
+
+\end{document}
+

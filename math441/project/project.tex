@@ -1,0 +1,169 @@
+\documentclass[fleqn]{article}
+
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+\usepackage{enumitem}
+\usepackage{qcircuit}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\setlength{\parindent}{0pt}
+\setlength{\mathindent}{0pt}
+
+% Allow for Augmented Matricies
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\g@matrix
+ {\vbox\bgroup}
+ {\vbox\bgroup\normalbaselines}% restore the standard baselineskip
+ {}{}
+\makeatother
+
+\newcommand{\BAR}{%
+  \hspace{-\arraycolsep}%
+  \strut\vrule % the `\vrule` is as high and deep as a strut
+  \hspace{-\arraycolsep}%
+}
+
+\newcommand{\squig}[0]{\ensuremath{\rightsquigarrow}}
+
+\newcommand{\problem}[1]{{\large\textbf{Problem #1}}}
+\newcommand{\lemma}[2]{\textbf{Lemma #1} #2}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+\newcommand{\idF}[1]{\ensuremath{\text{id}(#1)}}
+\newcommand{\trF}[1]{\ensuremath{\text{tr}\left(#1\right)}}
+\newcommand{\coordsF}[2]{\ensuremath{[ \: #1 \: ]_{\mathcal{#2}}}}
+\newcommand{\rankF}[1]{\ensuremath{\text{rank}(#1)}}
+\newcommand{\nullityF}[1]{\ensuremath{\text{nullity}(#1)}}
+\newcommand{\matrixRep}[3]{\ensuremath{{\left [ \: #1 \: \right ]}_{\mathcal{#2}}^{\mathcal{#3}}}}
+\newcommand{\signF}[1]{\ensuremath{\text{sign}(#1)}}
+\usepackage{listofitems}
+% Cycle Notation
+\newcommand\cycleF[2][\:]{
+  \readlist\thecycle{#2}
+  #1\foreachitem\i\in\thecycle{\ifnum\icnt=1\else#1\fi\i}#1
+}
+\newcommand{\normF}[1]{\left\lVert#1\right\rVert}
+
+\newcommand{\bra}[1]{\ensuremath{\langle #1 |}}
+\newcommand{\ket}[1]{\ensuremath{| #1 \rangle}}
+\newcommand{\innerF}[2]{\ensuremath{\langle #1 | #2 \rangle}}
+\newcommand{\outerF}[2]{\ket{#1} \bra{#2}}
+\newcommand{\modF}[2]{\ensuremath{#1 \, \text{mod} \, #2}}
+\newcommand{\ordF}[2]{\ensuremath{\text{ord}_{#1}\left( #2 \right)}}
+\newcommand{\expF}[1]{\ensuremath{\text{exp}\left(#1\right)}}
+
+\begin{document}
+
+\noindent\Large\textbf{Final Project} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+In this project we will explore the Discrete Fourier Transform. DFTs are a variant of the
+Continuous Fourier Transform over a finite number of samples. We define the kth
+element of a DFT as follows. Note that $x_k$ is the kth sample and $\omega_{N}$
+is the nth root of unity.
+\begin{align*}
+  X_k = \sum_{j = 0}^{N - 1} x_j \cdot \omega_N^{\, j k} \hspace{3em}
+  \omega_{N}^{\, x} = \expF{\frac{- i \, \tau \, x}{N}}
+\end{align*}
+This definition provides an obvious algorithm to compute the DFT of an array of
+samples.
+\begin{algorithm}[H]
+  \caption{Quadratic DFT}\label{euclid}
+  \begin{algorithmic}
+    \Function{DFT}{$x$}
+    \State $n \leftarrow \textbf{length } x$
+    \State $r \leftarrow \textbf{new array}[n]$
+    \For{$k \leftarrow 0 \textbf{ to } n - 1$}
+      \State $s \leftarrow 0$
+      \For{$j \leftarrow 0 \textbf{ to } n - 1$}
+        \State $\omega \leftarrow \expF{- i \, \tau \, j \, k / n}$
+        \State $s \leftarrow s + x[j] \, \omega$
+      \EndFor
+      \State $r[k] \leftarrow s$
+    \EndFor
+    \State \textbf{return} $r$
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+Unfortunately the nested loops cause this algorithm to run in $O(n^2)$ time
+assuming primitive mathematical operations run in $O(1)$ time. This being said the Discrete
+Fourier Transform contains much structure that can be exploited to improve the
+runtime. First notice that when you square the nth roots of unity you
+effectively collapse half of them together:
+\begin{align*}
+  \omega_{N}^{\, 2 x}
+  = \expF{\frac{- i \, \tau \, 2 x}{N}}
+  = \expF{\frac{- i \, \tau \, x}{N / 2}}
+  = \omega_{N / 2}^{\, x}
+\end{align*}
+This insight lights a path forward, split the samples into even and odd numbered
+samples. Then you can compute two DFTs that are half the size. This idea is
+formalized in the lemma below:
+\begin{align*}
+  X_k =& \sum_{j = 0}^{N - 1} x_j \cdot \omega_N^{\, j k} \\
+      =& \sum_{j = 0}^{N / 2 - 1} x_{2 j} \cdot \omega_N^{\, 2 j k}
+       + \sum_{j = 0}^{N / 2 - 1} x_{2 j + 1} \cdot \omega_N^{\, \left( 2 j + 1 \right) k} \\
+      =& \left( \sum_{j = 0}^{N / 2 - 1} x_{2 j} \cdot \omega_N^{\, 2 j k} \right)
+       + \omega_N^{\, k} \left( \sum_{j = 0}^{N / 2 - 1} x_{2 j + 1} \cdot \omega_N^{\, 2 j k} \right) \\
+      =& \left( \sum_{j = 0}^{N / 2 - 1} x_{2 j} \cdot \omega_{N / 2}^{\, j k} \right)
+       + \omega_N^{\, k} \left( \sum_{j = 0}^{N / 2 - 1} x_{2 j + 1} \cdot \omega_{N / 2}^{\, j k} \right)
+\end{align*}
+The subproblems at the end of the lemma above range from $k = 0$ to $k = N / 2 -
+1$. We can use the periodicity of the roots of unity to compute the subproblems $k = N / 2$ to
+$k = N$ for free. This periodicity is shown below:
+\begin{align*}
+  \omega_{N}^{j \left( k + N / 2 \right)}
+  = \expF{\frac{- i \, \tau j \left( k + N / 2 \right)}{N}}
+  = \expF{\frac{- i \, \tau \, j k}{N}} \expF{\frac{- i \, \tau \, j}{2}}
+  = - \expF{\frac{- i \, \tau \, j k}{N}} = - \omega_{N}^{\, j k}
+\end{align*}
+
+\begin{align*}
+  X_{k + N / 2}
+  =& \left( \sum_{j = 0}^{N / 2 - 1} x_{2 j} \cdot \omega_{N / 2}^{\, j \left( k + N / 2 \right)} \right)
+   + \omega_N^{\, k + N / 2} \left( \sum_{j = 0}^{N / 2 - 1} x_{2 j + 1} \cdot \omega_{N / 2}^{\, j \left( k + N / 2 \right)} \right) \\
+  =& \left( \sum_{j = 0}^{N / 2 - 1} x_{2 j} \cdot \omega_{N / 2}^{\, j k} \right)
+   - \omega_N^{\, k} \left( \sum_{j = 0}^{N / 2 - 1} x_{2 j + 1} \cdot \omega_{N / 2}^{\, j k} \right)
+\end{align*}
+The DFT of a single sample is just the sample which provides a base case for the
+following recursive algorithm. Note that the function $SPLIT$ returns
+two arrays, the even entries of the input and the odd entries of the input.
+\begin{algorithm}[H]
+  \caption{Fast Fourier Transform}\label{euclid}
+  \begin{algorithmic}
+    \Function{FFT}{$x$}
+    \State $n \leftarrow \textbf{length } x$
+    \If{$n \leq 1$}
+      \State \textbf{return} $x$
+    \EndIf
+    \State $e ,\, o \leftarrow \Call{SPLIT}{x}$
+    \State $fe ,\, fo \leftarrow \Call{FFT}{e} ,\, \Call{FFT}{o}$
+    \State $r \leftarrow \textbf{new array}[n]$
+    \For{$k \leftarrow 0 \textbf{ to } n / 2$}
+      \State $\omega \leftarrow \expF{- i \, \tau \, k / n}$
+      \State $r[k] \leftarrow fe[k] + \omega * fo[k]$
+      \State $r[k + n / 2] \leftarrow fe[k] - \omega * fo[k]$
+    \EndFor
+    \State \textbf{return} $r$
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+
+This algorithm's runtime is modeled by the recurrence, $T(n) = 2 * T(n / 2) +
+O(n)$. This recurrence can be solved by the master method to show a runtime of
+$O(n \, \text{lg}(n))$. Unfortunately this algorithm requires the input length
+to be a power of 2. This problem can be solved by padding the input with zeros
+until the length reaches a power of 2.
+
+\end{document}
+

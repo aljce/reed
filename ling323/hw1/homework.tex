@@ -1,0 +1,57 @@
+\documentclass[20pt]{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{times}
+\usepackage{tipa}
+\usepackage{covington}
+\usepackage{tikz-qtree}
+
+\setlength\parindent{0pt}
+\newcommand{\ipa}[1]{\textipa{#1}}
+\newcommand{\broad}[1]{/\ipa{#1}/}
+\newcommand{\narrow}[1]{[ \ipa{#1} ]}
+\newcommand{\english}[1]{$<$#1$>$}
+\newcommand{\sk}[0]{{\kern 0.05em}}
+\newcommand{\mk}[0]{{\kern 0.1em}}
+\newcommand{\smallcapi}[0]{\sk\textsci\sk}
+\newcommand{\openo}[0]{\sk O}
+
+\begin{document}
+
+\Large\textbf{Problem Set 1: Mad Libs} \\
+\normalsize
+Alice McKean \\
+\today
+
+One problem with the mad libs theory is that it does not allow for word-phrase
+substitution. Take for instance the sentence generator ``$<$noun$>$ went
+swimming.''. A valid instantiation of this generator looks like ``Janice went
+swimming.''.  This generator doesn't capture the real structure of sentences like
+``$<$x$>$ went swimming.''. For instance the sentence ``Janice and Tom went
+swimming.'' is syntactically valid but not permissible under the generator. This
+problem isn't unique to nouns but occurs in every major lexical category.
+``Hariet went $<$verb$>$ after work'' is a sentence generator that does not
+allow for
+``Hariet went swimming and running after
+work.''.
+``We saw the movie $<$preposition$>$ midnight'' is a sentence generator that
+does not allow for ``We saw the movie before and after midnight''.
+\\
+
+The mad libs theory doesn't enforce agreement between words either. Take for
+instance the sentence generator ``The $<$noun$>$ is awake.''.  ``The dog is awake.'' is
+syntactically valid but ``The children is awake.'' is not. In this example the mad
+libs theory is not accounting for number agreement between the noun and verb. \\
+
+Consider a sentence generator full of adjectives like ``I saw a $<$adj$>$
+$<$adj$>$ $<$adj$>$ $<$adj$>$ car''. A sensible instantiation of this generator
+is ``I saw a really small old red car''. If you flip the adjective order around 
+the sentence becomes ``I saw a red old small really car'' which sounds terrible.
+This shows that the mad lib theory doesn't account for english adjective order.
+
+
+
+\end{document}
+

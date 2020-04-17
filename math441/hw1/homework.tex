@@ -1,0 +1,305 @@
+\documentclass[fleqn]{article}
+
+\usepackage[a4paper]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+\usepackage[inline]{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\mathindent}{0pt}
+
+% Allow for Augmented Matricies
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\g@matrix
+ {\vbox\bgroup}
+ {\vbox\bgroup\normalbaselines}% restore the standard baselineskip
+ {}{}
+\makeatother
+
+\newcommand{\BAR}{%
+  \hspace{-\arraycolsep}%
+  \strut\vrule % the `\vrule` is as high and deep as a strut
+  \hspace{-\arraycolsep}%
+}
+
+\newcommand{\squig}[0]{\ensuremath{\rightsquigarrow}}
+
+\newcommand{\problem}[1]{\large\textbf{Problem #1}\normalsize}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+\newcommand{\idF}[1]{\ensuremath{\text{id}(#1)}}
+\newcommand{\coordsF}[2]{\ensuremath{[ \: #1 \: ]_{\mathcal{#2}}}}
+\newcommand{\rankF}[1]{\ensuremath{\text{rank}(#1)}}
+\newcommand{\nullityF}[1]{\ensuremath{\text{nullity}(#1)}}
+\newcommand{\matrixRep}[3]{\ensuremath{{\left [ \: #1 \: \right ]}_{\mathcal{#2}}^{\mathcal{#3}}}}
+\newcommand{\signF}[1]{\ensuremath{\text{sign}(#1)}}
+\usepackage{listofitems}
+% Cycle Notation
+\newcommand\cycleF[2][\:]{
+  \readlist\thecycle{#2}
+  #1\foreachitem\i\in\thecycle{\ifnum\icnt=1\else#1\fi\i}#1
+}
+\newcommand{\normF}[1]{\left\lVert#1\right\rVert}
+
+\newcommand{\bra}[1]{\ensuremath{\langle #1 |}}
+\newcommand{\ket}[1]{\ensuremath{| #1 \rangle}}
+\newcommand{\innerF}[2]{\ensuremath{\langle #1 | #2 \rangle}}
+\newcommand{\outerF}[2]{\ket{#1} \bra{#2}}
+
+\begin{document}
+
+\noindent\Large\textbf{Problem Set 1} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{2.2} \\
+Under the basis $B = \{ \ket{0} , \ket{1} \}$ the operator has the following
+matrix representation:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \matrixRep{\text{A}}{B}{B} =
+  \begin{gmatrix}[p]
+    \BAR                  & \BAR                  \\
+    \coordsF{A\ket{0}}{B} & \coordsF{A\ket{1}}{B} \\
+    \BAR                  & \BAR                   
+  \end{gmatrix} 
+  =
+  \begin{gmatrix}[p]
+    \BAR                  & \BAR                 \\
+    \coordsF{\ket{1}}{B}  & \coordsF{\ket{0}}{B} \\
+    \BAR                  & \BAR                   
+  \end{gmatrix} 
+  =
+  \begin{gmatrix}[p]
+    0 & 1 \\
+    1 & 0
+  \end{gmatrix} 
+\end{align*}
+We can find the matrix represntation of A for the basis $C = \{ \ket{+} ,
+\ket{-} \}$ via the change of basis formula:
+\begin{align*}
+  \matrixRep{\text{A}}{C}{C} =&
+  \, \matrixRep{\text{id}}{C}{B} \matrixRep{\text{A}}{B}{B} \matrixRep{\text{id}}{B}{C} \\ =&
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    \BAR                 & \BAR                 \\
+    \coordsF{\ket{0}}{C} & \coordsF{\ket{1}}{C} \\
+    \BAR                 & \BAR                   
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    0 & 1 \\
+    1 & 0
+  \end{gmatrix} 
+  \begin{gmatrix}[p]
+    \BAR                 & \BAR                 \\
+    \coordsF{\ket{+}}{B} & \coordsF{\ket{-}}{B} \\
+    \BAR                 & \BAR                   
+  \end{gmatrix} \\
+  =&
+  \rowarrowsep=-2pt
+  \frac{1}{\sqrt{2}}
+  \begin{gmatrix}[p]
+    1 & 1 \\
+    1 & -1 
+  \end{gmatrix} 
+  \begin{gmatrix}[p]
+    0 & 1 \\
+    1 & 0
+  \end{gmatrix} 
+  \frac{1}{\sqrt{2}}
+  \begin{gmatrix}[p]
+    1 & 1 \\
+    1 & -1 
+  \end{gmatrix} 
+  =
+  \begin{gmatrix}[p]
+    1 & 0 \\
+    0 & -1
+  \end{gmatrix} 
+\end{align*}
+
+\problem{2.9}
+\vspace*{-3mm}
+\begin{align*}
+  I =& \, \outerF{0}{0} + \outerF{1}{1} \\
+  X =& \, \outerF{0}{1} + \outerF{1}{0} \\
+  Y =& \, i \outerF{1}{0} - i \outerF{0}{1} \\
+  Z =& \, \outerF{0}{0} - \outerF{1}{1}
+\end{align*}
+
+\problem{2.10} \\
+The matrix is defined by the following equation:
+\begin{align*}
+  { \left( {\left[ \, \outerF{v_j}{v_k} \, \right]}_{\ket{v_i}}^{\ket{v_i}} \right) }_{x y} =
+  \begin{cases}
+    1 \,\,\, \text{if $j = x$ and $k = y$} \\
+    0 \,\,\, \text{otherwise}
+  \end{cases}
+\end{align*}
+Consider the case when $k \neq y$ then the $k^{\text{th}}$ column is defined by:
+\begin{align*}
+  {\left[ \, \left( \, \outerF{v_j}{v_k} \, \right) \ket{v_y} \, \right] }_{\ket{v_i}} =
+  {\left[ \, \ket{v_j} \innerF{v_k}{v_y} \, \right] }_{\ket{v_i}} =
+  {\left[ \, \ket{v_j} \, 0 \, \right] }_{\ket{v_i}} =
+  {\left[ \, 0 \, \right] }_{\ket{v_i}}
+\end{align*}
+Otherwise $k = y$ so the $k^{\text{th}}$ column is defined by:
+\begin{align*}
+  {\left[ \, \left( \, \outerF{v_j}{v_k} \, \right) \ket{v_k} \, \right] }_{\ket{v_i}} =
+  {\left[ \, \ket{v_j} \innerF{v_k}{v_k} \, \right] }_{\ket{v_i}} =
+  {\left[ \, \ket{v_j} \, 1 \, \right] }_{\ket{v_i}} =
+  {\left[ \, \ket{v_j} \, \right] }_{\ket{v_i}}
+\end{align*}
+
+\problem{2.11} \\
+The $X$, $Y$, and $Z$ matrices all have eigenvalues $1, -1$. The $X$ matrix has
+eigenvectors $\ket{+}, \ket{-}$. The $Y$ matrix has eigenvectors 
+$\frac{1}{\sqrt{2}} (i\ket{0} + \ket{1}), \frac{1}{\sqrt{2}} (\ket{0} + i\ket{1})$. 
+The $Z$ matrix has eigenvectors $\ket{0}, \ket{1}$ and is already diagonal.
+Putting these facts together we can see the other diagonal representations:
+\begin{align*}
+  X =
+  \rowarrowsep=-2pt
+  \frac{1}{\sqrt{2}}
+  \begin{gmatrix}[p]
+    1 & 1 \\
+    1 & -1
+  \end{gmatrix} 
+  \begin{gmatrix}[p]
+    1 & 0 \\
+    0 & -1
+  \end{gmatrix} 
+  \frac{1}{\sqrt{2}}
+  \begin{gmatrix}[p]
+    1 & 1 \\
+    1 & -1
+  \end{gmatrix} 
+  \,\,\,\,\,
+  Y = 
+  \rowarrowsep=-2pt
+  \frac{1}{\sqrt{2}}
+  \begin{gmatrix}[p]
+    i & 1 \\
+    1 & i
+  \end{gmatrix} 
+  \begin{gmatrix}[p]
+    1 & 0 \\
+    0 & -1
+  \end{gmatrix} 
+  \frac{1}{\sqrt{2}}
+  \begin{gmatrix}[p]
+    -i & 1 \\
+    1 & -i
+  \end{gmatrix} 
+\end{align*}
+
+\problem{2.12} \\
+The characteristic polynomial of this matrix is $(\lambda - 1)^2$. Therefore the
+eigenvalue $1$ has geometric multiplicity $1$ and algebraic multiplicity $2$.
+These do not match so the matrix is not diagonalizable. \\
+
+\problem{2.16} 
+\begin{align*}
+  P^2 =& \sum_{i} \outerF{i}{i} \sum_{j} \outerF{j}{j} \\
+      =& \sum_{i} \sum_{j} \outerF{i}{i} \, \outerF{j}{j} \\
+      =& \sum_{i} \sum_{j} \ket{i} \innerF{i}{j} \bra{j} \\
+      =& \sum_{i} \sum_{j} \delta_{i j} \outerF{i}{j} \\
+      =& \sum_{i} \outerF{i}{i} = P \\
+\end{align*}
+
+\problem{2.18} \\
+Every unitary matrix $A$ is normal so every unitary matrix has a spectral
+decomposition:
+\begin{align*}
+  \sum_{a} 1 \cdot \outerF{a}{a} =& \, I \\
+  =& A^{\dagger} A \\
+  =& {\left(\sum_{a} \lambda_{a} \outerF{a}{a}\right)}^{\dagger} \left(\sum_{b} \lambda_{b} \outerF{b}{b}\right) \\
+  =& \left(\sum_{a} {\lambda_{a}}^* \outerF{a}{a}\right) \left(\sum_{b} \lambda_{b} \outerF{b}{b}\right) \\
+  =& \sum_{a} \sum_{b} {\lambda_{a}}^* \outerF{a}{a} \lambda_{b} \outerF{b}{b} \\
+  =& \sum_{a} \sum_{b} {\lambda_{a}}^* \lambda_{b} \ket{a} \innerF{a}{b} \bra{b} \\
+  =& \sum_{a} \sum_{b} \delta_{a b} \, {\lambda_{a}}^* \lambda_{b} \outerF{a}{b} \\
+  =& \sum_{a}  {\lambda_{a}}^* \lambda_{a} \cdot \outerF{a}{a}
+\end{align*}
+As the matrices above are diagonal matrices we can recover $1 = {\lambda_{a}}^* \lambda_{a}$ forevery $a$.
+\begin{align*}
+  1 =& {\lambda_{a}}^* \lambda_{a} \\
+    =& {\left( r e^{i \theta} \right)}^* r e^{i \theta} \\
+    =& r e^{-i \theta} r e^{i \theta} \\
+    =& r^2
+\end{align*}
+Therefore $r$ could be $\pm 1$ but polar lengths are positive so $r = 1$ and
+$\lambda_{a} = e^{i\theta}$. \\
+
+\problem{2.19} \\
+This was trivially checked with linear algebra software. \\
+
+\problem{2.26}
+\begin{align*}
+  \left( \frac{1}{\sqrt{2}} \left( \ket{0} + \ket{1} \right) \right)^{\otimes 2} =&
+  \frac{1}{2} \left( \left( \ket{0} + \ket{1} \right) \otimes \left( \ket{0} + \ket{1} \right) \right) =
+  \frac{1}{2} \left( \ket{00} + \ket{01} + \ket{10} + \ket{11} \right) \\
+  \left( \frac{1}{\sqrt{2}} \left( \ket{0} + \ket{1} \right) \right)^{\otimes 3} =&
+  \frac{1}{2\sqrt{2}} \left( \left( \ket{00} + \ket{01} + \ket{10} + \ket{11} \right) \otimes 
+                             \left( \ket{0} + \ket{1} \right) 
+                      \right) \\ 
+  =& 
+  \frac{1}{2\sqrt{2}} \left( \ket{000} + \ket{001} + \ket{010} + \ket{011} + 
+                             \ket{100} + \ket{101} + \ket{110} + \ket{111} 
+                      \right)
+\end{align*}
+\begin{align*}
+  \ket{\phi}^{\otimes 2} = \frac{1}{2}
+  \begin{gmatrix}[p]
+    1 \\
+    1 \\
+    1 \\
+    1
+  \end{gmatrix} 
+  \,\,\,\,\,
+  \ket{\phi}^{\otimes 3} = \frac{1}{2\sqrt{2}}
+  \begin{gmatrix}[p]
+    1 \\
+    1 \\
+    1 \\
+    1 \\
+    1 \\
+    1 \\
+    1 \\
+    1
+  \end{gmatrix} 
+\end{align*}
+
+\problem{2.27}
+\begin{align*}
+  X \otimes Z =
+  \begin{gmatrix}[p]
+    0 & 0  & 1 & 0 \\
+    0 & 0  & 0 & -1 \\
+    1 & 0  & 0 & 0 \\
+    0 & -1 & 0 & 0
+  \end{gmatrix} 
+  X \otimes I =
+  \begin{gmatrix}[p]
+    0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 1 \\
+    1 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0
+  \end{gmatrix} 
+  I \otimes X =
+  \begin{gmatrix}[p]
+    0 & 1 & 0 & 0 \\
+    1 & 0 & 0 & 0 \\
+    0 & 0 & 0 & 1 \\
+    0 & 0 & 1 & 0
+  \end{gmatrix} 
+\end{align*}
+Therefore $\otimes$ is not commutative as $X \otimes I \neq I \otimes X$.
+
+\end{document}

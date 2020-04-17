@@ -1,0 +1,242 @@
+\documentclass[fleqn]{article}
+
+\usepackage[a4paper]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gauss}
+\usepackage[inline]{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\mathindent}{0pt}
+
+% Allow for Augmented Matricies
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\g@matrix
+ {\vbox\bgroup}
+ {\vbox\bgroup\normalbaselines}% restore the standard baselineskip
+ {}{}
+\makeatother
+
+\newcommand{\BAR}{%
+  \hspace{-\arraycolsep}%
+  \strut\vrule % the `\vrule` is as high and deep as a strut
+  \hspace{-\arraycolsep}%
+}
+
+\newcommand{\squig}[0]{\ensuremath{\rightsquigarrow}}
+
+\newcommand{\problem}[1]{\large\textbf{Problem #1}\normalsize}
+
+\newcommand{\evidence}[1]{\ensuremath{(\hspace{0.2em} \text{#1} \hspace{0.2em})}}
+\newcommand{\relation}[1]{\ensuremath{\hspace{0.2em} {{} #1 {}} \hspace{0.2em}}}
+\newcommand{\equal}{\relation{=}}
+\newcommand{\qed}{\hfill\ensuremath{\square}}
+
+\newcommand{\idF}[1]{\ensuremath{\text{id}(#1)}}
+\newcommand{\coordsF}[2]{\ensuremath{[ \: #1 \: ]_{\mathcal{#2}}}}
+\newcommand{\rankF}[1]{\ensuremath{\text{rank}(#1)}}
+\newcommand{\nullityF}[1]{\ensuremath{\text{nullity}(#1)}}
+\newcommand{\matrixRep}[3]{\ensuremath{{\left [ \: #1 \: \right ]}_{\mathcal{#2}}^{\mathcal{#3}}}}
+\newcommand{\signF}[1]{\ensuremath{\text{sign}(#1)}}
+\usepackage{listofitems}
+% Cycle Notation
+\newcommand\cycleF[2][\:]{
+  \readlist\thecycle{#2}
+  #1\foreachitem\i\in\thecycle{\ifnum\icnt=1\else#1\fi\i}#1
+}
+\newcommand{\normF}[1]{\left\lVert#1\right\rVert}
+
+\newcommand{\bra}[1]{\ensuremath{\langle #1 |}}
+\newcommand{\ket}[1]{\ensuremath{| #1 \rangle}}
+\newcommand{\innerF}[2]{\ensuremath{\langle #1 | #2 \rangle}}
+\newcommand{\outerF}[2]{\ket{#1} \bra{#2}}
+
+\begin{document}
+
+\noindent\Large\textbf{Problem Set 2} \\
+\normalsize
+Alice McKean \\
+\today \\
+
+\problem{2.22} \\
+Assume $\lambda_1$ and $\lambda_2$ are eigenvalues for eigenvectors $v$ and $w$
+with $\lambda_1 \neq \lambda_2$: \\
+$\lambda_1\innerF{v}{w} = \innerF{Av}{w} = \innerF{v}{A^{\dagger}w} =
+\innerF{v}{Aw} = \lambda_2\innerF{v}{w}$ so
+$(\lambda_1 - \lambda_2)\innerF{v}{w} = 0$ and $\innerF{v}{w} = 0$. \\
+
+\problem{2.23} \\
+Every projector is normal so it has a spectral decomposition:
+\begin{align*}
+  \sum_{a} \lambda_{a} \outerF{a}{a} =& \left( \sum_{a} \lambda_{a} \outerF{a}{a} \right)
+                                       \left( \sum_{b} \lambda_{b} \outerF{b}{b} \right) \\
+  =& \sum_{a} \sum_{b} \lambda_{a} \lambda_{b} \ket{a} \innerF{a}{b} \bra{b} \\
+  =& \sum_{a} \lambda_{a}^2 \innerF{a}{a}
+\end{align*}
+So for every eigenvalue
+$\lambda_{a}^2 - \lambda_{a} = 0 = \lambda_{a} (\lambda_{a} - 1)$
+and $\lambda_{a} = 0 , 1$. \\
+
+\problem{2.25} \\
+For any operator $A$:
+\vspace{-0.7em}
+\begin{align*}
+  ( \ket{v} , A^{\dagger} A \ket{v} ) = ( A\ket{v} , A\ket{v} ) \geq 0
+\end{align*}
+
+\problem{2.28}
+\begin{align*}
+  (A \otimes B)^* =
+  \rowarrowsep=-2pt
+  { \begin{gmatrix}[p]
+      A_{11} B & A_{12} B & \dots & A_{1n} B \\
+      A_{21} B & A_{22} B & \dots & A_{2n} B \\
+      \vdots  & \vdots   & \ddots & \vdots \\
+      A_{m1} B & A_{m2} B & \dots & A_{mn} B
+    \end{gmatrix}
+  }^*
+  =
+  \begin{gmatrix}[p]
+    A_{11}^* B^* & A_{12}^* B^* & \dots & A_{1n}^* B^* \\
+    A_{21}^* B^* & A_{22}^* B^* & \dots & A_{2n}^* B^* \\
+    \vdots      & \vdots      & \ddots & \vdots \\
+    A_{m1}^* B^* & A_{m2}^* B^* & \dots & A_{mn}^* B^*
+  \end{gmatrix}
+  = A^* \otimes B^*
+\end{align*}
+\begin{align*}
+  (A \otimes B)^T =
+  \rowarrowsep=-2pt
+  { \begin{gmatrix}[p]
+      A_{11} B & A_{12} B & \dots & A_{1n} B \\
+      A_{21} B & A_{22} B & \dots & A_{2n} B \\
+      \vdots  & \vdots   & \ddots & \vdots \\
+      A_{m1} B & A_{m2} B & \dots & A_{mn} B
+    \end{gmatrix}
+  }^T
+  =
+  \begin{gmatrix}[p]
+    A_{11} B^T & A_{21} B^T & \dots & A_{n1} B^T \\
+    A_{12} B^T & A_{22} B^T & \dots & A_{n2} B^T \\
+    \vdots    & \vdots     & \ddots & \vdots \\
+    A_{1m} B^T & A_{2m} B^T & \dots & A_{nm} B^T
+  \end{gmatrix}
+  = A^T \otimes B^T
+\end{align*}
+
+
+
+The analogous proof for the adjoint is just a simple composition of the above
+proofs for the conjugate and the transpose. \\
+
+\problem{2.29} \\
+For any two unitary operators $A$ and $B$:
+\vspace{-0.5em}
+\begin{align*}
+  (A \otimes B)^{\dagger} (A \otimes B) =& (A^{\dagger} \otimes B^{\dagger}) (A \otimes B) \\
+                                       =& A^{\dagger}A \otimes B^{\dagger} B \\
+                                       =& I \otimes I = I
+\end{align*}
+
+\problem{2.34} \\
+First we diagonalize the matrix:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \begin{gmatrix}[p]
+    4 & 3 \\
+    3 & 4
+  \end{gmatrix}
+  =
+  \frac{1}{\sqrt{2}}
+  \begin{gmatrix}[p]
+    1 & 1 \\
+    1 & -1
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    7 & 0 \\
+    0 & 1
+  \end{gmatrix}
+  \frac{1}{\sqrt{2}}
+  \begin{gmatrix}[p]
+    1 & 1 \\
+    1 & -1
+  \end{gmatrix}
+\end{align*}
+This allows us to compute the square root and logarithm of the matrix:
+\begin{align*}
+  \rowarrowsep=-2pt
+  \sqrt{
+    \begin{gmatrix}[p]
+      4 & 3 \\
+      3 & 4
+    \end{gmatrix}
+  }
+  =&
+  \rowarrowsep=-2pt
+  \frac{1}{\sqrt{2}}
+  \begin{gmatrix}[p]
+    1 & 1 \\
+    1 & -1
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    \sqrt{7} & 0 \\
+    0 & \sqrt{1}
+  \end{gmatrix}
+  \frac{1}{\sqrt{2}}
+  \begin{gmatrix}[p]
+    1 & 1 \\
+    1 & -1
+  \end{gmatrix}
+  =
+  \frac{1}{2}
+  \begin{gmatrix}[p]
+    1 + \sqrt{7} & \sqrt{7} - 1 \\
+    \sqrt{7} - 1 & 1 + \sqrt{7}
+  \end{gmatrix} \\
+  \rowarrowsep=-2pt
+  \ln{
+  \begin{gmatrix}[p]
+    4 & 3 \\
+    3 & 4
+  \end{gmatrix}
+  }
+  =&
+  \rowarrowsep=-2pt
+  \frac{1}{\sqrt{2}}
+  \begin{gmatrix}[p]
+    1 & 1 \\
+    1 & -1
+  \end{gmatrix}
+  \begin{gmatrix}[p]
+    \ln{7} & 0 \\
+    0 & \ln{1}
+  \end{gmatrix}
+  \frac{1}{\sqrt{2}}
+  \begin{gmatrix}[p]
+    1 & 1 \\
+    1 & -1
+  \end{gmatrix}
+  =
+  \frac{1}{2}
+  \begin{gmatrix}[p]
+    \ln{7} & \ln{7} \\
+    \ln{7} & \ln{7}
+  \end{gmatrix}
+\end{align*}
+
+\problem{2.37}
+\begin{align*}
+  \displaystyle
+  \text{tr}(AB)
+  & \equal \sum_{i=1}^{n} (AB)_{ii} \\
+  {} & \equal \sum_{i=1}^{n} \sum_{k=1}^{n} A_{ik}B_{ki} \\
+  {} & \equal \sum_{i=1}^{n} \sum_{k=1}^{n} B_{ki}A_{ik} \\
+  {} & \equal \sum_{k=1}^{n} \sum_{i=1}^{n} B_{ki}A_{ik} \\
+  {} & \equal \sum_{i=1}^{n} \sum_{k=1}^{n} B_{ik}A_{ki} \\
+  {} & \equal \sum_{i=1}^{n} (BA)_{ii} \\
+  {} & \equal \text{tr}(BA)
+\end{align*}
+
+\end{document}
+
