@@ -53,19 +53,19 @@ Alice McKean \\
         [.T'
           \node(T-1-1){T\\$t$};
           [.VP
-            \node(DP-1-2){$t$};
+            \node(DP-1-2){DP\\$t$};
             [.V'
               V\\like
               [.CP
-                \node(DP-2-1){$t$};
+                \node(DP-2-1){DP\\$t$};
                 [.C'
-                  C\\\feature{WH}\\$\emptyset$
+                  C\\\feature{WH}
                   [.TP
                     \node(DP-2-2){DP\\\feature{PRO}};
                     [.T'
                       T\\to
                       [.VP
-                        \node(DP-2-3){$t$};
+                        \node(DP-2-3){DP\\$t$};
                         [.V'
                           [.V'
                             V\\go
@@ -79,7 +79,7 @@ Alice McKean \\
                           ]
                           [.PP
                             P\\with
-                            \node(DP-2-4){$t$};
+                            \node(DP-2-4){DP\\$t$};
                           ]
                         ]
                       ]
@@ -113,7 +113,7 @@ Alice McKean \\
       [.T'
         \node(T-1-1){T\\$t$};
         [.VP
-          \node(DP-1-2){$t$};
+          \node(DP-1-2){DP\\$t$};
           [.V'
             V\\think
             [.CP
@@ -126,7 +126,7 @@ Alice McKean \\
                 [.T'
                   T\\will
                   [.VP
-                    \node(DP-2-2){$t$};
+                    \node(DP-2-2){DP\\$t$};
                     [.V'
                       V\\convince
                       [.TP
@@ -137,8 +137,8 @@ Alice McKean \\
                         [.T'
                           T\\to
                           [.VP
-                            \node(DP-3-2){$t$};
-                            VP\\participate
+                            V\\participate
+                            \node(DP-3-2){DP\\$t$};
                           ]
                         ]
                       ]
@@ -155,7 +155,7 @@ Alice McKean \\
   \draw[->] (T-1-1) to[out=-90,in=0] (0.7, -6) to[out=180,in=-90] (C-1-1);
   \draw[->] (DP-1-2) to[bend left] (DP-1-1);
   \draw[->] (DP-2-2) to[bend left] (DP-2-1);
-  \draw[->] (DP-3-2) to[bend left] (DP-3-1);
+  \draw[->] (DP-3-2) to[out=-90,in=0] (14, -16) to[out=180,in=-90] (DP-3-1);
 \end{tikzpicture} \\
 
 \begin{tikzpicture}[scale=\treeScale, transform shape]
@@ -182,7 +182,7 @@ Alice McKean \\
         [.T'
           \node(T-1){T\\$t$};
           [.VP
-            \node(DP-1-2){$t$};
+            \node(DP-1-2){DP\\$t$};
             [.V'
               [.V'
                 V\\give
@@ -190,7 +190,7 @@ Alice McKean \\
                   DP\\her
                   [.X'
                     X\\$\emptyset$
-                    \node(WH-2){<DP>\\$t$};
+                    \node(WH-2){DP\\$t$};
                   ]
                 ]
               ]
@@ -229,7 +229,7 @@ Alice McKean \\
     [.T'
       T\\was
       [.VP
-        \node(DP-1-2){<DP>\\$t$};
+        \node(DP-1-2){DP\\$t$};
         [.V'
           V\\asking
           [.CP
@@ -238,17 +238,17 @@ Alice McKean \\
               \node(WH-1){AP\\tall};
             ]
             [.C'
-              C\\\feature{WH}
+              C\\\feature{Q}\feature{WH}
               [.TP
                 \node(DP-2-1){DP\\he};
                 [.T'
                   T\\had
                   [.VP
-                    \node(DP-2-2){$t$};
+                    \node(DP-2-2){DP\\$t$};
                     [.V'
                       [.V'
                         V\\grown
-                        \node(WH-2){<AP>\\$t$};
+                        \node(WH-2){AP\\$t$};
                       ]
                       [.PP
                         P\\over
@@ -283,23 +283,23 @@ Alice McKean \\
     [.T'
       T\\\feature{PAST}
       [.VP
-        \node(DP-1-2){$t$};
+        \node(DP-1-2){DP\\$t$};
         [.V'
           V\\wondered
           [.CP
             \node(WH-2-1){DP\\what};
             [.C'
-              C\\\feature{WH}
+              C\\\feature{Q}\feature{WH}
               [.TP
                 \node(DP-2-1){DP\\\feature{PRO}};
                 [.T'
                   T\\to
                   [.VP
-                    \node(DP-2-2){$t$};
+                    \node(DP-2-2){DP\\$t$};
                     [.V'
                       [.V'
                         V\\say
-                        \node(WH-2-2){$t$};
+                        \node(WH-2-2){DP\\$t$};
                       ]
                       [.PP
                         P\\about
@@ -320,7 +320,7 @@ Alice McKean \\
   ]
   \draw[->] (DP-1-2) to[bend left] (DP-1-1);
   \draw[->] (DP-2-2) to[bend left] (DP-2-1);
-  \draw[->] (WH-2-2) to[out=-90,in=0] (7, -13) to[out=180,in=-90] (WH-2-1);
+  \draw[->] (WH-2-2) to[out=-90,in=0] (7, -14) to[out=180,in=-90] (WH-2-1);
 \end{tikzpicture} \\
 
 \begin{tikzpicture}[scale=\treeScale, transform shape]
@@ -334,17 +334,17 @@ Alice McKean \\
     [.T'
       T\\\feature{PRES}
       [.VP
-        \node(DP-1-2){<DP>\\$t$};
+        \node(DP-1-2){DP\\$t$};
         [.V'
           V\\seems
           [.CP
             C\\$\emptyset$
             [.TP
-              \node(DP-2-1){DP\\\feature{PRO}};
+              \node(DP-2-1){DP\\$t$};
               [.T'
                 T\\to
                 [.VP
-                  \node(DP-2-2){$t$};
+                  \node(DP-2-2){DP\\$t$};
                   [.V'
                     V\\want
                     [.TP
@@ -355,7 +355,7 @@ Alice McKean \\
                       [.T'
                         T\\to
                         [.VP
-                          \node(DP-3-2){$t$};
+                          \node(DP-3-2){DP\\$t$};
                           [.V'
                             [.V'
                               V\\work
@@ -385,6 +385,7 @@ Alice McKean \\
     ]
   ]
   \draw[->] (DP-1-2) to[bend left] (DP-1-1);
+  \draw[->] (DP-2-1) to[bend left] (DP-1-2);
   \draw[->] (DP-2-2) to[bend left] (DP-2-1);
   \draw[->] (DP-3-2) to[bend left] (DP-3-1);
 \end{tikzpicture}
@@ -393,21 +394,24 @@ Alice McKean \\
   \tikzset{every tree node/.style={align=center,anchor=north}}
   \Tree
   [.TP
-    [.DP
+    [.DP$_i^1$
       D\\\feature{PROP}
-      NP\\Carlos$_i$
+      NP\\Carlos
     ]
     [.T'
       T\\was
       [.VP
-        V\\admiring
-        [.DP
-          D\\a
-          [.NP
-            N\\picture
-            [.PP
-              P\\of
-              DP\\himself$_i$
+        DP\\$t^1$
+        [.V'
+          V\\admiring
+          [.DP
+            D\\a
+            [.NP
+              N\\picture
+              [.PP
+                P\\of
+                DP\\himself$_i$
+              ]
             ]
           ]
         ]
@@ -415,41 +419,57 @@ Alice McKean \\
     ]
   ]
 \end{tikzpicture} \\
+
+Sentence 7 is grammatical because the anaphor himself$_i$ is bound within its
+binding domain of the main clause. This is because Carlos$_i$ is the subject of
+the TP and it binds himself$_i$. Also the case assigner (of) for himself$_i$ is
+contained within the TP. Thus Principal A is satisfied. \\
+
 \begin{tikzpicture}[scale=\treeScale, transform shape]
   \tikzset{every tree node/.style={align=center,anchor=north}}
   \Tree
   [.TP
-    [.DP
+    [.DP$^1$
+      D\\$\emptyset$
       [.NP
         NP\\One
         [.PP
           P\\of
           [.DP
-            D\\\feature{PROP}
-            NP\\Carlos$_i$
+            [.DP$_i$
+              D\\\feature{PROP}
+              NP\\Carlos
+            ]
+            [.D'
+              D\\-s
+              NP\\colleagues
+            ]
           ]
         ]
-      ]
-      [.D'
-        D\\-s
-        NP\\colleagues
       ]
     ]
     [.T'
       T\\\feature{PAST}
       [.VP
-        V\\praised
-        DP\\himself$_i$
+        DP\\$t^1$
+        [.V'
+          V\\praised
+          DP\\himself$_i$
+        ]
       ]
     ]
   ]
 \end{tikzpicture} \\
 
+Sentence 8 is ungrammatical as Principal A is violated. The anaphor himself$_i$
+is not bound within its binding domain. This is because its binder Carlos$_i$
+does not c-command himself$_i$. This can be seen in the tree above.
+
 \begin{tikzpicture}[scale=\treeScale, transform shape]
   \tikzset{every tree node/.style={align=center,anchor=north}}
   \Tree
   [.CP
-    [.DP$_2$
+    [.DP$^1$
       D\\Which
       [.NP
         NP\\picture
@@ -460,20 +480,23 @@ Alice McKean \\
       ]
     ]
     [.C'
-      C\\\feature{Q}\feature{WH}\\does$_1$
+      C\\\feature{Q}\feature{WH}\\does$^3$
       [.TP
-        [.DP
+        [.DP$_i^2$
           D\\\feature{PROP}
-          NP\\Carlos$_i$
+          NP\\Carlos
         ]
         [.T'
-          T\\$t_1$
+          T\\$t^3$
           [.VP
-            [.VP
-              V\\admire
-              $t_2$
+            DP\\$t^2$
+            [.V'
+              [.V'
+                V\\admire
+                $t^1$
+              ]
+              AdvP\\most
             ]
-            AdvP\\most
           ]
         ]
       ]
@@ -481,38 +504,50 @@ Alice McKean \\
   ]
 \end{tikzpicture} \\
 
+The tree above presents a problem for our binding analysis. The tree violates
+Principal A similarly to the previous tree. Himself$_i$ is not c-commanded by
+Carlos$_i$ after movement. This fact also allows for a solution, maybe binding
+principals are ``checked'' before movement. This idea would explain why this
+tree is grammatical. \\
+
 \begin{tikzpicture}[scale=\treeScale, transform shape]
   \tikzset{every tree node/.style={align=center,anchor=north}}
   \Tree
   [.CP
-    [.DP$_2$
-      [.DP
-        D\\Which
-        [.NP
-          NP\\one
-          [.PP
-            P\\of
-            NP\\his$_i$
+    [.DP$^1$
+      D\\Which
+      [.NP
+        NP\\one
+        [.PP
+          P\\of
+          [.DP
+            DP$_i$\\his
+            [.D'
+              D\\\feature{POSS}
+              NP\\colleagues
+            ]
           ]
         ]
       ]
-      [.D'
-        D\\\feature{POSS}
-        NP\\colleagues
-      ]
     ]
     [.C'
-      C\\\feature{Q}\feature{WH}\\does$_1$
+      C\\\feature{Q}\feature{WH}\\does$^3$
       [.TP
-        Carlos$_i$
+        [.DP$^2_i$
+          D\\\feature{PROP}
+          NP\\Carlos
+        ]
         [.T'
-          T\\$t_1$
+          T\\$t^3$
           [.VP
-            [.VP
-              V\\admire
-              $t_2$
+            DP\\$t^2$
+            [.V'
+              [.V'
+                V\\admire
+                $t^1$
+              ]
+              AdvP\\most
             ]
-            AdvP\\most
           ]
         ]
       ]
@@ -520,43 +555,61 @@ Alice McKean \\
   ]
 \end{tikzpicture} \\
 
+This hypothesis also allows us to analyze tree 10 as grammatical. This is
+because even though his$_i$ is bound it is not locally C-commanded by Carlos$_i$ so
+Principal B is satisfied. \\
+
 \begin{tikzpicture}[scale=\treeScale, transform shape]
   \tikzset{every tree node/.style={align=center,anchor=north}}
   \Tree
   [.CP
-    [.DP$_2$
-      [.DP
-        D\\Which
-        [.NP
-          NP\\one
-          [.PP
-            P\\of
-            NP\\Carlos$_i$
+    [.DP$^1$
+      D\\Which
+      [.NP
+        NP\\one
+        [.PP
+          P\\of
+          [.DP
+            [.DP$_i$
+              D\\\feature{PROP}
+              NP\\Carlos
+            ]
+            [.D'
+              D\\-s
+              NP\\colleagues
+            ]
           ]
         ]
       ]
-      [.D'
-        D\\-s
-        NP\\colleagues
-      ]
     ]
     [.C'
-      C\\\feature{Q}\feature{WH}\\does$_1$
+      C\\\feature{Q}\feature{WH}\\does$^3$
       [.TP
-        he$_i$
+        DP$^2_i$\\he
         [.T'
-          T\\$t_1$
+          T\\$t^3$
           [.VP
-            [.VP
-              V\\admire
-              $t_2$
+            DP\\$t^2$
+            [.V'
+              [.V'
+                V\\admire
+                $t^1$
+              ]
+              AdvP\\most
             ]
-            AdvP\\most
           ]
         ]
       ]
     ]
   ]
-\end{tikzpicture}
+\end{tikzpicture} \\
+
+Unfortunately this hypothesis doesn't explain the behavior found in tree 11.
+This tree is a problem because he$_i$ binds the R-expression Carlos$_i$ and by
+Principal C every R-expression must be free. Thus we purpose that Principal C is
+not checked for binding principals until after movement occurs. As this change
+only effects the last tree our previous analysis is still correct for the rest
+of the trees.
+
 \end{document}
 
