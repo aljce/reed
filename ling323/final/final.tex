@@ -602,24 +602,44 @@ is ungrammatical by principle B, a pronoun must be free in it's binding domain.
   \tikzset{every tree node/.style={align=center,anchor=north}}
   \Tree
   [.CP
-    DP$t^1$\\What
+    DP$t^2_1$\\What
     [.C'
-      C\\\feature{WH}\feature{Q}\\do$t^4$
+      C\\\feature{WH}\feature{Q}\\do$^4$
       [.TP
         DP$^3$\\you
         [.T'
           T\\$t^4$
           [.VP
-            DP\\$t^3$
-            [.V'
-              V\\think
+            [.VP
+              DP\\$t^3$
+              [.V'
+                V\\think
+                DP\\$t^2$
+              ]
+            ]
+            [.CP
+              C\\$\emptyset$
+              [.TP
+                \node(DP-2-1){DP$^1_1$\\{\color{red} \feature{PRO}}};
+                [.T'
+                  \node(T-2-1){T\\will};
+                  [.VP
+                    \edge[roof];
+                    {$t^1$ happen in the season final}
+                  ]
+                ]
+              ]
             ]
           ]
         ]
       ]
     ]
   ]
-\end{tikzpicture}
+  \draw[blue, opacity=\rolesOpacity, ->] (T-2-1) -- (DP-2-1);
+\end{tikzpicture} \\
+This sentence is a violation of the PRO Theorem which says that the
+unpronounced pronoun can not receive case. The auxiliary ``will'' assigns
+nominative case to the unpronounced pronoun.
 \section*{Part IV}
 \subsection*{Sentence 13}
 \begin{tikzpicture}[scale=\treeScale, transform shape]
@@ -665,7 +685,12 @@ is ungrammatical by principle B, a pronoun must be free in it's binding domain.
       ]
     ]
   ]
-\end{tikzpicture}
+\end{tikzpicture} \\
+In Sentence 13 both Rhonda and Brenda C-command herself but only Brenda
+C-commands herself within herself's binding domain (pre-movement). Principle A
+predicts that only Brenda should be allowed to co-index herself as Rhonda is not
+in herself's binding domain before it moves. We could say that you may check
+Principle A before or after movement.
 \subsection*{Sentence 14}
 \begin{tikzpicture}[scale=\treeScale, transform shape]
   \tikzset{every tree node/.style={align=center,anchor=north}}
@@ -701,7 +726,11 @@ is ungrammatical by principle B, a pronoun must be free in it's binding domain.
       ]
     ]
   ]
-\end{tikzpicture}
+\end{tikzpicture} \\
+``Which woman'' is a R-expression and Principle C tells us that R-expressions
+must be free. Before ``Which woman'' moves it is bound by ``her''. So if we
+postulate that you check Principle C before movement the ungrammatically of the
+sentence makes sense.
 \subsection*{Sentence 15}
 \begin{tikzpicture}[scale=\treeScale, transform shape]
   \tikzset{every tree node/.style={align=center,anchor=north}}
@@ -731,6 +760,10 @@ is ungrammatical by principle B, a pronoun must be free in it's binding domain.
       ]
     ]
   ]
-\end{tikzpicture}
+\end{tikzpicture} \\
+This sentence presents a problem to the theory because it follows a similar
+pattern to sentence 14. The R-expression ``woman'' is bound by the antecedent
+``she'' before movement this is because ``she'' C-commands ``woman'' before it
+moves.
 \end{document}
 
